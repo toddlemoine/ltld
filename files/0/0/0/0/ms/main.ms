@@ -2,6 +2,7 @@ init = function()
   cols = 7
   rows = 7
   cell_size = 18
+  curr_y = 90
   
   board = new Board(rows, cols, cell_size) 
   letter_bag = new Letterbag(100)
@@ -40,7 +41,7 @@ end
 draw = function()
   screen.clear(game_bg)
   
-  // board.draw(50)
+  board.draw(30)
   
   // Letter drawing
   draw_curr()
@@ -102,40 +103,52 @@ end
 
 drop_horiz = function(coll)
   local count = 0
-    for letter in coll
-      board.drop(curr_col+count, letter.char)
-      count = count+1
-    end
+  for letter in coll
+    board.drop(curr_col+count, letter.char)
+    count = count+1
+  end
 end
 
 
-draw_vert = function(coll)
+draw_vert = function(coll, invert=false)
   local count = 0
-    for letter in coll
-      local x_offset = cell_size*cols/2-cell_size/2
-      local letter_x = x_offset-cell_size*(cols-curr_col)
-      local y_offset = cell_size*count
-      local letter_y = 75 - y_offset
-      letter.draw(letter_x, letter_y)
-      count = count + 1
-    end  
+
+  for letter in coll
+    local x_offset = cell_size*cols/2-cell_size/2
+    local letter_x = x_offset-cell_size*(cols-curr_col)
+    local y_offset = cell_size*count
+    local letter_y = curr_y - y_offset
+    if invert and count > 0 then
+      letter_y = curr_y + y_offset
+    end
+    letter.draw(letter_x, letter_y)
+    count = count + 1
+  end  
 end
 
-draw_horiz = function(coll)
+draw_horiz = function(coll, invert=false)
   local count = 0
-    for letter in coll
-      local x_offset = cell_size*cols/2-cell_size/2
-      local letter_x = x_offset-cell_size*(cols-curr_col-count)
-      letter.draw(letter_x, 75)
-      count = count+1
+
+  for letter in coll
+    local x_offset = (cell_size*cols/2-cell_size/2)
+    local letter_x = x_offset-cell_size*(cols-curr_col-count)
+    if invert and count > 0 then
+      letter_x = x_offset-cell_size*(cols-curr_col+count)
+      letter.draw(letter_x, curr_y)
+    else 
+      letter.draw(letter_x, curr_y)
     end
+    
+    count = count+1
+  end
+  
 end
 
 draw_curr = function()
   if curr_pos == 1 then draw_horiz(curr)
   elsif curr_pos == 2 then draw_vert(curr)
-  elsif curr_pos == 3 then draw_horiz(reverse(curr))
-  elsif curr_pos == 4 then draw_vert(reverse(curr))
+  elsif curr_pos == 3 then draw_horiz(curr, true)
+  elsif curr_pos == 4 then draw_vert(curr, true)
   end
 end
 
