@@ -34,10 +34,6 @@ Board = class
         grid[i][j].draw(-cell_x, cell_y)
       end
     end
-
-
-
-      
   end
 
 end

@@ -4,7 +4,7 @@ init = function()
   cell_size = 18
   
   board = new Board(rows, cols, cell_size) 
-  letter_bag = new Letterbag()
+  letter_bag = new Letterbag(100)
   reset = new Button("Reset", -140, 90, 35, 15)
 
   curr = next_current()
