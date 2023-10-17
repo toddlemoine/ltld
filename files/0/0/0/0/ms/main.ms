@@ -94,7 +94,7 @@ end
 drop_curr = function()
   if curr_pos == 1 then drop_horiz(curr)
   elsif curr_pos == 2 then drop_vert(reverse(curr))
-  elsif curr_pos == 3 then drop_horiz(reverse(curr))
+  elsif curr_pos == 3 then drop_horiz(curr, true)
   elsif curr_pos == 4 then drop_vert(curr)
   end
 end
@@ -105,10 +105,14 @@ drop_vert = function(coll)
   end
 end
 
-drop_horiz = function(coll)
+drop_horiz = function(coll, invert=false)
   local count = 0
   for letter in coll
-    board.drop(curr_col+count, letter.char)
+    if invert == true then
+      board.drop(curr_col-count, letter.char)
+    else
+      board.drop(curr_col+count, letter.char)
+    end
     count = count+1
   end
 end
