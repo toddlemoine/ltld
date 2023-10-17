@@ -5,6 +5,7 @@ Board = class
     this.r = r
     this.cell_size = cell_size
     this.grid = []
+    this._filled = 0
     
     for i=0 to r-1
       local row = []
@@ -15,10 +16,16 @@ Board = class
     end
   end
   
+  filled = function() 
+    _filled == c*r
+  end
+  
+  
   drop = function(c, val)
     for i=r to 0
       if grid[i][c-1].char == " " then 
         grid[i][c-1].char = val
+        _filled = _filled+1
         break
       end
     end

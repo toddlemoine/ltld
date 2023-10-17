@@ -1,20 +1,24 @@
 init = function()
-  cols = 7
-  rows = 7
-  cell_size = 18
-  curr_y = 90
+  cols = 3
+  rows = 3
+  cell_size = 15
+  curr_y = 80
   
   board = new Board(rows, cols, cell_size) 
-  letter_bag = new Letterbag(100)
+  letter_bag = new Letterbag(cols*rows)
   reset = new Button("Reset", -140, 90, 35, 15)
 
   curr = next_current()
   curr_col = round(cols/2)
   curr_pos = 1
+  _game_over = false
   
 end
 
 update = function()
+  if _game_over then 
+    return 
+  end
   
   if keyboard.press.LEFT then
     move_left()
@@ -27,9 +31,13 @@ update = function()
 
   elsif keyboard.press.ENTER then
     drop_curr()
-    curr = next_current()
-    curr_pos = 1
-    curr_col = round(cols/2)
+    if board.filled() then
+      _game_over = true
+    else
+      curr_pos = 1
+      curr_col = round(cols/2)
+      curr = next_current()
+    end
   end
   
   if reset.pressed() then
@@ -48,6 +56,11 @@ draw = function()
 
   // Reset
   reset.draw()
+  
+  if _game_over then
+    game_over()
+  end
+  
   
 end
 
@@ -164,7 +177,7 @@ next_current = function()
   init_col = round(cols/2)
   count = 0
   next = []
-  
+
   for letter in letter_bag.next()
     next.push(new Letter(letter, cell_size, init_col+count))
     count = count+1
@@ -180,3 +193,9 @@ reset_game = function()
   curr_pos = 1
   curr_col = round(cols/2)
 end
+
+game_over = function()
+  screen.drawText("Game Over", 2, -2, 65, "black")
+  screen.drawText("Game Over", 0, 0, 65, "purple")
+end
+

@@ -47,15 +47,15 @@ end
 
 fill_bag = function(size)
   local bag = []
-  // for letter in letter_freq
-  //   freq = letter_freq[letter]
-  //   count = max(1, round(size*freq))
-  //   for i = 1 to count 
-  //     bag.push(letter) 
-  //   end
-  // end
+  for letter in letter_freq
+    freq = letter_freq[letter]
+    count = max(1, round(size*freq))
+    for i = 1 to count 
+      bag.push(letter) 
+    end
+  end
   
-  for i = 1 to size*.2
+  for i = 1 to size
     bag.push(morphemes[random.nextInt(morphemes.length)].toUpperCase())
   end
   
@@ -65,7 +65,6 @@ end
 Letterbag = class
   constructor = function(size)
     this.bag = fill_bag(size)
-    print(this.bag)
   end
   
   bag = []
