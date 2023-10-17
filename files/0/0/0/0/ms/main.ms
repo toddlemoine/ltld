@@ -52,28 +52,32 @@ draw = function()
 end
 
 move_left = function()
-  if curr_col > 1 then 
-    curr_col = max(curr_col-1, 1)
+  if curr_col > 1 then
+    if curr_pos == 3 then
+        curr_col = max(curr_col-1, curr.length)
+    else
+      curr_col = max(curr_col-1, 1)
+    end
   end
 end
 
 move_right = function()
-  local len_mod = 0
-  
-  if curr_pos == 1 or curr_pos == 3 then
-    len_mod = curr.length
-  end
-  
-  if curr_col+len_mod-1 < cols then
+  if curr_col < cols then
+    if curr_pos == 1 then
+      curr_col = min(curr_col+1, cols-curr.length+1)
+    else
       curr_col = min(curr_col+1, cols)
-  end  
+    end
+end
+  
+    
 end
 
 can_rotate = function()
   if curr_pos == 4 then
-    return curr_col + curr.length <= cols
+    return curr_col+curr.length <= cols+1
   elsif curr_pos == 2 then
-    return curr_col - curr.length >= 1
+    return curr_col >= curr.length
   end
   true
 end
@@ -169,4 +173,6 @@ reset_game = function()
   board = new Board(rows, cols, cell_size) 
   letter_bag = new Letterbag()
   curr = next_current()
+  curr_pos = 1
+  curr_col = round(cols/2)
 end
