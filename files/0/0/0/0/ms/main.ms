@@ -35,7 +35,7 @@ update = function()
       piece_move_right()
   
     elsif keyboard.press.ENTER then
-      print("enter")
+      curr = next_current(players[curr_player].select(selected_piece))
     end
     
   else
@@ -109,13 +109,13 @@ piece_move_left = function()
 end
 
 piece_move_right = function()
-  selected_piece = min(selected_piece+1, max_player_letters)
+  selected_piece = min(selected_piece+1, max_player_letters-1)
 end
 
 next_round = function()
   curr_pos = 1
   curr_col = round(cols/2)
-  curr = next_current()  
+  curr = ""
 end
 
 can_rotate = function()
@@ -205,12 +205,12 @@ draw_curr = function()
   end
 end
 
-next_current = function()
+next_current = function(letters)
   init_col = round(cols/2)
   count = 0
   next = []
 
-  for letter in letter_bag.next()
+  for letter in letters
     next.push(new Letter(letter, cell_size, init_col+count))
     count = count+1
   end

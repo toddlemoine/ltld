@@ -14,6 +14,12 @@ Player = class
     end
   end
   
+  select = function(at)
+    piece = pieces.removeAt(at)
+    fill()
+    piece
+  end
+  
   draw_pieces = function()
     local total_chars = 0
     piece_pos = []
