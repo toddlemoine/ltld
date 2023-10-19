@@ -25,7 +25,7 @@ Button = class
       screen.fillRect(x, y, w, h, "rgb(147,49,147)")
     end
     
-    screen.drawText(text.toUpperCase(), x, y+1, 12, black)
+    screen.drawText(text.toUpperCase(), x, y, 12, black)
   end
 
 end

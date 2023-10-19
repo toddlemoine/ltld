@@ -7,10 +7,13 @@ init = function()
   letter_bag = new Letterbag(cols*rows)
   reset = new Button("Reset", -140, 90, 35, 15)
 
-  curr = next_current()
+  curr = ""
   curr_y = 80 // y offset for current letter in play
   curr_col = round(cols/2)
   curr_pos = 1
+  piece_y = -90 // y offset for piece tray
+  selected_piece = 0 // selected piece  
+  
   game_over = false
   
   max_player_letters = 5
@@ -23,23 +26,37 @@ update = function()
   if game_over then 
     return 
   end
+
+  if curr == "" then
+    if keyboard.press.LEFT then
+      piece_move_left()
+      
+    elsif keyboard.press.RIGHT then
+      piece_move_right()
   
-  if keyboard.press.LEFT then
-    move_left()
-    
-  elsif keyboard.press.RIGHT then
-    move_right()
-
-  elsif keyboard.press.UP then
-    if can_rotate() then rotate() end
-
-  elsif keyboard.press.ENTER then
-    drop_curr()
-    if board.filled() then
-      game_over = true
-    else
-      next_round()
+    elsif keyboard.press.ENTER then
+      print("enter")
     end
+    
+  else
+    if keyboard.press.LEFT then
+      move_left()
+      
+    elsif keyboard.press.RIGHT then
+      move_right()
+  
+    elsif keyboard.press.UP then
+      if can_rotate() then rotate() end
+  
+    elsif keyboard.press.ENTER then
+      drop_curr()
+      if board.filled() then
+        game_over = true
+      else
+        next_round()
+      end
+    end
+    
   end
   
   if reset.pressed() then
@@ -65,8 +82,6 @@ draw = function()
   if game_over then
     draw_game_over()
   end
-  
-  
 end
 
 move_left = function()
@@ -87,6 +102,14 @@ move_right = function()
       curr_col = min(curr_col+1, cols)
     end
   end
+end
+
+piece_move_left = function()
+  selected_piece = max(selected_piece-1, 0)
+end
+
+piece_move_right = function()
+  selected_piece = min(selected_piece+1, max_player_letters)
 end
 
 next_round = function()
