@@ -1,7 +1,6 @@
 Letter = class 
-  constructor = function(char, size, col)
+  constructor = function(char, size)
     this.char = char
-    this.col = col
     this.size = size
   end
   

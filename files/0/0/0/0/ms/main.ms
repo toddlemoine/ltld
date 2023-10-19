@@ -1,22 +1,26 @@
 init = function()
-  cols = 3
-  rows = 3
+  cols = 7
+  rows = 7
   cell_size = 15
-  curr_y = 80
   
   board = new Board(rows, cols, cell_size) 
   letter_bag = new Letterbag(cols*rows)
   reset = new Button("Reset", -140, 90, 35, 15)
 
   curr = next_current()
+  curr_y = 80 // y offset for current letter in play
   curr_col = round(cols/2)
   curr_pos = 1
-  _game_over = false
+  game_over = false
+  
+  max_player_letters = 5
+  curr_player = 0
+  players = [new Player()]
   
 end
 
 update = function()
-  if _game_over then 
+  if game_over then 
     return 
   end
   
@@ -32,11 +36,9 @@ update = function()
   elsif keyboard.press.ENTER then
     drop_curr()
     if board.filled() then
-      _game_over = true
+      game_over = true
     else
-      curr_pos = 1
-      curr_col = round(cols/2)
-      curr = next_current()
+      next_round()
     end
   end
   
@@ -53,12 +55,15 @@ draw = function()
   
   // Letter drawing
   draw_curr()
+  
+  // Player
+  players[curr_player].draw_pieces()
 
   // Reset
   reset.draw()
   
-  if _game_over then
-    game_over()
+  if game_over then
+    draw_game_over()
   end
   
   
@@ -81,9 +86,13 @@ move_right = function()
     else
       curr_col = min(curr_col+1, cols)
     end
+  end
 end
-  
-    
+
+next_round = function()
+  curr_pos = 1
+  curr_col = round(cols/2)
+  curr = next_current()  
 end
 
 can_rotate = function()
@@ -192,9 +201,10 @@ reset_game = function()
   curr = next_current()
   curr_pos = 1
   curr_col = round(cols/2)
+  game_over = false
 end
 
-game_over = function()
+draw_game_over = function()
   screen.drawText("Game Over", 2, -2, 65, "black")
   screen.drawText("Game Over", 0, 0, 65, "purple")
 end
