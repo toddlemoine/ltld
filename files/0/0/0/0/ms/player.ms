@@ -2,6 +2,7 @@ Player = class
   score = 0
   pieces = []
   piece_pos = []
+  words = []
   
   constructor = function()
     this.fill()
@@ -39,7 +40,7 @@ Player = class
       end
       
       for char in piece
-        new Letter(char, 15).draw(x, piece_y)
+        new Letter(char, cell_size).draw(x, piece_y)
         x += cell_size
       end
       
@@ -48,7 +49,7 @@ Player = class
       
       // Draw selection
       if selected_piece == piece_pos.length-1 then
-        line_y = piece_y+half_cell+2
+        line_y = piece_y+half_cell+3
         line_x1 = pos.x1-half_cell
         line_x2 = pos.x2-half_cell
         screen.drawLine(line_x1, line_y, line_x2, line_y, "blue")        

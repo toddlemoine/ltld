@@ -1,14 +1,15 @@
 init = function()
-  cols = 7
+  cols = 5
   rows = 7
-  cell_size = 15
+  cell_size = 20
   
+  dict = new Dictionary()
   board = new Board(rows, cols, cell_size) 
   letter_bag = new Letterbag(cols*rows)
   reset = new Button("Reset", -140, 90, 35, 15)
 
   curr = ""
-  curr_y = 80 // y offset for current letter in play
+  curr_y = 150 // y offset for current letter in play
   curr_col = round(cols/2)
   curr_pos = 1
   piece_y = -90 // y offset for piece tray
@@ -16,7 +17,7 @@ init = function()
   
   game_over = false
   
-  max_player_letters = 5
+  max_player_letters = 3
   curr_player = 0
   players = [new Player()]
   
@@ -68,13 +69,16 @@ end
 draw = function()
   screen.clear(game_bg)
   
-  board.draw(30)
+  board.draw(80)
   
   // Letter drawing
   draw_curr()
   
   // Player
-  players[curr_player].draw_pieces()
+  current_player().draw_pieces()
+  
+  // Score
+  draw_score()
 
   // Reset
   reset.draw()
@@ -203,6 +207,15 @@ draw_curr = function()
   elsif curr_pos == 3 then draw_horiz(curr, true)
   elsif curr_pos == 4 then draw_vert(curr, true)
   end
+end
+
+draw_score = function()
+  text = "SCORE: " + current_player().score
+  screen.drawText(text, 0, -screen.height/2+12, 20)
+end
+
+current_player = function()
+  players[curr_player]  
 end
 
 next_current = function(letters)
