@@ -9,8 +9,12 @@ Player = class
     print(pieces)
   end
   
+  add_points = function(points)
+    score += points  
+  end
+  
   fill = function() 
-    for i = 1 to max_player_letters-pieces.length
+    for i = 1 to max_player_pieces-pieces.length
       pieces.push(letter_bag.next())
     end
   end
@@ -61,4 +65,13 @@ Player = class
 
     end
   end
+end
+
+
+piece_move_left = function()
+  selected_piece = max(selected_piece-1, 0)
+end
+
+piece_move_right = function()
+  selected_piece = min(selected_piece+1, max_player_pieces-1)
 end
