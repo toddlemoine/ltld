@@ -59,7 +59,7 @@ word_at = function(coll, start_index, word_len, invert_order=false)
       if invert_order then
         pos.push(coll.length-i+start_index)
       else
-        pos.push(i)
+        pos.push(i+start_index)
       end
     end
     

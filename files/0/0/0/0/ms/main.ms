@@ -1,4 +1,6 @@
 init = function()
+  DEBUGGER = false
+  
   cols = 5
   rows = 7
   cell_size = 20
@@ -52,7 +54,7 @@ update = function()
     elsif keyboard.press.ENTER then
       drop_curr()
       current_player().add_points(board.latest_score)
-      print("TOTAL WORDS: " + board.words_used)
+      debug("TOTAL WORDS: " + board.words_used)
       if board.filled() then
         game_over = true
       else
