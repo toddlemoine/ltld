@@ -2,37 +2,33 @@ find_words_in_row = function(row, col_index)
   print("Scoring row ========= ")
   local words_found = []
   
-  // word = word_at(row, 0, 5)
-  // if word then words_found.push(word) end
-  // word = rev_word_at(row, 4, 5)
-  // if word then words_found.push(word) end
-  
-  // print("4 letter words =======")
-  // if words_found.length == 0 then
-  //   for i = 0 to 4
-  //     word = word_at(row, i, 4)
-  //     if dict.is_word(word) then words_found.push(word) end
-  //     word = rev_word_at(row, 4, 4)
-  //     if dict.is_word(word) then words_found.push(word) end
-  //   end
-  // end
-
-  print("- 3 letter words")
-  if words_found.length == 0 then
-    for i = col_index-2 to max(col_index+2, 4)
+  for word_len = 5 to 3
+    if words_found.length > 0 then
+      print("Breaking. words_found: " + words_found)
+      break
+    end
+    
+    print("- "+ word_len +" letter words")
+    
+    for i = max(0, col_index-word_len-1) to min(col_index+word_len-1, cols-1)
+      print("- Row char: " + row[i].char)
       if row[i].char == " " then continue end
-      word = word_at(row, i, 3)
-      // print(word)
-      // print("Is word? " + dict.is_word(word))
+      word = word_at(row, i, word_len)
+      print("- " + word)
+      print("- Is word? " + dict.is_word(word))
       if dict.is_word(word) then 
         add_if_new(words_found, word) 
       end
-      // word = rev_word_at(row, 4, 3)
+      // word = rev_word_at(row, cols-1, word_len)
       // print(word)
       // print("Is word? " + dict.is_word(word))
-      // if dict.is_word(word) then add_if_new(words_found, word) end
+      // if dict.is_word(word) then 
+      //   add_if_new(words_found, word) 
+      // end
     end
+
   end
+  
   words_found
 end
 

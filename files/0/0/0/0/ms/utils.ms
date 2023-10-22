@@ -52,7 +52,9 @@ rev_word_at = function(coll, startIndex, word_len)
   letters = slice(coll, startIndex, startIndex-word_len-1)  
   if letters and has_empty_space(letters) == false then
     chars = []
-    for l in letters chars.push(l.char.trim()) end
+    for l in letters 
+      chars.push(l.char.toString().trim())
+    end
     return chars.join("")  
   end
 end
