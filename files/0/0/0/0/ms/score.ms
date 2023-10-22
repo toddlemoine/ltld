@@ -8,34 +8,46 @@ find_words_in_row = function(row, col_index)
       break
     end
     
-    print("- "+ word_len +" letter words")
+    // print("- "+ word_len +" letter words")
     
     for i = max(0, col_index-word_len-1) to min(col_index+word_len-1, cols-1)
-      print("- Row char: " + row[i].char)
+      // print("- Row char: " + row[i].char)
       if row[i].char == " " then continue end
-      word = word_at(row, i, word_len)
-      print("- " + word)
-      print("- Is word? " + dict.is_word(word))
-      if dict.is_word(word) then 
-        add_if_new(words_found, word) 
+      result = word_at(row, i, word_len)
+      print(result.pos)
+      // print("- " + result.word)
+      // print("- Is word? " + dict.is_word(result.word))
+      if dict.is_word(result.word) then
+        add_if_new(words_found, result) 
       end
-      // word = rev_word_at(row, cols-1, word_len)
-      // print(word)
-      // print("Is word? " + dict.is_word(word))
-      // if dict.is_word(word) then 
+      // result = word_at(reverse(row), i, word_len)
+      // if dict.is_word(result.word) then 
       //   add_if_new(words_found, word) 
       // end
+      // print("- " + result.word)
+      // print("Is word? " + dict.is_word(result.word))
     end
-
   end
   
   words_found
 end
 
 
+add_if_new = function(coll, result)
+  exists = false
+  for i in coll
+    if i.word == result.word then 
+      exists = true 
+      break
+    end
+  end
+  if not exists then
+    coll.push(result)
+  end
+end
+
 compute_score_for_words = function(words)
   print("Computing score for words " + words)  
-  print(words)
 
   total = 0
 

@@ -2,12 +2,28 @@ Letter = class
   constructor = function(char, size)
     this.char = char
     this.size = size
+    this.selected = false
+  end
+  
+  on = function()
+    selected = true  
   end
   
   draw = function(x, y)
-    screen.drawRect(x, y, size, size)
-    // screen.fillRect(cell_x, cell_y-1, cell_size-1, cell_size-1, yellow)
-    screen.drawText(char, x, y, cell_size, black)  
+    local colors = object
+      bg = white
+      text = black
+      border = black
+    end
+
+    if selected then
+      colors.bg = green
+      colors.text = white
+    end
+    
+    screen.drawRect(x, y, size, size, colors.border)
+    screen.fillRect(x, y, size-1, size-1, colors.bg)
+    screen.drawText(char, x, y, cell_size, colors.text)
   end
   
 end

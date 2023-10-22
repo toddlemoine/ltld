@@ -49,10 +49,17 @@ Board = class
         grid[i][c-1].char = val
         _filled = _filled+1
         // row
-        row_words = find_words_in_row(grid[i], c-1)
-        print("rowwords " + row_words)
-        latest_score += compute_score(row_words)
-        words_used = concat_unique(words_used, row_words)
+        results = find_words_in_row(grid[i], c-1)
+        words = pick(results, "word")
+        latest_score += compute_score(words)
+        words_used = concat_unique(words_used, words)
+        // highlight cells
+        for r in results
+          for p in r.pos
+            grid[i][p].on()
+          end
+        end
+        
         // col
         // diag left
         // diag right

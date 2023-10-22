@@ -17,10 +17,12 @@ slice = function(coll, startIndex, endIndex)
   c
 end
 
-add_if_new = function(coll, word)
-  if coll.contains(word) == false then
-    coll.push(word)
+pick = function(coll, attr)
+  result = []
+  for obj in coll 
+    result.push(obj[attr]) 
   end
+  result
 end
 
 concat_unique = function(coll1, coll2)
@@ -39,22 +41,32 @@ has_empty_space = function(coll)
   false
 end
 
-word_at = function(coll, startIndex, word_len)
-  letters = slice(coll, startIndex, startIndex+word_len-1)  
+word_at = function(coll, start_index, word_len, invert_order=false)
+  result = object
+    word = ""
+    pos = []
+  end
+  
+  letters = slice(coll, start_index, start_index+word_len-1)  
+  
   if letters and has_empty_space(letters) == false then
     chars = []
-    for l in letters chars.push(l.char.trim()) end
-    return chars.join("")  
+    pos = []
+    
+    for i = 0 to letters.length-1
+      l = letters[i]
+      chars.push(l.char.trim())
+      if invert_order then
+        pos.push(coll.length-i+start_index)
+      else
+        pos.push(i)
+      end
+    end
+    
+    result.word = chars.join("")  
+    result.pos = pos
   end
+  
+  result
 end
 
-rev_word_at = function(coll, startIndex, word_len)
-  letters = slice(coll, startIndex, startIndex-word_len-1)  
-  if letters and has_empty_space(letters) == false then
-    chars = []
-    for l in letters 
-      chars.push(l.char.toString().trim())
-    end
-    return chars.join("")  
-  end
-end
