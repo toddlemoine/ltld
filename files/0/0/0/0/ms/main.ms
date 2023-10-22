@@ -52,6 +52,7 @@ update = function()
     elsif keyboard.press.ENTER then
       drop_curr()
       current_player().add_points(board.latest_score)
+      print("TOTAL WORDS: " + board.words_used)
       if board.filled() then
         game_over = true
       else
