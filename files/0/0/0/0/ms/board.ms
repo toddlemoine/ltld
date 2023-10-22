@@ -35,14 +35,6 @@ Board = class
     cells
   end
   
-  compute_score = function(words)
-    // Compute 5-letter words first
-    // If none, then look for 4-letter words
-    // If none, then 3-letter words
-    
-    compute_score_for_words(words)
-  end
-  
   drop = function(c, val)
     for i=r to 0
       if grid[i][c-1].char == " " then 
@@ -51,7 +43,7 @@ Board = class
         // row
         results = find_words_in_row(grid[i], c-1)
         words = pick(results, "word")
-        latest_score += compute_score(words)
+        latest_score += compute_score_for_words(words)
         words_used = concat_unique(words_used, words)
         // highlight cells
         for r in results
@@ -60,7 +52,19 @@ Board = class
           end
         end
         
-        // col
+        // // col
+        // results = find_words_in_row(grid[i], c-1)
+        // words = pick(results, "word")
+        // latest_score += compute_score_for_words(words)
+        // words_used = concat_unique(words_used, words)
+        // // highlight cells
+        // for r in results
+        //   for p in r.pos
+        //     grid[i][p].on()
+        //   end
+        // end
+        
+        
         // diag left
         // diag right
         break

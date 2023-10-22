@@ -6,7 +6,6 @@ Player = class
   
   constructor = function()
     this.fill()
-    print(pieces)
   end
   
   add_points = function(points)
@@ -56,13 +55,12 @@ Player = class
         line_y = piece_y+half_cell+3
         line_x1 = pos.x1-half_cell
         line_x2 = pos.x2-half_cell
-        screen.drawLine(line_x1, line_y, line_x2, line_y, "blue")        
-        screen.drawLine(line_x1, line_y+1, line_x2, line_y+1, "blue")                
+        screen.drawLine(line_x1, line_y, line_x2, line_y, blue)
+        screen.drawLine(line_x1, line_y+1, line_x2, line_y+1, blue)
       end
       
       // Add space between pieces
       x += cell_size
-
     end
   end
 end

@@ -112,11 +112,11 @@ end
 
 draw_score = function()
   text = "SCORE: " + current_player().score
-  screen.drawText(text, 0, -screen.height/2+12, 20)
+  screen.drawText(text, 0, -screen.height/2+12, 20, black)
 end
 
 draw_game_over = function()
-  screen.drawText("Game Over", 2, -2, 35, "black")
-  screen.drawText("Game Over", 0, 0, 35, "purple")
+  screen.drawText("Game Over", 2, -2, 35, black)
+  screen.drawText("Game Over", 0, 0, 35, blue)
 end
 

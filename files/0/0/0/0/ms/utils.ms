@@ -49,7 +49,7 @@ word_at = function(coll, start_index, word_len, invert_order=false)
   
   letters = slice(coll, start_index, start_index+word_len-1)  
   
-  if letters and has_empty_space(letters) == false then
+  if letters and not has_empty_space(letters) then
     chars = []
     pos = []
     
