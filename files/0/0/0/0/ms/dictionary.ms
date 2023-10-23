@@ -1,6 +1,6 @@
 Dictionary = class
   constructor = function()
-    this.index = init_index(three_letter.concat(four_letter.concat(five_letter)))
+    this.index = init_index(four_letter.concat(five_letter))
   end
   
   init_index = function(words)

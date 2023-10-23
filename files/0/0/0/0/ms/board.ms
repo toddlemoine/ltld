@@ -28,12 +28,15 @@ Board = class
   end
   
   column_to_row = function(col_index)
-    debug("column to row " + col_index)
     cells = []
     for r in grid
       cells.push(r[col_index])
     end
     cells
+  end
+  
+  diagonal_left = function(row_index, col_index)
+    
   end
   
   drop = function(c, val)
@@ -54,9 +57,7 @@ Board = class
         
         // col
         results = find_words_in_col(column_to_row(c-1), i)
-        debug("results", results)
         words = pick(results, "word")
-        debug("words", words)
         latest_score += compute_score_for_words(words)
         words_used = concat_unique(words_used, words)
         // highlight cells
