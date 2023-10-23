@@ -13,7 +13,7 @@ Board = class
     for i=0 to r-1
       local row = []
       for j=0 to c-1
-        row.push(new Letter(" ", cell_size))
+        row.push(new Cell(j, i, cell_size))
       end
       this.grid.push(row)
     end
@@ -27,10 +27,11 @@ Board = class
     latest_score = 0  
   end
   
-  column = function(col_index)
+  column_to_row = function(col_index)
+    debug("column to row " + col_index)
     cells = []
     for r in grid
-      cells.push(grid[r][col_index])
+      cells.push(r[col_index])
     end
     cells
   end
@@ -40,29 +41,28 @@ Board = class
       if grid[i][c-1].char == " " then 
         grid[i][c-1].char = val
         _filled = _filled+1
-        // row
+        
+        // Score for row
         results = find_words_in_row(grid[i], c-1)
         words = pick(results, "word")
         latest_score += compute_score_for_words(words)
         words_used = concat_unique(words_used, words)
         // highlight cells
         for r in results
-          for p in r.pos
-            grid[i][p].on()
-          end
+          for cell in r.cells cell.on() end
         end
         
-        // // col
-        // results = find_words_in_row(grid[i], c-1)
-        // words = pick(results, "word")
-        // latest_score += compute_score_for_words(words)
-        // words_used = concat_unique(words_used, words)
-        // // highlight cells
-        // for r in results
-        //   for p in r.pos
-        //     grid[i][p].on()
-        //   end
-        // end
+        // col
+        results = find_words_in_col(column_to_row(c-1), i)
+        debug("results", results)
+        words = pick(results, "word")
+        debug("words", words)
+        latest_score += compute_score_for_words(words)
+        words_used = concat_unique(words_used, words)
+        // highlight cells
+        for r in results
+          for cell in r.cells cell.on() end
+        end
         
         
         // diag left
@@ -83,5 +83,7 @@ Board = class
       end
     end
   end
+  
+
 
 end

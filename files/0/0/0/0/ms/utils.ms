@@ -1,7 +1,16 @@
 reverse = function(coll)
   new_coll = []
-  for i = coll.length - 1 to 0
+  for i = coll.length-1 to 0
     new_coll.push(coll[i])
+  end
+  new_coll
+end
+
+map = function(coll, fn)
+  new_coll = []
+  index = 0
+  for x in coll 
+    new_coll.push(fn(x, index))
   end
   new_coll
 end
@@ -33,40 +42,11 @@ concat_unique = function(coll1, coll2)
 end
 
 has_empty_space = function(coll)
-  for l in letters
+  for l in coll
     if l.char == " " then 
       return true
     end
   end
   false
-end
-
-word_at = function(coll, start_index, word_len, invert_order=false)
-  result = object
-    word = ""
-    pos = []
-  end
-  
-  letters = slice(coll, start_index, start_index+word_len-1)  
-  
-  if letters and not has_empty_space(letters) then
-    chars = []
-    pos = []
-    
-    for i = 0 to letters.length-1
-      l = letters[i]
-      chars.push(l.char.trim())
-      if invert_order then
-        pos.push(coll.length-i+start_index)
-      else
-        pos.push(i+start_index)
-      end
-    end
-    
-    result.word = chars.join("")  
-    result.pos = pos
-  end
-  
-  result
 end
 

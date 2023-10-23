@@ -1,5 +1,5 @@
 init = function()
-  DEBUGGER = false
+  DEBUGGER = true
   
   cols = 5
   rows = 7
