@@ -1,4 +1,3 @@
-// Adding a comment to Board
 Board = class 
   latest_score = 0
   words_used = []
@@ -36,8 +35,93 @@ Board = class
   end
   
   diagonal_left = function(row_index, col_index)
+    cells = []
     
+    // find the start
+    pos = object
+      r = row_index
+      c = col_index
+    end
+  
+    done = false
+    
+    while not done
+      next = grid[pos.r][pos.c]
+      if not next then
+        done = true
+      else
+        cells.push(next)
+        pos.r = pos.r+1
+        pos.c = pos.c-1
+      end
+    end
+    
+    cells = reverse(cells)
+
+    // find the end
+    done = false
+    
+    pos.r = row_index-1
+    pos.c = col_index+1
+    
+    while not done
+      next = grid[pos.r][pos.c]
+      if not next then
+        done = true
+      else
+        cells.push(next)
+        pos.r = pos.r-1
+        pos.c = pos.c+1
+      end
+    end
+    
+    cells
   end
+  
+  diagonal_right = function(row_index, col_index)
+    cells = []
+    
+    // find the start
+    pos = object
+      r = row_index
+      c = col_index
+    end
+  
+    done = false
+    
+    while not done
+      next = grid[pos.r][pos.c]
+      if not next then
+        done = true
+      else
+        cells.push(next)
+        pos.r = pos.r-1
+        pos.c = pos.c-1
+      end
+    end
+    
+    cells = reverse(cells)
+
+    // find the end
+    done = false
+    
+    pos.r = row_index+1
+    pos.c = col_index+1
+    
+    while not done
+      next = grid[pos.r][pos.c]
+      if not next then
+        done = true
+      else
+        cells.push(next)
+        pos.r = pos.r+1
+        pos.c = pos.c+1
+      end
+    end
+    
+    cells
+  end
+    
   
   drop = function(c, val)
     for i=r to 0
@@ -47,27 +131,24 @@ Board = class
         
         // Score for row
         results = find_words_in_row(grid[i], c-1)
-        words = pick(results, "word")
-        latest_score += compute_score_for_words(words)
-        words_used = concat_unique(words_used, words)
-        // highlight cells
-        for r in results
-          for cell in r.cells cell.on() end
-        end
         
         // col
-        results = find_words_in_col(column_to_row(c-1), i)
+        results = results.concat(find_words_in_col(column_to_row(c-1), i))
+
+        // diag left
+        results = results.concat(find_words_in_row(diagonal_left(i, c-1), c-1))
+
+        // diag right
+        results = results.concat(find_words_in_row(diagonal_right(i, c-1), c-1))
+        
         words = pick(results, "word")
         latest_score += compute_score_for_words(words)
         words_used = concat_unique(words_used, words)
+
         // highlight cells
         for r in results
           for cell in r.cells cell.on() end
-        end
-        
-        
-        // diag left
-        // diag right
+        end        
         break
       end
     end

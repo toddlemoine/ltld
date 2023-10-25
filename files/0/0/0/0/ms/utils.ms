@@ -1,3 +1,12 @@
+concat = function()
+  tmp = []
+  for list in arguments
+    tmp = tmp.concat(list)
+  end
+  tmp
+end
+
+
 reverse = function(coll)
   new_coll = []
   for i = coll.length-1 to 0
