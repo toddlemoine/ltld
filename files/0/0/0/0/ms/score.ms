@@ -1,7 +1,4 @@
 find_words_in_row = function(row, col_index)
-  debug("================ Find words in row "+ col_index +" ================")
-  debug(pick(row, "char"))
-  
   local words_found = []
   
   for word_len = 5 to 3
@@ -13,18 +10,31 @@ find_words_in_row = function(row, col_index)
       if row[i].char == " " then continue end
 
       result = word_at(row, i, word_len)
+      
       if dict.is_word(result.word) then
-        add_if_new(words_found, result) 
+        words_found.push(result)
       end
 
       result = word_at(reverse(row), i, word_len)
+      
       if dict.is_word(result.word) then 
-        add_if_new(words_found, result) 
+        words_found.push(result)
       end
     end
   end
+
+  scoreable_words = []
   
-  words_found
+  for w in words_found
+    local already_played = board.words_used.contains(w.word)
+    if not already_played then
+      scoreable_words.push(w)
+    end  
+  end
+  
+  debug("scoreable words from row", scoreable_words)
+
+  scoreable_words
 end
 
 find_words_in_col = function(coll, index)
@@ -57,7 +67,6 @@ end
 
 
 word_at = function(coll, start_index, word_len, invert_order=false)
-  debug("================ word_at "+ start_index + "/"+ word_len + " ================")
 
   result = object
     cells = []
@@ -67,22 +76,14 @@ word_at = function(coll, start_index, word_len, invert_order=false)
   
   letters = slice(coll, start_index, start_index+word_len-1)  
   
-  debug(letters[0])
-
   if letters and has_empty_space(letters) == false then
     chars = []
     pos = []
     cells = []
     
     for l in letters
-      debug("letter " + l.char)
       chars.push(l.char)
       cells.push(l)
-      // if invert_order then
-      //   pos.push(coll.length-i+start_index)
-      // else
-      //   pos.push(i+start_index)
-      // end
     end
     
     result.cells = cells
@@ -94,9 +95,9 @@ word_at = function(coll, start_index, word_len, invert_order=false)
 end
 
 
-
 add_if_new = function(coll, result)
-  exists = false
+  debug("add if new", result)
+  local exists = false
   for i in coll
     if i.word == result.word then 
       exists = true 

@@ -43,6 +43,14 @@ pick = function(coll, attr)
   result
 end
 
+unique = function(coll1, coll2)
+  tmp = []
+  for c in coll2
+    if not coll1.contains(c) then tmp.push(c) end
+  end
+  tmp
+end
+
 concat_unique = function(coll1, coll2)
   for c in coll2
     if coll1.contains(c) == false then coll1.push(c) end

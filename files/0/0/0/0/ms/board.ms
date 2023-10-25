@@ -143,7 +143,14 @@ Board = class
         
         words = pick(results, "word")
         latest_score += compute_score_for_words(words)
-        words_used = concat_unique(words_used, words)
+        unique_words = unique(words_used, words)
+        words_used = words_used.concat(unique_words)
+        
+        for w in unique_words
+          flash_words.push(new FlashWord(w, 90))
+        end
+        
+        debug(pick(flash_words, "word"))
 
         // highlight cells
         for r in results
@@ -165,7 +172,5 @@ Board = class
       end
     end
   end
-  
-
 
 end

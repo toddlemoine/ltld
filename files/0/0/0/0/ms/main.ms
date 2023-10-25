@@ -8,7 +8,8 @@ init = function()
   dict = new Dictionary()
   board = new Board(rows, cols, cell_size) 
   letter_bag = new Letterbag(cols*rows)
-  reset = new Button("Reset", -140, 90, 35, 15)
+  reset = new Button("Reset", -80, -167, 35, 15)
+  flash_words = []
 
   curr = ""
   curr_y = 150 // y offset for current letter in play
@@ -29,6 +30,9 @@ update = function()
   if game_over then 
     return 
   end
+  
+  update_flash_words()
+  
 
   if curr == "" then
     if keyboard.press.LEFT then
@@ -83,6 +87,9 @@ draw = function()
   
   // Score
   draw_score()
+  
+  // Flash words
+  for fw in flash_words fw.draw() end
 
   // Reset
   reset.draw()
@@ -110,6 +117,16 @@ reset_game = function()
   next_round()
 end
 
+update_flash_words = function()
+  for fw in flash_words
+    if fw.done then 
+      flash_words.removeElement(fw)
+    else
+      fw.update() 
+    end
+  end
+end
+
 draw_score = function()
   text = "SCORE: " + current_player().score
   screen.drawText(text, 0, -screen.height/2+12, 20, black)
@@ -119,4 +136,6 @@ draw_game_over = function()
   screen.drawText("Game Over", 2, -2, 35, black)
   screen.drawText("Game Over", 0, 0, 35, blue)
 end
+
+
 
