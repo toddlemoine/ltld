@@ -1,22 +1,23 @@
 FlashWord = class
   constructor = function(word, y)
     this.word = word
-    this.y = 100
+    this.y = -160
     this.x = 0
     this.done = false
-    this.tick = 60
+    this.tick = 0
   end
   
   update = function()
-    tick -= 1
-    y += 1
-    if y>screen.height/2 then done = true end
+    tick += 1.5
+    y += 0.5
+    done = y>-130
   end
   
-  draw = function()
-    if not this.done then
+  draw = function(delay)
+    if not done then
       screen.setAlpha(tick/60)
-      screen.drawText(word, x, y, 20, black)
+      shadow_text(word, x, y, 20, blue)
+      screen.drawRect(0,0)
       screen.setAlpha(1)
     end
   end

@@ -89,10 +89,12 @@ draw = function()
   draw_score()
   
   // Flash words
-  for fw in flash_words fw.draw() end
+  map(flash_words, function(fw, index) 
+    fw.draw(index) 
+  end)
 
   // Reset
-  reset.draw()
+  // reset.draw()
   
   if game_over then
     draw_game_over()
@@ -118,17 +120,21 @@ reset_game = function()
 end
 
 update_flash_words = function()
+  local x = 0
   for fw in flash_words
     if fw.done then 
       flash_words.removeElement(fw)
     else
-      fw.update() 
+      after x*1.5 seconds do
+        fw.update() 
+      end
+      x += 1
     end
   end
 end
 
 draw_score = function()
-  text = "SCORE: " + current_player().score
+  text = "WORDS: " + board.words_used.length + " / SCORE: " + current_player().score
   screen.drawText(text, 0, -screen.height/2+12, 20, black)
 end
 

@@ -20,6 +20,7 @@ map = function(coll, fn)
   index = 0
   for x in coll 
     new_coll.push(fn(x, index))
+    index += 1
   end
   new_coll
 end
@@ -65,5 +66,10 @@ has_empty_space = function(coll)
     end
   end
   false
+end
+
+shadow_text = function(text, x, y, size=12, color=black)
+  screen.drawText(text, x+1, y-1, size, black)  
+  screen.drawText(text, x, y, size, blue)    
 end
 
