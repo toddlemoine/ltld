@@ -97,11 +97,22 @@ draw_horiz = function(coll, invert=false)
 end
 
 draw_curr = function()
+  if selected_piece == -1 then 
+    draw_curr_special() 
+    return
+  end
+  
   if curr_pos == 1 then draw_horiz(curr)
   elsif curr_pos == 2 then draw_vert(curr)
   elsif curr_pos == 3 then draw_horiz(curr, true)
   elsif curr_pos == 4 then draw_vert(curr, true)
   end
+end
+
+draw_curr_special = function() 
+  local x_offset = (cell_size*cols/2-cell_size/2)
+  local special_x = x_offset-cell_size*(cols-curr_col-count)
+  new Special(special_chooser.value, special_x, curr_y).draw()
 end
 
 

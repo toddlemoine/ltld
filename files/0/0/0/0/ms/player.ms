@@ -3,6 +3,7 @@ Player = class
   pieces = []
   piece_pos = []
   words = []
+  avail_specials = 2
   
   constructor = function()
     this.fill()
@@ -65,6 +66,17 @@ Player = class
   end
 end
 
+piece_move_down = function()
+  if selected_piece != -1 then
+    selected_piece = -1
+  end
+end
+
+piece_move_up = function()
+  if selected_piece == -1 then
+    selected_piece = 0
+  end
+end
 
 piece_move_left = function()
   selected_piece = max(selected_piece-1, 0)

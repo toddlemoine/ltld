@@ -9,6 +9,7 @@ init = function()
   board = new Board(rows, cols, cell_size) 
   letter_bag = new Letterbag(cols*rows)
   reset = new Button("Reset", -80, -167, 35, 15)
+  special_chooser = new SpecialChooser(0, -(screen.height/2)+45)
   flash_words = []
 
   curr = ""
@@ -20,6 +21,8 @@ init = function()
   
   game_over = false
   
+  specials_used = 0
+  max_specials = 2
   max_player_pieces = 3
   curr_player = 0
   players = [new Player()]
@@ -40,9 +43,21 @@ update = function()
       
     elsif keyboard.press.RIGHT then
       piece_move_right()
+
+    elsif keyboard.press.DOWN then
+      piece_move_down()
+
+    elsif keyboard.press.UP then
+      piece_move_up()
   
     elsif keyboard.press.ENTER then
-      curr = next_current(players[curr_player].select(selected_piece))
+      if selected_piece == -1 then
+        special_chooser.select()
+        curr = [new Special(special_chooser.value)]
+        print("selected special" + special_chooser.value)
+      else
+        curr = next_current(players[curr_player].select(selected_piece))
+      end
     end
     
   else
@@ -58,12 +73,14 @@ update = function()
     elsif keyboard.press.ENTER then
       drop_curr()
       current_player().add_points(board.latest_score)
+      
       debug("TOTAL WORDS: " + board.words_used)
-      if board.filled() then
-        game_over = true
-      else
-        next_round()
-      end
+    end
+    
+    if board.filled() then
+      game_over = true
+    else
+      next_round()
     end
     
   end
@@ -76,28 +93,34 @@ end
 
 draw = function()
   screen.clear(game_bg)
+  screen.setFont(font_board)
   
-  board.draw(80)
+  if screen.isFontReady(font_board) then  
+    board.draw(80)
+    
+    // Letter drawing
+    draw_curr()
+    
+    // Player
+    current_player().draw_pieces()
+    
+    // Score
+    draw_score()
+    
+    // Flash words
+    map(flash_words, function(fw, index) 
+      fw.draw(index) 
+    end)
+    
+    special_chooser.draw()
   
-  // Letter drawing
-  draw_curr()
-  
-  // Player
-  current_player().draw_pieces()
-  
-  // Score
-  draw_score()
-  
-  // Flash words
-  map(flash_words, function(fw, index) 
-    fw.draw(index) 
-  end)
-
-  // Reset
-  // reset.draw()
-  
-  if game_over then
-    draw_game_over()
+    // Reset
+    // reset.draw()
+    
+    if game_over then
+      draw_game_over()
+    end
+    
   end
 end
 
@@ -114,6 +137,7 @@ end
 
 reset_game = function()
   board = new Board(rows, cols, cell_size) 
+  special_chooser.reset()
   letter_bag = new Letterbag()
   game_over = false
   next_round()
@@ -135,7 +159,7 @@ end
 
 draw_score = function()
   text = "WORDS: " + board.words_used.length + " / SCORE: " + current_player().score
-  screen.drawText(text, 0, -screen.height/2+12, 20, black)
+  screen.drawText(text, 0, -screen.height/2+12, 17, black)
 end
 
 draw_game_over = function()

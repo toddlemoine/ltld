@@ -25,7 +25,7 @@ Cell = class
     
     screen.drawRect(x, y, size, size, colors.border)
     screen.fillRect(x, y, size-1, size-1, colors.bg)
-    screen.drawText(char, x, y, cell_size, colors.text)
+    screen.drawText(char, x, y, cell_size-2, colors.text)
   end
 
 end
