@@ -1,15 +1,30 @@
 Letter = class 
-  constructor = function(char, size)
+  constructor = function(char, size, x, y)
     this.char = char
     this.size = size
     this.selected = false
+    this.target = null
+    this.x = x
+    this.y = y
   end
   
   on = function()
     selected = true  
   end
   
-  draw = function(x, y)
+  at_target = function()
+    if target != null then
+      return y <= target.y and x == target.x
+    end
+    false
+  end
+  
+  set_xy = function(new_x, new_y)
+    x = new_x
+    y = new_y
+  end
+  
+  draw = function()
     local colors = object
       bg = white
       text = black

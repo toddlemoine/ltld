@@ -5,13 +5,15 @@ Cell = class
     this.size = size
     this.char = char
     this.selected = false
+    this.x = 0
+    this.y = 0
   end
   
   on = function()
     selected = true  
   end
   
-  draw = function(x, y)
+  draw = function()
     local colors = object
       bg = white
       text = black

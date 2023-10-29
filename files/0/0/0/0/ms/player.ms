@@ -44,7 +44,7 @@ Player = class
       end
       
       for char in piece
-        new Letter(char, cell_size).draw(x, piece_y)
+        new Letter(char, cell_size, x, piece_y).draw()
         x += cell_size
       end
       

@@ -123,43 +123,44 @@ Board = class
   end
     
   
-  drop = function(c, val)
+  drop_target_for = function(c, val)
     for i=r to 0
       if grid[i][c-1].char == " " then 
-        grid[i][c-1]
+        return grid[i][c-1]
+        // pos.r = i        
+        // pos.x = grid[i][c-1].x
+        // pos.y = grid[i][c-1].y
+        // grid[i][c-1].char = val
+        // _filled = _filled+1
         
-          grid[i][c-1].char = val
-          _filled = _filled+1
-          
-          // Score for row
-          results = find_words_in_row(grid[i], c-1)
-          
-          // col
-          results = results.concat(find_words_in_col(column_to_row(c-1), i))
-  
-          // diag left
-          results = results.concat(find_words_in_row(diagonal_left(i, c-1), c-1))
-  
-          // diag right
-          results = results.concat(find_words_in_row(diagonal_right(i, c-1), c-1))
-          
-          words = pick(results, "word")
-          latest_score += compute_score_for_words(words)
-          unique_words = unique(words_used, words)
-          words_used = words_used.concat(unique_words)
-          
-          for w in unique_words
-            flash_words.push(new FlashWord(w, 90))
-          end
-          
-          debug(pick(flash_words, "word"))
-  
-          // highlight cells
-          for r in results
-            for cell in r.cells cell.on() end
-          end        
+        // // Score for row
+        // results = find_words_in_row(grid[i], c-1)
+        
+        // // col
+        // results = results.concat(find_words_in_col(column_to_row(c-1), i))
+
+        // // diag left
+        // results = results.concat(find_words_in_row(diagonal_left(i, c-1), c-1))
+
+        // // diag right
+        // results = results.concat(find_words_in_row(diagonal_right(i, c-1), c-1))
+        
+        // words = pick(results, "word")
+        // latest_score += compute_score_for_words(words)
+        // unique_words = unique(words_used, words)
+        // words_used = words_used.concat(unique_words)
+        
+        // for w in unique_words
+        //   flash_words.push(new FlashWord(w, 90))
+        // end
+        
+        // debug(pick(flash_words, "word"))
+
+        // // highlight cells
+        // for r in results
+        //   for cell in r.cells cell.on() end
+        // end        
         break
-        
       end
     end
   end
@@ -169,9 +170,9 @@ Board = class
 
     for i=0 to grid.length-1
       for j=0 to grid[i].length-1
-        local cell_x = x_offset-cell_size*j
-        local cell_y = y-cell_size*i
-        grid[i][j].draw(-cell_x, cell_y)
+        grid[i][j].x = -(x_offset-cell_size*j)
+        grid[i][j].y = y-cell_size*i
+        grid[i][j].draw()
       end
     end
   end

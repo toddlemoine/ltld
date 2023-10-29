@@ -52,6 +52,17 @@ unique = function(coll1, coll2)
   tmp
 end
 
+all = function(coll, fn)
+  ok = true
+  for x in coll
+    if fn(x) == false then
+      ok = false
+      break
+    end
+  end
+  ok
+end
+
 concat_unique = function(coll1, coll2)
   for c in coll2
     if coll1.contains(c) == false then coll1.push(c) end

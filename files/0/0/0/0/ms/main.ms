@@ -4,40 +4,36 @@ init = function()
   cols = 5
   rows = 7
   cell_size = 20
-  
-  dict = new Dictionary()
-  board = new Board(rows, cols, cell_size) 
-  letter_bag = new Letterbag(cols*rows)
-  reset = new Button("Reset", -80, -167, 35, 15)
-  special_chooser = new SpecialChooser(0, -(screen.height/2)+45)
-  flash_words = []
-
-  curr = ""
-  curr_y = 150 // y offset for current letter in play
-  curr_col = round(cols/2)
-  curr_pos = 1
-  piece_y = -90 // y offset for piece tray
-  selected_piece = 0 // selected piece  
-  
   game_over = false
   
+  flash_words = []
+  piece_y = -90 // y offset for piece tray
+  selected_piece = 0 // selected piece  
   specials_used = 0
   max_specials = 2
   max_player_pieces = 3
+  
+  // Set up playing area
+  dict = new Dictionary()
+  board = new Board(rows, cols, cell_size) 
+  letter_bag = new Letterbag(cols*rows)
+  special_chooser = new SpecialChooser(0, -(screen.height/2)+45)
+  curr = new Current(0, 150)
+  
+  // Set up players
   curr_player = 0
   players = [new Player()]
+
+  reset = new Button("Reset", -80, -167, 35, 15)
   
 end
 
 update = function()
-  if game_over then 
-    return 
-  end
+  if game_over then return end
   
   update_flash_words()
-  
 
-  if curr == "" then
+  if curr.is_pending() then
     if keyboard.press.LEFT then
       piece_move_left()
       
@@ -51,37 +47,37 @@ update = function()
       piece_move_up()
   
     elsif keyboard.press.ENTER then
-      if selected_piece == -1 then
-        special_chooser.select()
-        curr = [new Special(special_chooser.value)]
-        print("selected special" + special_chooser.value)
-      else
-        curr = next_current(players[curr_player].select(selected_piece))
-      end
+      curr.set_pieces(current_player().select(selected_piece))
     end
+    
+  elsif curr.dropping then
+    curr.update()
     
   else
+
+    // Something is selected. Move and drop.
+
     if keyboard.press.LEFT then
-      move_left()
+      curr.move_left()
       
     elsif keyboard.press.RIGHT then
-      move_right()
+      curr.move_right()
   
     elsif keyboard.press.UP then
-      if can_rotate() then rotate() end
-  
-    elsif keyboard.press.ENTER then
-      drop_curr()
-      current_player().add_points(board.latest_score)
+      curr.rotate()
       
-      debug("TOTAL WORDS: " + board.words_used)
+    elsif keyboard.press.ENTER then
+      curr.drop()
+
+      // current_player().add_points(board.latest_score)
+      // debug("TOTAL WORDS: " + board.words_used)
     end
     
-    if board.filled() then
-      game_over = true
-    else
-      next_round()
-    end
+    // if board.filled() then
+    //   game_over = true
+    // else
+    //   next_round()
+    // end
     
   end
   
@@ -99,7 +95,7 @@ draw = function()
     board.draw(80)
     
     // Letter drawing
-    draw_curr()
+    curr.draw()
     
     // Player
     current_player().draw_pieces()
@@ -130,9 +126,7 @@ end
 
 next_round = function()
   board.reset_score()
-  curr_pos = 1
-  curr_col = round(cols/2)
-  curr = ""
+  curr = new Current(0, 150)
 end
 
 reset_game = function()
