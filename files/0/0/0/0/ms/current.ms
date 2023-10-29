@@ -12,15 +12,13 @@ Current = class
   is_pending = function() cells.length == 0 end
   
   set_pieces = function(letters)
-    init_col = round(cols/2)
-    count = 0
     cells = []
   
     for letter in letters
       cells.push(new Letter(letter, cell_size, 0, y))
-      count += 1
     end
     
+    // layout the new cells
     update()
   end  
   
@@ -72,30 +70,16 @@ Current = class
     end
   end
   
-  draw_piece = function()
-    if pos == 1 then draw_horiz(cells)
-    elsif pos == 2 then draw_vert(cells)
-    elsif pos == 3 then draw_horiz(cells, true)
-    elsif pos == 4 then draw_vert(cells, true)
-    end
-  end
-  
-  // draw_special = function() 
-  //   local x_offset = (cell_size*cols/2-cell_size/2)
-  //   local special_x = x_offset-cell_size*(cols-col-count)
-  //   new Special(special_chooser.value, special_x, y).draw()
-  // end
-    
   drop_vert = function(coll)
     for letter in coll
-      // board.drop(col, letter.char)
+      letter.target = board.drop_target_for(col, letter.char)
     end
   end
   
   drop_horiz = function(coll, invert=false)
     local count = 0
     for letter in coll
-      if invert == true then
+      if invert then
         letter.target = board.drop_target_for(col-count, letter.char)
       else
         letter.target = board.drop_target_for(col+count, letter.char)
@@ -103,20 +87,25 @@ Current = class
       count += 1
     end
   end
-
   
-  draw_vert = function(coll, invert=false)
+  update_vert = function(coll, invert=false)
     local count = 0
   
     for letter in coll
-      local x_offset = cell_size*cols/2-cell_size/2
-      local letter_x = x_offset-cell_size*(cols-col)
-      local y_offset = cell_size*count
-      local letter_y = y - y_offset
-      if invert and count > 0 then
-        letter_y = y + y_offset
-      end
-      letter.draw(letter_x, letter_y)
+      if not dropping then
+        local x_offset = cell_size*cols/2-cell_size/2
+        local letter_x = x_offset-cell_size*(cols-col)
+        local y_offset = cell_size*count
+        local letter_y = y - y_offset
+        
+        if invert and count > 0 then
+          letter_y = y + y_offset
+        end
+        
+        letter.y = letter_y
+        letter.x = letter_x
+      end      
+      letter.update()
       count += 1
     end  
   end
@@ -125,48 +114,25 @@ Current = class
     local count = 0
   
     for letter in coll
-      if letter.at_target() then continue end
-      
-      local x_offset = (cell_size*cols/2-cell_size/2)
-      local letter_x = x_offset-cell_size*(cols-col-count)
-
-      if invert and count > 0 then
-        letter_x = x_offset-cell_size*(cols-col+count)
+      if not dropping then
+        local x_offset = (cell_size*cols/2-cell_size/2)
+        local letter_x = x_offset-cell_size*(cols-col-count)
+        
+        if invert and count > 0 then
+          letter_x = x_offset-cell_size*(cols-col+count)
+        end
+        
+        letter.x = letter_x
+        letter.y = y
       end
       
-      letter.set_xy(letter_x, y)
+      letter.update()
       count += 1
     end    
   end
   
-  draw_horiz = function(coll, invert=false)
-    local count = 0
-  
-    for letter in coll
-      if letter.at_target() then continue end
-      
-      local x_offset = (cell_size*cols/2-cell_size/2)
-      local letter_x = x_offset-cell_size*(cols-col-count)
-
-      if invert and count > 0 then
-        letter_x = x_offset-cell_size*(cols-col+count)
-      end
-      
-      letter.draw()
-      count += 1
-    end
-  end
-  
-  stop_dropping = function()
-    drop_to = null  
-  end
-  
   update = function()
-    if dropping == true then
-      y -= 1
-      tick -= 2
-    end
-    
+
     if pos == 1 then update_horiz(cells)
       elsif pos == 2 then update_vert(cells)
       elsif pos == 3 then update_horiz(cells, true)
@@ -174,9 +140,10 @@ Current = class
       end      
     
     if dropping then
-      dropping = all(cells, function(cell) cell.at_target() == false end)
+      all_done = all(cells, function(cell) cell.at_target() end)
+      dropping = all_done == false
+      if all_done then cells = [] end
     end
-  
   end
   
   draw = function()

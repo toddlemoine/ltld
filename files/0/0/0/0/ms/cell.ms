@@ -7,6 +7,7 @@ Cell = class
     this.selected = false
     this.x = 0
     this.y = 0
+    this.targeted = false
   end
   
   on = function()

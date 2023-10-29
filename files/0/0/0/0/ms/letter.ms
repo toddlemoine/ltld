@@ -14,14 +14,18 @@ Letter = class
   
   at_target = function()
     if target != null then
-      return y <= target.y and x == target.x
+      return y == target.y and x == target.x
     end
     false
   end
   
-  set_xy = function(new_x, new_y)
-    x = new_x
-    y = new_y
+  update = function()
+    if target != null then
+      y = max(target.y, y-5)
+      if at_target() then
+        target.char = char
+      end
+    end
   end
   
   draw = function()

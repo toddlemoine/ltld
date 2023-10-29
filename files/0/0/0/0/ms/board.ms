@@ -124,9 +124,14 @@ Board = class
     
   
   drop_target_for = function(c, val)
-    for i=r to 0
-      if grid[i][c-1].char == " " then 
-        return grid[i][c-1]
+    
+    for i=r-1 to 0
+      curr_cell = grid[i][c-1]
+      
+      if not curr_cell.targeted then 
+        curr_cell.targeted = true
+        return curr_cell
+        
         // pos.r = i        
         // pos.x = grid[i][c-1].x
         // pos.y = grid[i][c-1].y

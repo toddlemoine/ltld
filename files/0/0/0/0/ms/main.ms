@@ -50,8 +50,8 @@ update = function()
       curr.set_pieces(current_player().select(selected_piece))
     end
     
-  elsif curr.dropping then
-    curr.update()
+  // elsif curr.dropping then
+  //   curr.update()
     
   else
 
@@ -72,6 +72,8 @@ update = function()
       // current_player().add_points(board.latest_score)
       // debug("TOTAL WORDS: " + board.words_used)
     end
+    
+    curr.update()
     
     // if board.filled() then
     //   game_over = true
