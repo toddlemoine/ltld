@@ -7,6 +7,7 @@ Current = class
     this.cells = []
     this.dropping = false
     this.tick = 60
+    this.done = false
   end
   
   is_pending = function() cells.length == 0 end
@@ -104,7 +105,8 @@ Current = class
         
         letter.y = letter_y
         letter.x = letter_x
-      end      
+      end
+      
       letter.update()
       count += 1
     end  
@@ -141,8 +143,11 @@ Current = class
     
     if dropping then
       all_done = all(cells, function(cell) cell.at_target() end)
-      dropping = all_done == false
-      if all_done then cells = [] end
+      if all_done then 
+        cells = [] 
+        dropping = false
+        done = true
+      end
     end
   end
   

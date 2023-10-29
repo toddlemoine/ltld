@@ -50,36 +50,38 @@ update = function()
       curr.set_pieces(current_player().select(selected_piece))
     end
     
-  // elsif curr.dropping then
-  //   curr.update()
-    
   else
+    
+    if not curr.dropping then
 
-    // Something is selected. Move and drop.
-
-    if keyboard.press.LEFT then
-      curr.move_left()
-      
-    elsif keyboard.press.RIGHT then
-      curr.move_right()
+      // Something is selected. Move and drop.
+      if keyboard.press.LEFT then
+        curr.move_left()
+        
+      elsif keyboard.press.RIGHT then
+        curr.move_right()
+    
+      elsif keyboard.press.UP then
+        curr.rotate()
+        
+      elsif keyboard.press.ENTER then
+        curr.drop()
   
-    elsif keyboard.press.UP then
-      curr.rotate()
-      
-    elsif keyboard.press.ENTER then
-      curr.drop()
-
-      // current_player().add_points(board.latest_score)
-      // debug("TOTAL WORDS: " + board.words_used)
+        // current_player().add_points(board.latest_score)
+        // debug("TOTAL WORDS: " + board.words_used)
+      end
+    
     end
     
     curr.update()
     
-    // if board.filled() then
-    //   game_over = true
-    // else
-    //   next_round()
-    // end
+    if board.filled() then
+      game_over = true
+    end
+    
+    if curr.done then
+      next_round()
+    end
     
   end
   

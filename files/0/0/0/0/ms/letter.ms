@@ -24,6 +24,7 @@ Letter = class
       y = max(target.y, y-5)
       if at_target() then
         target.char = char
+        board.score_cell(target)
       end
     end
   end

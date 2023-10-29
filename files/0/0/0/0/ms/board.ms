@@ -121,51 +121,47 @@ Board = class
     
     cells
   end
+  
+  score_cell = function(cell)
+    local results = []
+    // Score for row
+    results = find_words_in_row(grid[cell.row], cell.col)
+    
+    // col
+    results = results.concat(find_words_in_col(column_to_row(cell.col), cell.row))
+
+    // diag left
+    results = results.concat(find_words_in_row(diagonal_left(cell.row, cell.col), cell.col))
+
+    // diag right
+    results = results.concat(find_words_in_row(diagonal_right(cell.row, cell.col), cell.col))
+    
+    words = pick(results, "word")
+    latest_score += compute_score_for_words(words)
+    unique_words = unique(words_used, words)
+    words_used = words_used.concat(unique_words)
+    
+    for w in unique_words
+      flash_words.push(new FlashWord(w, 90))
+    end
+    
+    debug(pick(flash_words, "word"))
+
+    // highlight cells
+    for r in results
+      for rc in r.cells rc.on() end
+    end            
+  end
     
   
   drop_target_for = function(c, val)
-    
     for i=r-1 to 0
       curr_cell = grid[i][c-1]
       
       if not curr_cell.targeted then 
         curr_cell.targeted = true
-        return curr_cell
-        
-        // pos.r = i        
-        // pos.x = grid[i][c-1].x
-        // pos.y = grid[i][c-1].y
-        // grid[i][c-1].char = val
         // _filled = _filled+1
-        
-        // // Score for row
-        // results = find_words_in_row(grid[i], c-1)
-        
-        // // col
-        // results = results.concat(find_words_in_col(column_to_row(c-1), i))
-
-        // // diag left
-        // results = results.concat(find_words_in_row(diagonal_left(i, c-1), c-1))
-
-        // // diag right
-        // results = results.concat(find_words_in_row(diagonal_right(i, c-1), c-1))
-        
-        // words = pick(results, "word")
-        // latest_score += compute_score_for_words(words)
-        // unique_words = unique(words_used, words)
-        // words_used = words_used.concat(unique_words)
-        
-        // for w in unique_words
-        //   flash_words.push(new FlashWord(w, 90))
-        // end
-        
-        // debug(pick(flash_words, "word"))
-
-        // // highlight cells
-        // for r in results
-        //   for cell in r.cells cell.on() end
-        // end        
-        break
+        return curr_cell
       end
     end
   end
