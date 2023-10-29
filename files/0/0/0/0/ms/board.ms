@@ -7,7 +7,6 @@ Board = class
     this.r = r
     this.cell_size = cell_size
     this.grid = []
-    this._filled = 0
     
     for i=0 to r-1
       local row = []
@@ -18,12 +17,22 @@ Board = class
     end
   end
   
-  filled = function() 
-    _filled == c*r
+  filled = function()
+    local count = 0
+    for row in grid
+      for col in row
+        if col.targeted then count += 1 end
+      end
+    end
+    count == c*r
   end
   
   reset_score = function()
     latest_score = 0  
+  end
+  
+  column_is_open = function(col_index)
+    grid[0][col_index].char == " "
   end
   
   column_to_row = function(col_index)
@@ -159,11 +168,14 @@ Board = class
       curr_cell = grid[i][c-1]
       
       if not curr_cell.targeted then 
+        debug("setting targeted", i + "," + c-1)
         curr_cell.targeted = true
-        // _filled = _filled+1
         return curr_cell
       end
     end
+    
+    // No available target
+    -1
   end
   
   draw = function(y)

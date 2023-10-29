@@ -52,6 +52,13 @@ unique = function(coll1, coll2)
   tmp
 end
 
+any = function(coll, fn)
+  for x in coll
+    if fn(x) then return true end
+  end
+  false
+end
+
 all = function(coll, fn)
   ok = true
   for x in coll

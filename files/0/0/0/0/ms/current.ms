@@ -43,16 +43,20 @@ Current = class
     end
   end
   
-  can_rotate = function()
-    if pos == 4 then
-      return col+cells.length <= cols+1
-    elsif pos == 2 then
-      return col >= cells.length
+  can_rotate = function(reverse=false)
+    if reverse then
+      
+    else
+      if pos == 4 then
+        return col+cells.length <= cols+1
+      elsif pos == 2 then
+        return col >= cells.length
+      end
     end
     true
   end
   
-  rotate = function()
+  rotate = function(reverse=false)
     if not can_rotate() then return end
     
     if pos == 4 then 
@@ -63,11 +67,16 @@ Current = class
   end
   
   drop = function()
-    dropping = true
-    if pos == 1 then drop_horiz(cells)
-    elsif pos == 2 then drop_vert(reverse(cells))
-    elsif pos == 3 then drop_horiz(cells, true)
-    elsif pos == 4 then drop_vert(cells)
+    // Check first if we can drop
+    if any(cells, function(cell) cell.enabled end) then
+      dropping = true
+      if pos == 1 then drop_horiz(cells)
+      elsif pos == 2 then drop_vert(reverse(cells))
+      elsif pos == 3 then drop_horiz(cells, true)
+      elsif pos == 4 then drop_vert(cells)
+      end
+    else
+      debug("cannot drop")
     end
   end
   
@@ -95,16 +104,15 @@ Current = class
     for letter in coll
       if not dropping then
         local x_offset = cell_size*cols/2-cell_size/2
-        local letter_x = x_offset-cell_size*(cols-col)
         local y_offset = cell_size*count
-        local letter_y = y - y_offset
+        letter.x = x_offset-cell_size*(cols-col)
+        letter.y = y - y_offset
+        letter.enabled = board.column_is_open(col-1)
         
         if invert and count > 0 then
-          letter_y = y + y_offset
+          letter.y = y + y_offset
         end
         
-        letter.y = letter_y
-        letter.x = letter_x
       end
       
       letter.update()
@@ -118,14 +126,21 @@ Current = class
     for letter in coll
       if not dropping then
         local x_offset = (cell_size*cols/2-cell_size/2)
-        local letter_x = x_offset-cell_size*(cols-col-count)
-        
-        if invert and count > 0 then
-          letter_x = x_offset-cell_size*(cols-col+count)
-        end
-        
-        letter.x = letter_x
+
+        letter.x = x_offset-cell_size*(cols-col-count)
         letter.y = y
+        letter.enabled = board.column_is_open(col-1)
+        
+        if invert then
+          if count > 0 then
+            letter.x = x_offset-cell_size*(cols-col+count)
+            letter.enabled = board.column_is_open(col-count-1)
+          end
+        else
+          if count > 0 then
+            letter.enabled = board.column_is_open(col+count-1)
+          end
+        end
       end
       
       letter.update()
@@ -142,12 +157,14 @@ Current = class
       end      
     
     if dropping then
-      all_done = all(cells, function(cell) cell.at_target() end)
+      all_done = all(cells, function(cell) cell.done() end)
+      
       if all_done then 
         cells = [] 
         dropping = false
         done = true
       end
+      
     end
   end
   

@@ -63,6 +63,9 @@ update = function()
     
       elsif keyboard.press.UP then
         curr.rotate()
+
+      elsif keyboard.press.DOWN then
+        curr.rotate(true)
         
       elsif keyboard.press.ENTER then
         curr.drop()
@@ -70,15 +73,15 @@ update = function()
         // current_player().add_points(board.latest_score)
         // debug("TOTAL WORDS: " + board.words_used)
       end
-    
+
+      if board.filled() then
+        game_over = true
+      end
+      
     end
     
     curr.update()
-    
-    if board.filled() then
-      game_over = true
-    end
-    
+
     if curr.done then
       next_round()
     end
