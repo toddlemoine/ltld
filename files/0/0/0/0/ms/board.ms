@@ -21,7 +21,7 @@ Board = class
     local count = 0
     for row in grid
       for col in row
-        if col.targeted then count += 1 end
+        if col.char != " " then count += 1 end
       end
     end
     count == c*r

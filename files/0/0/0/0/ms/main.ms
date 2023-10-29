@@ -74,16 +74,16 @@ update = function()
         // debug("TOTAL WORDS: " + board.words_used)
       end
 
-      if board.filled() then
-        game_over = true
-      end
-      
     end
     
     curr.update()
 
     if curr.done then
-      next_round()
+      if board.filled() then
+        game_over = true
+      else
+        next_round()  
+      end
     end
     
   end
