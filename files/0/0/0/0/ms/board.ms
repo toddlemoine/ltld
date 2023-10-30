@@ -159,7 +159,8 @@ Board = class
     // highlight cells
     for r in results
       for rc in r.cells rc.on() end
-    end            
+    end        
+    
   end
     
   
@@ -168,7 +169,6 @@ Board = class
       curr_cell = grid[i][c-1]
       
       if not curr_cell.targeted then 
-        debug("setting targeted", i + "," + c-1)
         curr_cell.targeted = true
         return curr_cell
       end

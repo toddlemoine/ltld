@@ -18,7 +18,7 @@ init = function()
   board = new Board(rows, cols, cell_size) 
   letter_bag = new Letterbag(cols*rows)
   special_chooser = new SpecialChooser(0, -(screen.height/2)+45)
-  curr = new Current(0, 150)
+  curr = new Current(0, 140)
   
   // Set up players
   curr_player = 0
@@ -69,9 +69,6 @@ update = function()
         
       elsif keyboard.press.ENTER then
         curr.drop()
-  
-        // current_player().add_points(board.latest_score)
-        // debug("TOTAL WORDS: " + board.words_used)
       end
 
     end
@@ -79,6 +76,9 @@ update = function()
     curr.update()
 
     if curr.done then
+      current_player().add_points(board.latest_score)
+      debug("TOTAL WORDS: " + board.words_used)
+      
       if board.filled() then
         game_over = true
       else
@@ -111,10 +111,10 @@ draw = function()
     draw_score()
     
     // Flash words
-    map(flash_words, function(fw, index) 
+    flash_words.forEach(function(fw, index) 
       fw.draw(index) 
     end)
-    
+
     special_chooser.draw()
   
     // Reset
@@ -133,7 +133,7 @@ end
 
 next_round = function()
   board.reset_score()
-  curr = new Current(0, 150)
+  curr = new Current(0, 130)
 end
 
 reset_game = function()
