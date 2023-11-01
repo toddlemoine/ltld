@@ -27,14 +27,19 @@ letter_freq = object
   Q = 0.001965
 end
 
-morphemes = ("ab ad bi con de en ex in " +
-"non ob out per pre pro re se un " +
-"al ar ary ate ent er ial ic " +
-"ism ist ity ive ize ly or ory ous th ure ture " +
+two_char_morphemes = ("ab ad bi con de en ex in " +
+"ob re se un " +
+"al ar er ic " +
+"st ty ve ze ly or ry th").split(" ")
+
+three_char_morphemes = ("con non out per pre pro " +
+"ary ate ent ial " +
+"ism ist ity ive ize ory ous ure ture " +
 "act cap leg min mod sta " +
 "son sect pos ple org not nat ana bio dec dia " +
-"eco epi geo gon " +
-"oxy odo oid").split(" ")
+"eco epi geo gon oxy odo oid").split(" ")
+
+morphemes = two_char_morphemes
 
 shuffle = function(coll)
   new_coll = []
@@ -47,12 +52,19 @@ end
 
 fill_bag = function(size)
   local bag = []
+  
   for letter in letter_freq
     freq = letter_freq[letter]
     count = max(1, round(size*freq))
     for i = 1 to count 
       bag.push(letter) 
     end
+  end
+  
+  // Add Specials, same freq as T
+  local bomb_freq = max(1, round(size*letter_freq.T))
+  for i = 1 to bomb_freq
+    bag.push("@")
   end
   
   for i = 1 to size

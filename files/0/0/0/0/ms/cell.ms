@@ -22,7 +22,7 @@ Cell = class
     end
 
     if selected then
-      colors.bg = green
+      colors.bg = red
       colors.text = white
     end
     

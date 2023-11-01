@@ -10,14 +10,13 @@ init = function()
   piece_y = -90 // y offset for piece tray
   selected_piece = 0 // selected piece  
   specials_used = 0
-  max_specials = 2
-  max_player_pieces = 3
+  max_player_pieces = 4
   
   // Set up playing area
   dict = new Dictionary()
   board = new Board(rows, cols, cell_size) 
   letter_bag = new Letterbag(cols*rows)
-  special_chooser = new SpecialChooser(0, -(screen.height/2)+45)
+  tray = new Tray(0, -(screen.height/2)+45)
   curr = new Current(0, 140)
   
   // Set up players
@@ -104,8 +103,8 @@ draw = function()
     // Letter drawing
     curr.draw()
     
-    // Player
-    current_player().draw_pieces()
+    // Tray with pieces
+    tray.draw(current_player().pieces)
     
     // Score
     draw_score()
@@ -115,7 +114,7 @@ draw = function()
       fw.draw(index) 
     end)
 
-    special_chooser.draw()
+    
   
     // Reset
     // reset.draw()
@@ -138,7 +137,6 @@ end
 
 reset_game = function()
   board = new Board(rows, cols, cell_size) 
-  special_chooser.reset()
   letter_bag = new Letterbag()
   game_over = false
   next_round()

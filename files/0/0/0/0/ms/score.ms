@@ -32,8 +32,6 @@ find_words_in_row = function(row, col_index)
     end  
   end
   
-  debug("scoreable words from row", scoreable_words)
-
   scoreable_words
 end
 
@@ -96,7 +94,6 @@ end
 
 
 add_if_new = function(coll, result)
-  debug("add if new", result)
   local exists = false
   for i in coll
     if i.word == result.word then 
