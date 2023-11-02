@@ -75,8 +75,8 @@ update = function()
     curr.update()
 
     if curr.done then
-      current_player().add_points(board.latest_score)
-      debug("TOTAL WORDS: " + board.words_used)
+      current_player().add_results(board.latest_results)
+      debug("TOTAL WORDS: " + board.words_used())
       
       if board.filled() then
         game_over = true
@@ -155,7 +155,7 @@ update_flash_words = function()
 end
 
 draw_score = function()
-  text = "WORDS: " + board.words_used.length + " / SCORE: " + current_player().score
+  text = "WORDS: " + current_player().word_count() + " / SCORE: " + current_player().score()
   screen.drawText(text, 0, -screen.height/2+12, 17, black)
 end
 

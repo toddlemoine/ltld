@@ -1,6 +1,6 @@
 Board = class 
-  latest_score = 0
-  words_used = []
+  latest_results = []
+  results = object end
   
   constructor = function(r, c, cell_size)
     this.c = c
@@ -17,6 +17,14 @@ Board = class
     end
   end
   
+  words_used = function()
+    local words = []
+    for key in results
+      words.push(key)
+    end
+    words
+  end
+  
   filled = function()
     local count = 0
     for row in grid
@@ -28,7 +36,7 @@ Board = class
   end
   
   reset_score = function()
-    latest_score = 0  
+    latest_results = []
   end
   
   column_is_open = function(col_index)
@@ -132,33 +140,41 @@ Board = class
   end
   
   score_cell = function(cell)
-    local results = []
     // Score for row
-    results = find_words_in_row(grid[cell.row], cell.col)
+    local _results = find_words_in_row(grid[cell.row], cell.col)
     
     // col
-    results = results.concat(find_words_in_col(column_to_row(cell.col), cell.row))
+    _results = _results.concat(find_words_in_col(column_to_row(cell.col), cell.row))
 
     // diag left
-    results = results.concat(find_words_in_row(diagonal_left(cell.row, cell.col), cell.col))
+    _results = _results.concat(find_words_in_row(diagonal_left(cell.row, cell.col), cell.col))
 
     // diag right
-    results = results.concat(find_words_in_row(diagonal_right(cell.row, cell.col), cell.col))
+    _results = _results.concat(find_words_in_row(diagonal_right(cell.row, cell.col), cell.col))
     
-    words = pick(results, "word")
-    latest_score += compute_score_for_words(words)
-    unique_words = unique(words_used, words)
-    words_used = words_used.concat(unique_words)
+    latest_results = add_results(_results)
     
-    for w in unique_words
+    for w in pick(latest_results, "word")
       flash_words.push(new FlashWord(w, 90))
     end
     
+    // TODO: Move this to an update somewhere
     // highlight cells
-    for r in results
+    for r in latest_results
       for rc in r.cells rc.on() end
     end        
     
+  end
+  
+  add_results = function(latest)
+    added = []
+    for result in latest
+      if not results[result.word] then
+        results[result.word] = result
+        added.push(result)
+      end
+    end
+    added
   end
   
   drop_target_for_special = function(c)
@@ -199,3 +215,4 @@ Board = class
   end
 
 end
+

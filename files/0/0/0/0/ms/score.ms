@@ -2,6 +2,7 @@ find_words_in_row = function(row, col_index)
   local words_found = []
   
   for word_len = 5 to 3
+    // Take the longest word found.
     if words_found.length > 0 then
       break
     end
@@ -26,8 +27,7 @@ find_words_in_row = function(row, col_index)
   scoreable_words = []
   
   for w in words_found
-    local already_played = board.words_used.contains(w.word)
-    if not already_played then
+    if not board.results[w.word] then
       scoreable_words.push(w)
     end  
   end
