@@ -8,10 +8,22 @@ Cell = class
     this.x = 0
     this.y = 0
     this.targeted = false
+    this.state = 0 // 0=normal, 1=selected, 2=exploding
+  end
+  
+  clear = function()
+    state = 0
+    char = " "
+    targeted = false
   end
   
   on = function()
-    selected = true  
+    state = 1
+  end
+  
+  explode = function()
+    char = " "
+    state = 2
   end
   
   draw = function()
@@ -21,14 +33,18 @@ Cell = class
       border = black
     end
 
-    if selected then
+    if state == 1 then
       colors.bg = red
       colors.text = white
     end
-    
+
     screen.drawRect(x, y, size, size, colors.border)
     screen.fillRect(x, y, size-1, size-1, colors.bg)
     screen.drawText(char, x, y, cell_size-2, colors.text)
+    
+    if state == 2 then
+      screen.drawSprite("explosion", x, y, size, size)
+    end
   end
 
 end

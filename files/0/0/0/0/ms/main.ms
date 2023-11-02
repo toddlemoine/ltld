@@ -114,8 +114,6 @@ draw = function()
       fw.draw(index) 
     end)
 
-    
-  
     // Reset
     // reset.draw()
     

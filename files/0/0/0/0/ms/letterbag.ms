@@ -62,7 +62,7 @@ fill_bag = function(size)
   end
   
   // Add Specials, same freq as T
-  local bomb_freq = max(1, round(size*letter_freq.T))
+  local bomb_freq = max(1, round(size*letter_freq.E))
   for i = 1 to bomb_freq
     bag.push("@")
   end

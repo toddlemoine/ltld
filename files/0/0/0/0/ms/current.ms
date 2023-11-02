@@ -8,15 +8,22 @@ Current = class
     this.dropping = false
     this.tick = 60
     this.done = false
+    this.allow_rotate = true
   end
   
   is_pending = function() cells.length == 0 end
   
   set_pieces = function(letters)
     cells = []
-  
+    
     for letter in letters
-      cells.push(new Letter(letter, cell_size, 0, y))
+      if letter == "@" then 
+        cells.push(new BombSpecial(0, y))
+        allow_rotate = false
+      else
+        cells.push(new Letter(letter, cell_size, 0, y))
+        allow_rotate = true
+      end
     end
     
     // layout the new cells
@@ -82,7 +89,11 @@ Current = class
   
   drop_vert = function(coll)
     for letter in coll
-      letter.target = board.drop_target_for(col, letter.char)
+      if letter.special then
+        letter.target = board.drop_target_for_special(col+count)
+      else
+        letter.target = board.drop_target_for(col, letter.char)
+      end
     end
   end
   
@@ -92,13 +103,18 @@ Current = class
       if invert then
         letter.target = board.drop_target_for(col-count, letter.char)
       else
-        letter.target = board.drop_target_for(col+count, letter.char)
+        if letter.special then
+          letter.target = board.drop_target_for_special(col+count)
+        else
+          letter.target = board.drop_target_for(col+count, letter.char)
+        end
       end
       count += 1
     end
   end
   
   update_vert = function(coll, invert=false)
+    
     local count = 0
   
     for letter in coll
@@ -107,8 +123,11 @@ Current = class
         local y_offset = cell_size*count
         letter.x = x_offset-cell_size*(cols-col)
         letter.y = y - y_offset
-        letter.enabled = board.column_is_open(col-1)
         
+        if not letter.special then
+          letter.enabled = board.column_is_open(col-1)
+        end
+                
         if invert and count > 0 then
           letter.y = y + y_offset
         end
@@ -129,7 +148,9 @@ Current = class
 
         letter.x = x_offset-cell_size*(cols-col-count)
         letter.y = y
-        letter.enabled = board.column_is_open(col-1)
+        if not letter.special then
+          letter.enabled = board.column_is_open(col-1)
+        end
         
         if invert then
           if count > 0 then

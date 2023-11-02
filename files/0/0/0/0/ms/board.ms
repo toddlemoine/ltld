@@ -154,15 +154,23 @@ Board = class
       flash_words.push(new FlashWord(w, 90))
     end
     
-    debug(pick(flash_words, "word"))
-
     // highlight cells
     for r in results
       for rc in r.cells rc.on() end
     end        
     
   end
-    
+  
+  drop_target_for_special = function(c)
+    for i=0 to r-1
+      curr_cell = grid[i][c-1]
+      if curr_cell.targeted then
+        return curr_cell
+      end
+    end
+    // Column is empty; drop on bottom-most cell
+    grid[r-1][c-1]
+  end
   
   drop_target_for = function(c, val)
     for i=r-1 to 0
