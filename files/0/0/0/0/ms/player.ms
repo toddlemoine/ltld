@@ -6,6 +6,14 @@ Player = class
     this.fill()
   end
   
+  words = function()
+    w = []
+    for r in results
+      if results[r] then w.push(r) end
+    end
+    w
+  end
+  
   word_count = function()
     local count = 0
     for x in results 

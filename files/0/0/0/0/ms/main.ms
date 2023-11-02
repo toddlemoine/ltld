@@ -80,6 +80,7 @@ update = function()
       board.update()
       
       debug("TOTAL WORDS: " + board.words_used())
+      debug("PLAYER WORDS: " + current_player().words())
       
       if board.filled() then
         game_over = true

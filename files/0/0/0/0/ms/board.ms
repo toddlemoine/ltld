@@ -180,14 +180,11 @@ Board = class
   end
   
   remove_words_using_cell = function(cell)
-    debug("remove words at", cell.row + ", " + cell.col)
     for r in results
       if any(results[r].cells, function(c) 
-        debug("examining "+results[r].word, c.row +", "+ c.col)
         c.row == cell.row and c.col == cell.col
       end) then
         // Remove from results
-        debug("removing result")
         for c in results[r].cells
           c.off()
         end
