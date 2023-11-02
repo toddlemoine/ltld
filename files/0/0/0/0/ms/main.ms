@@ -76,6 +76,9 @@ update = function()
 
     if curr.done then
       current_player().add_results(board.latest_results)
+      current_player().remove_results(board.latest_removed_results)
+      board.update()
+      
       debug("TOTAL WORDS: " + board.words_used())
       
       if board.filled() then

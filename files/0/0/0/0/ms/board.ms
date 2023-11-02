@@ -1,5 +1,6 @@
 Board = class 
   latest_results = []
+  latest_removed_results = []
   results = object end
   
   constructor = function(r, c, cell_size)
@@ -17,10 +18,20 @@ Board = class
     end
   end
   
+  update = function()
+    for r in results
+      for cell in results[r].cells
+        cell.on()
+      end
+    end
+  end
+  
   words_used = function()
     local words = []
     for key in results
-      words.push(key)
+      if results[key] then 
+        words.push(key)
+      end
     end
     words
   end
@@ -37,6 +48,7 @@ Board = class
   
   reset_score = function()
     latest_results = []
+    latest_removed_results = []
   end
   
   column_is_open = function(col_index)
@@ -152,6 +164,7 @@ Board = class
     // diag right
     _results = _results.concat(find_words_in_row(diagonal_right(cell.row, cell.col), cell.col))
     
+    // Set on the instance
     latest_results = add_results(_results)
     
     for w in pick(latest_results, "word")
@@ -164,6 +177,24 @@ Board = class
       for rc in r.cells rc.on() end
     end        
     
+  end
+  
+  remove_words_using_cell = function(cell)
+    debug("remove words at", cell.row + ", " + cell.col)
+    for r in results
+      if any(results[r].cells, function(c) 
+        debug("examining "+results[r].word, c.row +", "+ c.col)
+        c.row == cell.row and c.col == cell.col
+      end) then
+        // Remove from results
+        debug("removing result")
+        for c in results[r].cells
+          c.off()
+        end
+        results[r] = undefined
+        latest_removed_results.push(r)
+      end
+    end
   end
   
   add_results = function(latest)
@@ -212,6 +243,7 @@ Board = class
         grid[i][j].draw()
       end
     end
+    
   end
 
 end

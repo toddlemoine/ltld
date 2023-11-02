@@ -52,7 +52,7 @@ Current = class
   
   can_rotate = function(reverse=false)
     if reverse then
-      
+      // ?
     else
       if pos == 4 then
         return col+cells.length <= cols+1

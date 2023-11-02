@@ -8,7 +8,9 @@ Player = class
   
   word_count = function()
     local count = 0
-    for x in results count += 1 end
+    for x in results 
+      if results[x] then count += 1 end
+    end
     count
   end
   
@@ -18,10 +20,16 @@ Player = class
     end
   end
   
+  remove_results = function(removals)
+    for x in removals
+      results[x] = undefined
+    end
+  end
+  
   score = function()
     local words = []
     for x in results
-      words.push(x)
+      if results[x] then words.push(x) end
     end
     compute_score_for_words(words)
   end

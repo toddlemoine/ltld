@@ -21,6 +21,10 @@ Cell = class
     state = 1
   end
   
+  off = function()
+    state = 0
+  end
+  
   explode = function()
     char = " "
     state = 2

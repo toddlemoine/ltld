@@ -34,6 +34,7 @@ BombSpecial = class
       state = 1
       
       after 0.75 seconds do
+        board.remove_words_using_cell(target)        
         target.clear()
         state = 2
       end
