@@ -8,7 +8,7 @@ Cell = class
     this.x = 0
     this.y = 0
     this.targeted = false
-    // 0=normal, 1=selected, 2=exploding, 3=bumping
+    // 0=normal, 1=selected, 2=exploding
     this.state = 0 
   end
   
@@ -31,8 +31,10 @@ Cell = class
     state = 2
   end
 
-  bump_right = function()
+  bump = function()
     char = " "
+    targeted = null
+    state = 0
   end
   
   draw = function()

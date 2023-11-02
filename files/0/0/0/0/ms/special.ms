@@ -10,6 +10,7 @@ BumpRightSpecial = class
     this.tick = 0
     this.enabled = true
     this.state = 0 //0=default,1=bumping,1.5=dropping,2=done
+    this.curr = null
   end
   
   done = function()
@@ -31,42 +32,39 @@ BumpRightSpecial = class
     
     if state == 0 and at_target() then
       debug("bumpright at target. Col:" + target.col)
-      // this.letter = new Letter(target.char, cell_size, x, y)
-      curr = new Current(x, y)
-      curr.col = min(target.col+2, cols-1)
-      curr.set_pieces([target.char])
+      this.curr = new Letter(target.char, cell_size, x, y)
+      local target_col = min(target.col+2, cols-1)
       
-      bump_target = board.drop_target_for(target.col+2)
+      bump_target = board.drop_target_for(target_col)
       debug("bump target"+ bump_target.row +","+ bump_target.col)
 
-      target.bump_right()
+      target.bump()
       tick = 0
       state = 1
     end
     
-    if state == 1 and not curr.dropping then
+    if state == 1 then
       debug("updating current. CurrX:" + curr.x + ", targetX:"+ bump_target.x)
       
       if bump_target.x > curr.x then
-        curr.x = min(bump_target.x, curr.x+tick/10) 
-        tick += 48
-        curr.update()
-        
-      // elsif bump_target.x < curr.x then
-      //   curr.x = max(bump_target.x, curr.x-tick/10) 
+        local new_x = curr.x-tick/10 
+        debug("new x: " + new_x)
+        this.curr.x = min(bump_target.x, new_x)
+        tick -= 48
+        // curr.update()
       else 
         debug("dropping current")
-        curr.target = bump_target
-        curr.drop()
+        this.curr.target = bump_target
+        step = 1.5
       end
     end
     
-    
-    if curr.dropping then
+    if step == 1.5 then
+      if curr.at_target() then
+        state = 2
+        // board.remove_words_using_cell(target)        
+      end
       curr.update()
-    elsif curr.done then
-      // board.remove_words_using_cell(target)        
-      state = 2
     end
   end  
   
