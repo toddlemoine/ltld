@@ -20,6 +20,9 @@ Current = class
       if letter == "@" then 
         cells.push(new BombSpecial(0, y))
         allow_rotate = false
+      elsif letter == ">" then 
+        cells.push(new BumpRightSpecial(0, y))
+        allow_rotate = false
       else
         cells.push(new Letter(letter, cell_size, 0, y))
         allow_rotate = true
@@ -63,7 +66,7 @@ Current = class
     true
   end
   
-  rotate = function(reverse=false)
+  rotate = function()
     if not can_rotate() then return end
     
     if pos == 4 then 

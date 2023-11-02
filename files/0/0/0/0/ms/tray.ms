@@ -40,6 +40,8 @@ Tray = class
         // letter_x = x+(char_count*cell_size)
         if char == "@" then
           new BombSpecial(x, y+40).draw()
+        elsif char == ">" then
+          new BumpRightSpecial(x, y+40).draw()
         else
           new Letter(char, cell_size, x, y+40).draw()
         end

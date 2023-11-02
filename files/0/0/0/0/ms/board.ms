@@ -216,7 +216,7 @@ Board = class
     grid[r-1][c-1]
   end
   
-  drop_target_for = function(c, val)
+  drop_target_for = function(c)
     for i=r-1 to 0
       curr_cell = grid[i][c-1]
       
