@@ -17,12 +17,20 @@ BumpRightSpecial = class
     state == 2
   end
   
+  at_bottom = function()
+    target.char == " " and target == board.grid[rows-1][target.col]
+  end
+  
   at_target = function()
     if target != null then
       return (y == target.y and x == target.x)
     end
     false
   end  
+  
+  set_enabled = function(col)
+    enabled = col != cols
+  end
   
   update = function()
     if enabled and target != null then
@@ -31,12 +39,18 @@ BumpRightSpecial = class
     end
     
     if state == 0 and at_target() then
-      debug("bumpright at target. Col:" + target.col)
+      
+      if at_bottom() then
+        debug("at bottom, state is 2")
+        state = 2
+        target.targeted = false
+        return
+      end
+      
       this.curr = new Letter(target.char, cell_size, x, y)
       local target_col = min(target.col+2, cols-1)
       
       bump_target = board.drop_target_for(target_col)
-      debug("bump target"+ bump_target.row +","+ bump_target.col)
 
       target.bump()
       tick = 0
@@ -44,16 +58,11 @@ BumpRightSpecial = class
     end
     
     if state == 1 then
-      debug("updating current. CurrX:" + curr.x + ", targetX:"+ bump_target.x)
-      
       if bump_target.x > curr.x then
         local new_x = curr.x-tick/10 
-        debug("new x: " + new_x)
         this.curr.x = min(bump_target.x, new_x)
         tick -= 48
-        // curr.update()
       else 
-        debug("dropping current")
         this.curr.target = bump_target
         step = 1.5
       end
@@ -61,8 +70,8 @@ BumpRightSpecial = class
     
     if step == 1.5 then
       if curr.at_target() then
+        board.remove_words_using_cell(target)
         state = 2
-        // board.remove_words_using_cell(target)        
       end
       curr.update()
     end
@@ -70,7 +79,15 @@ BumpRightSpecial = class
   
   draw = function()
     if state == 0 then
-      screen.drawSprite("special_bump_right", x, y, w, h)
+      
+      local sprite = "special_bump_right"
+      
+      if not enabled then
+        sprite += "_disabled"
+      end
+      
+      screen.drawSprite(sprite, x, y, w, h)  
+      
     elsif state < 2 then
       curr.draw()
     end
@@ -104,6 +121,10 @@ BombSpecial = class
     false
   end  
   
+  set_enabled = function()
+    true
+  end
+  
   update = function()
     if enabled and target != null then
       y = max(target.y, y+tick/10)
@@ -119,7 +140,6 @@ BombSpecial = class
         target.clear()
         state = 2
       end
-        
     end
     
   end  

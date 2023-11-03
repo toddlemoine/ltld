@@ -129,6 +129,8 @@ Current = class
         
         if not letter.special then
           letter.enabled = board.column_is_open(col-1)
+        else
+          letter.set_enabled(col-1)
         end
                 
         if invert and count > 0 then
@@ -151,10 +153,13 @@ Current = class
 
         letter.x = x_offset-cell_size*(cols-col-count)
         letter.y = y
-        if not letter.special then
+        
+        if letter.special then
+          letter.set_enabled(col)
+        else
           letter.enabled = board.column_is_open(col-1)
         end
-        
+                
         if invert then
           if count > 0 then
             letter.x = x_offset-cell_size*(cols-col+count)
