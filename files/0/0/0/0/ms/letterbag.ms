@@ -61,10 +61,13 @@ fill_bag = function(size)
     end
   end
   
-  // Add Specials, same freq as T
-  local bomb_freq = max(1, round(size*letter_freq.E*2))
-  for i = 1 to bomb_freq
+  // Add Specials, same freq as A
+  local special_modifer = 1.185
+  local special_freq = max(1, round(size*letter_freq.A*special_modifer))
+  for i = 1 to special_freq
+    bag.push("@")
     bag.push("<")
+    bag.push(">")
   end
   
   for i = 1 to size
@@ -85,8 +88,12 @@ Letterbag = class
     bag.length == 0
   end
   
-  next = function()
-    bag.removeAt(random.nextInt(bag.length)).split("")
+  next = function(current_pieces)
+    local drawn = bag.removeAt(random.nextInt(bag.length)).split("")
+    if current_pieces.includes(drawn) then
+      return this.next(current_pieces)
+    end
+    drawn
   end
   
 end

@@ -45,7 +45,7 @@ Player = class
   
   fill = function() 
     for i = 1 to max_player_pieces-pieces.length
-      pieces.push(letter_bag.next())
+      pieces.push(letter_bag.next(pieces))
     end
   end
   
