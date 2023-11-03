@@ -20,6 +20,9 @@ Current = class
       if letter == "@" then 
         cells.push(new BombSpecial(0, y))
         allow_rotate = false
+      elsif letter == "<" then 
+        cells.push(new BumpLeftSpecial(0, y))
+        allow_rotate = false
       elsif letter == ">" then 
         cells.push(new BumpRightSpecial(0, y))
         allow_rotate = false
@@ -106,6 +109,7 @@ Current = class
       if invert then
         letter.target = board.drop_target_for(col-count, letter.char)
       else
+        debug("letter.special " + letter.special)
         if letter.special then
           letter.target = board.drop_target_for_special(col+count)
         else

@@ -24,7 +24,6 @@ Tray = class
 
     local half_cell = cell_size/2
     local pieces_width = (total_chars+pieces.length-1)*cell_size
-    // debug("pieces_width", total_chars)
     local x = -pieces_width/2 + (half_cell*pieces.length)/2
     
     // Do the layout
@@ -35,11 +34,15 @@ Tray = class
       end
 
       local char_count = 0
-      
+
+      // ******************
+      // Specials
+      // ******************
       for char in piece
-        // letter_x = x+(char_count*cell_size)
         if char == "@" then
           new BombSpecial(x, y+40).draw()
+        elsif char == "<" then
+          new BumpLeftSpecial(x, y+40).draw()
         elsif char == ">" then
           new BumpRightSpecial(x, y+40).draw()
         else
