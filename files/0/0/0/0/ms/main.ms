@@ -159,8 +159,11 @@ update_flash_words = function()
 end
 
 draw_score = function()
-  text = "WORDS: " + current_player().word_count() + " / SCORE: " + current_player().score()
-  screen.drawText(text, 0, -screen.height/2+12, 17, black)
+  screen.drawText("WORDS", -screen.width/2+20, screen.height/2-6, 12, black)
+  screen.drawText(current_player().word_count(), -screen.width/2+20, screen.height/2-20, 20, black)
+  
+  screen.drawText("SCORE", screen.width/2-20, screen.height/2-6, 12, black)
+  screen.drawText(current_player().score(), screen.width/2-20, screen.height/2-20, 20, black)
 end
 
 draw_game_over = function()
