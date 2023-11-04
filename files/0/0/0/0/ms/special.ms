@@ -47,7 +47,7 @@ BumpLeftSpecial = class
         return
       end
       
-      this.curr = new Letter(target.char, cell_size, x, y)
+      curr = new Letter(target.char, cell_size, x, y)
       local target_col = max(target.col, 1)
       bump_target = board.drop_target_for(target_col)
 
@@ -59,10 +59,10 @@ BumpLeftSpecial = class
     if state == 1 then
       if bump_target.x < curr.x then
         local new_x = curr.x+tick/10 
-        this.curr.x = max(bump_target.x, new_x)
+        curr.x = max(bump_target.x, new_x)
         tick -= 48
       else 
-        this.curr.target = bump_target
+          curr.target = bump_target
         step = 1.5
       end
     end
@@ -137,16 +137,14 @@ BumpRightSpecial = class
     if state == 0 and at_target() then
       
       if at_bottom() then
-        debug("at bottom, state is 2")
         state = 2
         target.targeted = false
         return
       end
       
       this.curr = new Letter(target.char, cell_size, x, y)
-      local target_col = min(target.col+2, cols-1)
-      
-      bump_target = board.drop_target_for(target_col)
+      local letter_target_col = min(target.col+1, cols-1)
+      bump_target = board.drop_target_for(letter_target_col+1)
 
       target.bump()
       tick = 0
