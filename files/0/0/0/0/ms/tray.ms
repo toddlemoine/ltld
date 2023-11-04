@@ -3,9 +3,10 @@ Tray = class
   x = null
   y = null
   
-  constructor = function(x, y)
+  constructor = function(x, offset)
     this.x = x
-    this.y = y
+    this.y = -(screen.height/2)+offset
+    this.offset = offset
   end
   
   draw_selection = function(start_x, start_y, end_x, end_y)
@@ -40,13 +41,13 @@ Tray = class
       // ******************
       for char in piece
         if char == "@" then
-          new BombSpecial(x, y+40).draw()
+          new BombSpecial(x, y).draw()
         elsif char == "<" then
-          new BumpLeftSpecial(x, y+40).draw()
+          new BumpLeftSpecial(x, y).draw()
         elsif char == ">" then
-          new BumpRightSpecial(x, y+40).draw()
+          new BumpRightSpecial(x, y).draw()
         else
-          new Letter(char, cell_size, x, y+40).draw()
+          new Letter(char, cell_size, x, y).draw()
         end
         
         x += cell_size
@@ -57,7 +58,7 @@ Tray = class
 
       // Draw selection
       if selected_piece == piece_pos.length-1 then
-        line_y = piece_y+half_cell+3
+        line_y = -offset+half_cell+6
         line_x1 = pos.x1-half_cell
         line_x2 = pos.x2-half_cell
         draw_selection(line_x1, line_y, line_x2, line_y)

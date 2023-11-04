@@ -7,7 +7,6 @@ init = function()
   game_over = false
   
   flash_words = []
-  piece_y = -90 // y offset for piece tray
   selected_piece = 0 // selected piece  
   specials_used = 0
   max_player_pieces = 4
@@ -16,7 +15,7 @@ init = function()
   dict = new Dictionary()
   board = new Board(rows, cols, cell_size) 
   letter_bag = new Letterbag(cols*rows)
-  tray = new Tray(0, -(screen.height/2)+45)
+  tray = new Tray(0, 90)
   curr = new Current(0, 140)
   
   // Set up players
@@ -103,6 +102,8 @@ draw = function()
   
   if screen.isFontReady(font_board) then  
     board.draw(80)
+    
+    draw_controls()
     
     // Letter drawing
     curr.draw()
