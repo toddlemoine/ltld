@@ -87,7 +87,7 @@ has_empty_space = function(coll)
 end
 
 shadow_text = function(text, x, y, size=12, color=black)
-  screen.drawText(text, x+1, y-1, size, black)  
-  screen.drawText(text, x, y, size, blue)    
+  screen.drawText(text, x+0.5, y-0.5, size, black)  
+  screen.drawText(text, x, y, size, color)    
 end
 
