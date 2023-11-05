@@ -23,12 +23,14 @@ Player = class
   end
   
   add_results = function(latest)
+    debug("player.addResults " + pick(latest, "word"))
     for x in latest
       results[x.word] = x
     end
   end
   
   remove_results = function(removals)
+    debug("player.removeResults " + removals)
     for x in removals
       results[x] = undefined
     end

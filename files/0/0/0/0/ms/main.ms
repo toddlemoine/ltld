@@ -37,6 +37,7 @@ update = function()
   
   update_flash_words()
 
+  // Selecting a piece to drop
   if curr.is_pending() then
     if controls.left() then
       piece_move_left()
@@ -51,7 +52,8 @@ update = function()
   else
     
     if not curr.dropping then
-
+      
+      // Moving into position to drop
       if controls.left() then
         curr.move_left()
         
@@ -73,8 +75,6 @@ update = function()
     curr.update()
 
     if curr.done then
-      current_player().add_results(board.latest_results)
-      current_player().remove_results(board.latest_removed_results)
       board.update()
       
       debug("TOTAL WORDS: " + board.words_used())

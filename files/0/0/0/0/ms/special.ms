@@ -52,6 +52,10 @@ BumpLeftSpecial = class
       if at_bottom() then
         state = 2
         target.targeted = false
+        target.explode()
+        after 0.75 seconds do
+          target.clear()
+        end        
         return
       end
       
@@ -147,6 +151,10 @@ BumpRightSpecial = class
       if at_bottom() then
         state = 2
         target.targeted = false
+        target.explode()
+        after 0.75 seconds do
+          target.clear()
+        end        
         return
       end
       
@@ -253,3 +261,5 @@ BombSpecial = class
   end
     
 end
+
+

@@ -167,6 +167,8 @@ Board = class
     // Set on the instance
     latest_results = add_results(_results)
     
+    current_player().add_results(latest_results)
+    
     for w in pick(latest_results, "word")
       flash_words.push(new FlashWord(w, 90))
     end
@@ -192,6 +194,8 @@ Board = class
         latest_removed_results.push(r)
       end
     end
+
+    current_player().remove_results(latest_removed_results)
   end
   
   add_results = function(latest)
