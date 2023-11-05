@@ -39,9 +39,9 @@ Cell = class
   
   draw = function()
     local colors = object
-      bg = white
-      text = black
-      border = black
+      bg = theme.cell_bg
+      text = theme.cell_text
+      border = theme.cell_border
     end
 
     if state == 1 then

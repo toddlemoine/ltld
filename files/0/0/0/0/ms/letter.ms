@@ -39,9 +39,9 @@ Letter = class
   
   draw = function()
     local colors = object
-      bg = white
-      text = black
-      border = black
+      bg = theme.cell_bg
+      text = theme.cell_text
+      border = theme.cell_border
     end
 
     if selected then
@@ -50,8 +50,8 @@ Letter = class
     end
     
     if not enabled then
-      colors.bg = light_gray
-      colors.text = gray
+      colors.bg = theme.cell_bg_disabled
+      colors.text = theme.cell_text_disabled
     end
     
     screen.drawRect(x, y, size, size, colors.border)

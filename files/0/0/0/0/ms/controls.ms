@@ -36,7 +36,7 @@ MoveControl = class
     c.x3 = c.x1 
     c.y3 = c.y1 - w
     
-    local color = black
+    local color = theme.move_control
     if hovered() and touch.press then color = gray end
     screen.fillPolygon(c.x1, c.y1, c.x2, c.y2, c.x3, c.y3, color)
   end

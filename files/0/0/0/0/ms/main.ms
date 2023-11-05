@@ -5,6 +5,7 @@ init = function()
   rows = 7
   cell_size = 20
   game_over = false
+  theme = themes.light
   
   flash_words = []
   selected_piece = 0 // selected piece  
@@ -90,7 +91,7 @@ update = function()
 end
 
 draw = function()
-  screen.clear(game_bg)
+  screen.clear(theme.game_bg)
   screen.setFont(font_board)
   
   if screen.isFontReady(font_board) then  
@@ -161,11 +162,11 @@ update_flash_words = function()
 end
 
 draw_score = function()
-  screen.drawText("WORDS", -screen.width/2+20, screen.height/2-6, 12, black)
-  screen.drawText(current_player().word_count(), -screen.width/2+20, screen.height/2-20, 20, black)
+  screen.drawText("WORDS", -screen.width/2+20, screen.height/2-6, 12, theme.score_text)
+  screen.drawText(current_player().word_count(), -screen.width/2+20, screen.height/2-20, 20, theme.score_text)
   
-  screen.drawText("SCORE", screen.width/2-20, screen.height/2-6, 12, black)
-  screen.drawText(current_player().score(), screen.width/2-20, screen.height/2-20, 20, black)
+  screen.drawText("SCORE", screen.width/2-20, screen.height/2-6, 12, theme.score_text)
+  screen.drawText(current_player().score(), screen.width/2-20, screen.height/2-20, 20, theme.score_text)
 end
 
 draw_game_over = function()
