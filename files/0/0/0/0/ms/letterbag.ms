@@ -27,7 +27,7 @@ letter_freq = object
   Q = 0.001965
 end
 
-two_char_morphemes = ("ab ad bi con de en ex in " +
+two_char_morphemes = ("ab ad bi de en ex in " +
 "ob re se un " +
 "al ar er ic " +
 "st ty ve ze ly or ry th").split(" ")
@@ -89,11 +89,23 @@ Letterbag = class
   end
   
   next = function(current_pieces)
-    local drawn = bag.removeAt(random.nextInt(bag.length)).split("")
-    if current_pieces.includes(drawn) then
-      return this.next(current_pieces)
+    local num_specials = 0
+    
+    for p in current_pieces
+      if specials_list.includes(p.join("")) then
+        num_specials += 1
+      end
     end
-    drawn
+    
+    local allow_specials = num_specials <= max_specials
+    local drawn = bag.removeAt(random.nextInt(bag.length))
+
+    if specials_list.includes(drawn) and not allow_specials then 
+      bag.insertAt(drawn, random.nextInt(bag.length))
+      return this.next(current_pieces) 
+    end
+
+    drawn.split("")
   end
   
 end

@@ -12,10 +12,7 @@ game_bg = "rgb(255,255,255)"
 font_score = "bitcell"
 font_board = "bitcell"
 
-specials = object
-  bomb = "special_bomb"
-  boop = "special_boop"
-end
+
 
 themes = object
   light = object

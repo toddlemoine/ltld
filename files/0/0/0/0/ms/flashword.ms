@@ -17,7 +17,6 @@ FlashWord = class
   draw = function(delay)
     if not done then
       screen.setAlpha(alpha)
-      // screen.drawText(word, x, y, 24, red)
       shadow_text(word, x, y, 24, red)
       screen.setAlpha(1)
     end

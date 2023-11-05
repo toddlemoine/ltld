@@ -11,6 +11,7 @@ init = function()
   selected_piece = 0 // selected piece  
   specials_used = 0
   max_player_pieces = 4
+  max_specials = 2
   
   // Set up playing area
   dict = new Dictionary()

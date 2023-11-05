@@ -1,3 +1,11 @@
+specials = object
+  "@" = BombSpecial
+  "<" = BumpLeftSpecial
+  ">" = BumpRightSpecial
+end
+
+specials_list = "@<>".split("")
+
 BumpLeftSpecial = class
   special = true
   
