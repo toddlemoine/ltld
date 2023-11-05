@@ -18,6 +18,12 @@ init = function()
   tray = new Tray(0, 90)
   curr = new Current(0, 140)
   
+  // Mobile and mouse controls
+  control_move_left = new MoveControl(-screen.width/2+50, -(screen.height/2)+45, true)
+  control_move_right = new MoveControl(-screen.width/2+60, -(screen.height/2)+45, false)
+  control_rotate = new SelectControl(screen.width/2-75, -(screen.height/2)+30, gray)
+  control_select = new SelectControl(screen.width/2-35, -(screen.height/2)+30, red)
+  
   // Set up players
   curr_player = 0
   players = [new Player()]
@@ -32,19 +38,13 @@ update = function()
   update_flash_words()
 
   if curr.is_pending() then
-    if keyboard.press.LEFT then
+    if controls.left() then
       piece_move_left()
       
-    elsif keyboard.press.RIGHT then
+    elsif controls.right() then
       piece_move_right()
 
-    elsif keyboard.press.DOWN then
-      piece_move_down()
-
-    elsif keyboard.press.UP then
-      piece_move_up()
-  
-    elsif keyboard.press.ENTER then
+    elsif controls.select() then
       curr.set_pieces(current_player().select(selected_piece))
     end
     
@@ -52,20 +52,19 @@ update = function()
     
     if not curr.dropping then
 
-      // Something is selected. Move and drop.
-      if keyboard.press.LEFT then
+      if controls.left() then
         curr.move_left()
         
-      elsif keyboard.press.RIGHT then
+      elsif controls.right() then
         curr.move_right()
     
-      elsif keyboard.press.UP then
+      elsif controls.up() then
         curr.rotate()
 
-      elsif keyboard.press.DOWN then
+      elsif controls.down() then
         curr.rotate(true)
         
-      elsif keyboard.press.ENTER then
+      elsif controls.select() then
         curr.drop()
       end
 
@@ -104,6 +103,10 @@ draw = function()
     board.draw(80)
     
     draw_controls()
+    control_move_left.draw()
+    control_move_right.draw()
+    control_rotate.draw()
+    control_select.draw()
     
     // Letter drawing
     curr.draw()
@@ -127,6 +130,14 @@ draw = function()
     end
     
   end
+end
+
+controls = object
+  left = function() keyboard.press.A or keyboard.press.LEFT or control_move_left.pressed() end
+  right = function() keyboard.press.D or keyboard.press.RIGHT or control_move_right.pressed() end
+  up = function() keyboard.press.W or keyboard.press.UP or control_rotate.pressed() end
+  down = function() keyboard.press.S or keyboard.press.DOWN end
+  select = function() keyboard.press.SPACE or keyboard.press.ENTER or control_select.pressed() end
 end
 
 current_player = function()
