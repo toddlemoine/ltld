@@ -28,8 +28,6 @@ init = function()
   curr_player = 0
   players = [new Player()]
 
-  reset = new Button("Reset", -80, -167, 35, 15)
-  
 end
 
 update = function()
@@ -89,10 +87,6 @@ update = function()
     
   end
   
-  if reset.pressed() then
-    reset_game()
-  end
-  
 end
 
 draw = function()
@@ -102,11 +96,10 @@ draw = function()
   if screen.isFontReady(font_board) then  
     board.draw(80)
     
-    draw_controls()
-    control_move_left.draw()
     control_move_right.draw()
     control_rotate.draw()
     control_select.draw()
+    control_move_left.draw()
     
     // Letter drawing
     curr.draw()
@@ -122,9 +115,6 @@ draw = function()
       fw.draw(index) 
     end)
 
-    // Reset
-    // reset.draw()
-    
     if game_over then
       draw_game_over()
     end
