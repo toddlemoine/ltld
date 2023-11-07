@@ -60,17 +60,20 @@ fill_bag = function(size)
       bag.push(letter) 
     end
   end
+
+  // Add Specials  
+  local special_freq = max(1, round(size*letter_freq[special_freq_letter]*special_freq_modifier))
   
-  // Add Specials, same freq as A
-  local special_modifer = 1.185
-  local special_freq = max(1, round(size*letter_freq.A*special_modifer))
+  local scount = 0
   for i = 1 to special_freq
-    bag.push("@")
-    bag.push("<")
-    bag.push(">")
+    scount += 1
+    bag.push(specials_list[random.nextInt(specials_list.length)])
   end
   
-  for i = 1 to size
+  debug("Specials added: " + scount +" (out of "+ size +")")
+  
+  // Add morphemes
+  for i = 1 to size*morphemes_modifier
     bag.push(morphemes[random.nextInt(morphemes.length)].toUpperCase())
   end
   
@@ -79,7 +82,7 @@ end
 
 Letterbag = class
   constructor = function(size)
-    this.bag = fill_bag(size)
+    this.bag = fill_bag(size*2)
   end
   
   bag = []

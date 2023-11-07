@@ -1,17 +1,21 @@
 init = function()
   DEBUGGER = true
-  
+
+  // Settings
   cols = 5
   rows = 7
   cell_size = 20
-  game_over = false
   theme = themes.light
+  max_player_pieces = 4
+  max_specials = 2
+  special_freq_letter = "A"
+  special_freq_modifier =  2
+  morphemes_modifier = 0.5
   
   flash_words = []
   selected_piece = 0 // selected piece  
   specials_used = 0
-  max_player_pieces = 4
-  max_specials = 2
+  game_over = false
   
   // Set up playing area
   dict = new Dictionary()
