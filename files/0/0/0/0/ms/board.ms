@@ -18,6 +18,18 @@ Board = class
     end
   end
   
+  toJSON = function()
+    local result = []
+    for row in grid
+      local r = []
+      for cell in row
+        r.push(cell.toJSON())
+      end
+      result.push(r)
+    end
+    result
+  end
+  
   update = function()
     for r in results
       for cell in results[r].cells

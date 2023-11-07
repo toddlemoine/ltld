@@ -5,8 +5,8 @@ init = function()
   rows = 7
   cell_size = 20
   game_over = false
-  theme = themes.light
-  
+  theme = themes.dark
+
   flash_words = []
   selected_piece = 0 // selected piece  
   specials_used = 0
@@ -17,14 +17,14 @@ init = function()
   dict = new Dictionary()
   board = new Board(rows, cols, cell_size) 
   letter_bag = new Letterbag(cols*rows)
-  tray = new Tray(0, 90)
+  tray = new Tray(0, 92)
   curr = new Current(0, 140)
   
   // Mobile and mouse controls
-  control_move_left = new MoveControl(-screen.width/2+50, -(screen.height/2)+45, true)
-  control_move_right = new MoveControl(-screen.width/2+60, -(screen.height/2)+45, false)
-  control_rotate = new SelectControl(screen.width/2-75, -(screen.height/2)+30, gray)
-  control_select = new SelectControl(screen.width/2-35, -(screen.height/2)+30, red)
+  control_move_left = new MoveControl(-screen.width/2+50, -(screen.height/2)+55, true)
+  control_move_right = new MoveControl(-screen.width/2+60, -(screen.height/2)+55, false)
+  control_rotate = new SelectControl(screen.width/2-75, -(screen.height/2)+40, gray)
+  control_select = new SelectControl(screen.width/2-35, -(screen.height/2)+40, red)
   
   // Set up players
   curr_player = 0
@@ -33,7 +33,10 @@ init = function()
 end
 
 update = function()
-  if game_over then return end
+  if game_over then 
+    showGameOver(current_player().words(), board.toJSON()) 
+    return 
+  end
   
   update_flash_words()
 
@@ -82,6 +85,7 @@ update = function()
       
       if board.filled() then
         game_over = true
+        
       else
         next_round()  
       end

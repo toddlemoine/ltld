@@ -4,12 +4,18 @@ Cell = class
     this.row = row
     this.size = size
     this.char = char
-    this.selected = false
     this.x = 0
     this.y = 0
     this.targeted = false
     // 0=normal, 1=selected, 2=exploding
     this.state = 0 
+  end
+  
+  toJSON = function()
+    object
+      char = char
+      selected = state == 1
+    end
   end
   
   clear = function()

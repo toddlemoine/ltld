@@ -70,7 +70,7 @@ fill_bag = function(size)
     bag.push(">")
   end
   
-  for i = 1 to size
+  for i = 1 to size/3
     bag.push(morphemes[random.nextInt(morphemes.length)].toUpperCase())
   end
   
@@ -97,7 +97,7 @@ Letterbag = class
       end
     end
     
-    local allow_specials = num_specials <= max_specials
+    local allow_specials = num_specials < max_specials
     local drawn = bag.removeAt(random.nextInt(bag.length))
 
     if specials_list.includes(drawn) and not allow_specials then 
