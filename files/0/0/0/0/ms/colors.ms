@@ -12,7 +12,10 @@ game_bg = "rgb(255,255,255)"
 font_score = "bitcell"
 font_board = "bitcell"
 
-
+modes = object
+  daily = 0
+  free = 1
+end
 
 themes = object
   light = object

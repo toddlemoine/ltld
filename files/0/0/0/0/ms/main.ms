@@ -1,6 +1,6 @@
 init = function()
   DEBUGGER = true
-
+  
   // Settings
   cols = 5
   rows = 7
@@ -11,18 +11,14 @@ init = function()
   special_freq_letter = "A"
   special_freq_modifier =  2
   morphemes_modifier = 0.5
-  
-  flash_words = []
-  selected_piece = 0 // selected piece  
-  specials_used = 0
-  game_over = false
+  mode = modes.daily
   
   // Set up playing area
   dict = new Dictionary()
   board = new Board(rows, cols, cell_size) 
-  letter_bag = new Letterbag(cols*rows)
   tray = new Tray(0, 90)
   curr = new Current(0, 140)
+  letter_bag = new Letterbag(cols*rows)
   
   // Mobile and mouse controls
   control_move_left = new MoveControl(-screen.width/2+50, -(screen.height/2)+45, true)
@@ -33,6 +29,22 @@ init = function()
   // Set up players
   curr_player = 0
   players = [new Player()]
+
+  // Game state
+  flash_words = []
+  selected_piece = 0 // selected piece  
+  specials_used = 0
+  game_over = false
+  assets_loaded = false
+  
+  // For daily mode, we need to load the daily data
+  // and use it to generate the letterbag.
+  if mode == modes.daily then
+    loader = asset_manager.loadJSON(daily_path(), function(daily)
+      letter_bag = new Letterbag(cols*rows, daily)
+    end)  
+  end
+  
 
 end
 
