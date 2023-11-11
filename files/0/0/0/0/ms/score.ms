@@ -17,7 +17,7 @@ find_words_in_row = function(row, col_index)
         words_found.push(result)
       end
 
-      debug("word at. start, word leng", i +","+ word_len)
+      // debug("word at. start, word leng", i +","+ word_len)
       debug(pick(reverse(row), "char"))
       result = word_at(reverse(row), i-1, word_len)
       
@@ -77,7 +77,7 @@ word_at = function(coll, start_index, word_len, invert_order=false)
   end
   
   letters = slice(coll, start_index, start_index+word_len-1)  
-  debug("letters", pick(letters, "char"))
+  // debug("letters", pick(letters, "char"))
   
   if letters and has_empty_space(letters) == false then
     chars = []
