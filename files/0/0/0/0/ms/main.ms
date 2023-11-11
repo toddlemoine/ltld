@@ -158,6 +158,7 @@ draw = function()
 
     if game_over then
       draw_game_over()
+      draw_share()
     end
     
   end
@@ -256,7 +257,8 @@ draw_daily_words = function()
   end
     
   local x = -screen.width/2+24
-  local y = 50
+  local y = 40
+  screen.drawText("DAILY", x, y+12, 12, theme.score_text)
   screen.drawText("BONUS", x, y, 12, theme.score_text)
   
   screen.drawText(daily_words[0], x, y-14, 12, results[0])
@@ -267,9 +269,23 @@ end
 
 
 draw_game_over = function()
-  screen.drawText("Game Over", 2, -2, 35, black)
-  screen.drawText("Game Over", 0, 0, 35, blue)
+  local y = screen.height/2-42
+  local size = 36
+  screen.drawText("GAME OVER", 2, y-2, size, black)
+  screen.drawText("GAME OVER", 0, y, size, blue)
 end
 
+draw_share = function()
+  local x = -screen.width/2 + 44
+  local y = screen.height/2-70
+  screen.fillRoundRect(x, y-2, 70, 20, 25, black)
+  screen.fillRoundRect(x, y, 70, 20, 25, blue)
+  screen.drawText("Share", x, y+2, 18, white)
 
+  local x = screen.width/2 - 60
+  local y = screen.height/2-70
+  screen.fillRoundRect(x, y-2, 103, 20, 25, black)
+  screen.fillRoundRect(x, y, 103, 20, 25, blue)
+  screen.drawText("Play again?", x, y+2, 18, white)
+end
 
