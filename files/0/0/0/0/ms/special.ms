@@ -163,6 +163,7 @@ BumpRightSpecial = class
         after 0.75 seconds do
           target.clear()
         end      
+        return
       end
       
       local letter_target_col = min(target.col+1, cols-1)

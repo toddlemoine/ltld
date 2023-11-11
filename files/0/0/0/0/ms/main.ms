@@ -48,10 +48,10 @@ init = function()
       daily_words = daily.words
       dict.add_words(daily.words)
       
-      // daily.bag = "MA<>FSDFSFSDFS"
-      // daily.words = []
+      daily.bag = "MA<>FSDFSFSDFS"
+      daily.words = []
       
-      letter_bag = new DailyLetterbag(daily, false)
+      letter_bag = new DailyLetterbag(daily, true)
       init_players()
       ready = true
     end)  
