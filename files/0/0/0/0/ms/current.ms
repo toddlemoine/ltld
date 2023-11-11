@@ -80,16 +80,11 @@ Current = class
   end
   
   drop = function()
-    // Check first if we can drop
-    if any(cells, function(cell) cell.enabled end) then
-      dropping = true
-      if pos == 1 then drop_horiz(cells)
-      elsif pos == 2 then drop_vert(reverse(cells))
-      elsif pos == 3 then drop_horiz(cells, true)
-      elsif pos == 4 then drop_vert(cells)
-      end
-    else
-      debug("cannot drop")
+    dropping = true
+    if pos == 1 then drop_horiz(cells)
+    elsif pos == 2 then drop_vert(reverse(cells))
+    elsif pos == 3 then drop_horiz(cells, true)
+    elsif pos == 4 then drop_vert(cells)
     end
   end
   
@@ -158,9 +153,7 @@ Current = class
         letter.x = x_offset-cell_size*(cols-col-count)
         letter.y = y
         
-        if letter.special then
-          letter.set_enabled(col)
-        else
+        if not letter.special then
           letter.enabled = board.column_is_open(col-1)
         end
                 

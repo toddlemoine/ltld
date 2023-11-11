@@ -7,7 +7,8 @@ Cell = class
     this.x = 0
     this.y = 0
     this.targeted = false
-    // 0=normal, 1=selected, 2=exploding
+    this.tick = 0
+    // 0=normal, 1=selected, 2=exploding, 3=wiggling
     this.state = 0 
   end
   
@@ -36,6 +37,10 @@ Cell = class
     char = " "
     state = 2
   end
+  
+  wiggle = function()
+    state = 3
+  end
 
   bump = function()
     char = " "
@@ -57,11 +62,20 @@ Cell = class
 
     screen.drawRect(x, y, size, size, colors.border)
     screen.fillRect(x, y, size-1, size-1, colors.bg)
-    screen.drawText(char, x, y, cell_size-2, colors.text)
+    text_x = x
+    
+    if state == 3 then
+      text_x = x + cos(tick)
+      tick += .75
+    end
+    
+    screen.drawText(char, text_x, y, cell_size-2, colors.text)
     
     if state == 2 then
       screen.drawSprite("explosion", x, y, size, size)
     end
+    
+    
   end
 
 end

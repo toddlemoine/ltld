@@ -17,7 +17,6 @@ BumpLeftSpecial = class
     this.target = null
     this.bump_target = null
     this.tick = 0
-    this.enabled = true
     this.state = 0 //0=default,1=bumping,1.5=dropping,2=done
     this.curr = null
   end
@@ -26,6 +25,10 @@ BumpLeftSpecial = class
     state == 2
   end
   
+  at_top = function()
+    target == board.grid[0][target.col]
+  end
+
   at_bottom = function()
     target.char == " " and target == board.grid[rows-1][target.col]
   end
@@ -37,12 +40,8 @@ BumpLeftSpecial = class
     false
   end  
   
-  set_enabled = function(col)
-    enabled = col != 1
-  end
-  
   update = function()
-    if enabled and target != null then
+    if target != null and target != -1 then
       y = max(target.y, y+tick/10)
       tick -= 48
     end
@@ -59,22 +58,41 @@ BumpLeftSpecial = class
         return
       end
       
-      curr = new Letter(target.char, cell_size, x, y)
       local target_col = max(target.col, 1)
-      bump_target = board.drop_target_for(target_col)
-
-      target.bump()
-      tick = 0
-      state = 1
+      
+      if target_col == target.col then
+        target.wiggle()
+        after 0.5 seconds do
+          target.off()
+        end         
+        state = 2
+      else
+        bump_target = board.drop_target_for(target_col)
+        
+        if bump_target == -1 then
+          target.wiggle()
+          after 0.5 seconds do
+            target.off()
+          end                   
+          state = 2
+        else
+          curr = new Letter(target.char, cell_size, x, y)
+          target.bump()
+          tick = 0
+          state = 1
+        end
+      end
+      
     end
     
     if state == 1 then
+
       if bump_target.x < curr.x then
         local new_x = curr.x+tick/10 
         curr.x = max(bump_target.x, new_x)
         tick -= 48
       else 
-          curr.target = bump_target
+        curr.target = bump_target
         step = 1.5
       end
     end
@@ -92,10 +110,6 @@ BumpLeftSpecial = class
     if state == 0 then
       
       local sprite = "special_bump_left"
-      
-      if not enabled then
-        sprite += "_disabled"
-      end
       
       screen.drawSprite(sprite, x, y, w, h)  
       
@@ -116,7 +130,6 @@ BumpRightSpecial = class
     this.target = null
     this.bump_target = null
     this.tick = 0
-    this.enabled = true
     this.state = 0 //0=default,1=bumping,1.5=dropping,2=done
     this.curr = null
   end
@@ -136,12 +149,8 @@ BumpRightSpecial = class
     false
   end  
   
-  set_enabled = function(col)
-    enabled = col != cols
-  end
-  
   update = function()
-    if enabled and target != null then
+    if target != null then
       y = max(target.y, y+tick/10)
       tick -= 48
     end
@@ -154,20 +163,45 @@ BumpRightSpecial = class
         target.explode()
         after 0.75 seconds do
           target.clear()
-        end        
-        return
+        end      
       end
       
-      this.curr = new Letter(target.char, cell_size, x, y)
       local letter_target_col = min(target.col+1, cols-1)
-      bump_target = board.drop_target_for(letter_target_col+1)
-
-      target.bump()
-      tick = 0
-      state = 1
+    
+      if letter_target_col == target.col then
+        target.wiggle()
+        after 0.5 seconds do
+          target.off()
+        end         
+        state = 2
+      else
+        bump_target = board.drop_target_for(letter_target_col+1)
+      
+        if bump_target == -1 then
+          target.wiggle()
+          after 0.5 seconds do
+            target.off()
+          end         
+          state = 2
+        else
+          this.curr = new Letter(target.char, cell_size, x, y)
+          target.bump()
+          tick = 0
+          state = 1
+        end        
+      end
     end
     
     if state == 1 then
+      if bump_target == -1 then
+        target.targeted = false
+        target.explode()
+        after 0.75 seconds do
+          target.clear()
+        end        
+        step = 2 
+      end
+      
       if bump_target.x > curr.x then
         local new_x = curr.x-tick/10 
         this.curr.x = min(bump_target.x, new_x)
@@ -189,15 +223,8 @@ BumpRightSpecial = class
   
   draw = function()
     if state == 0 then
-      
       local sprite = "special_bump_right"
-      
-      if not enabled then
-        sprite += "_disabled"
-      end
-      
       screen.drawSprite(sprite, x, y, w, h)  
-      
     elsif state < 2 then
       curr.draw()
     end
@@ -216,7 +243,6 @@ BombSpecial = class
     this.y = y
     this.target = null
     this.tick = 0
-    this.enabled = true
     this.state = 0 //0=default,1=exploded,2=done
   end
   
@@ -231,12 +257,8 @@ BombSpecial = class
     false
   end  
   
-  set_enabled = function()
-    true
-  end
-  
   update = function()
-    if enabled and target != null then
+    if target != null then
       y = max(target.y, y+tick/10)
       tick -= 48
     end
