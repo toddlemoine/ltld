@@ -14,8 +14,8 @@ font_score = "bitcell"
 font_board = "bitcell"
 
 modes = object
-  daily = 0
-  free = 1
+  daily = "0"
+  free = "1"
 end
 
 defaults = object

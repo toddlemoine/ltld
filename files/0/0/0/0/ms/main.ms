@@ -48,10 +48,10 @@ init = function()
       daily_words = daily.words
       dict.add_words(daily.words)
       
-      daily.bag = "MA<>FSDFSFSDFS"
-      daily.words = []
+      // daily.bag = "MA<>FSDFSFSDFS"
+      // daily.words = []
       
-      letter_bag = new DailyLetterbag(daily, true)
+      letter_bag = new DailyLetterbag(daily, false)
       init_players()
       ready = true
     end)  
@@ -253,18 +253,13 @@ draw_daily_words = function()
     results.push(color)
   end
     
-  // screen.drawText(daily_words[0], -(widths.w1+widths.w2+widths.sp+widths.sp)/2, screen.height/2-6, 12, results[0])
-  // screen.drawText(daily_words[1], 0, screen.height/2-6, 12, results[1])
-  // screen.drawText(daily_words[2], (total+widths.sp-widths.w3)/2, screen.height/2-6, 12, results[2])  
-
-  local x = -screen.width/2+20
-  screen.drawText("BONUS", x, screen.height/2-40, 12, theme.score_text)
+  local x = -screen.width/2+24
+  local y = 50
+  screen.drawText("BONUS", x, y, 12, theme.score_text)
   
-  screen.drawText(daily_words[0], x, screen.height/2-54, 12, results[0])
-  screen.drawText(daily_words[1], x, screen.height/2-68, 12, results[1])
-  screen.drawText(daily_words[2], x, screen.height/2-82, 12, results[2])  
-
-
+  screen.drawText(daily_words[0], x, y-14, 12, results[0])
+  screen.drawText(daily_words[1], x, y-28, 12, results[1])
+  screen.drawText(daily_words[2], x, y-42, 12, results[2])  
 
 end
 
