@@ -18,7 +18,7 @@ init = function()
   // Set up playing area
   dict = new Dictionary()
   board = new Board(rows, cols, cell_size) 
-  tray = new Tray(0, 90)
+  tray = new Tray(0, 85)
   curr = new Current(0, 140)
   letter_bag = new Letterbag(cols*rows)
   daily_words = []
@@ -28,6 +28,9 @@ init = function()
   control_move_right = new MoveControl(-screen.width/2+60, -(screen.height/2)+45, false)
   control_rotate = new SelectControl(screen.width/2-75, -(screen.height/2)+30, gray)
   control_select = new SelectControl(screen.width/2-35, -(screen.height/2)+30, red)
+
+  share = new Button("Share", 70, -screen.width/2 + 44, screen.height/2-73)
+  play_again = new Button("Play again?", 103, screen.width/2 - 60, screen.height/2-73)
   
   // Set up players
   curr_player = 0
@@ -68,7 +71,12 @@ end
 
 update = function()
   if not ready then return end
-  if game_over then return end
+
+  if game_over then 
+    if share.pressed() then debug("share pressed") end
+    if play_again.pressed() then debug("play again pressed") end
+    return 
+  end
   
   update_flash_words()
 
@@ -131,7 +139,7 @@ draw = function()
   screen.setFont(font_board)
   
   if ready and screen.isFontReady(font_board) then  
-    board.draw(80)
+    board.draw(72)
     
     control_move_right.draw()
     control_rotate.draw()
@@ -240,7 +248,7 @@ draw_played_words = function()
   local x = screen.width/2-24
   local i = 1
   for w in current_player().words()
-    screen.drawText(w, x, y+100-(i*14), 12, black)
+    screen.drawText(w, x, y+95-(i*14), 12, black)
     i+=1
   end
 end
@@ -276,16 +284,18 @@ draw_game_over = function()
 end
 
 draw_share = function()
-  local x = -screen.width/2 + 44
-  local y = screen.height/2-70
-  screen.fillRoundRect(x, y-2, 70, 20, 25, black)
-  screen.fillRoundRect(x, y, 70, 20, 25, blue)
-  screen.drawText("Share", x, y+2, 18, white)
+  // local x = -screen.width/2 + 44
+  // local y = screen.height/2-70
+  // screen.fillRoundRect(x, y-2, 70, 20, 25, black)
+  // screen.fillRoundRect(x, y, 70, 20, 25, blue)
+  // screen.drawText("Share", x, y+2, 18, white)
+  share.draw()
+  play_again.draw()
 
-  local x = screen.width/2 - 60
-  local y = screen.height/2-70
-  screen.fillRoundRect(x, y-2, 103, 20, 25, black)
-  screen.fillRoundRect(x, y, 103, 20, 25, blue)
-  screen.drawText("Play again?", x, y+2, 18, white)
+  // local x = screen.width/2 - 60
+  // local y = screen.height/2-70
+  // screen.fillRoundRect(x, y-2, 103, 20, 25, black)
+  // screen.fillRoundRect(x, y, 103, 20, 25, blue)
+  // screen.drawText("Play again?", x, y+2, 18, white)
 end
 

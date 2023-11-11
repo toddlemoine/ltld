@@ -130,10 +130,8 @@ compute_score_for_words = function(words)
   end
 
   if mode == modes.daily then  
-    local daily_points = [25, 75, 175]
-        
     if num_daily > -1 then
-      total += daily_points[num_daily]
+      total += num_daily * 100
     end
   end
   

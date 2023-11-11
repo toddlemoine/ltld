@@ -37,8 +37,14 @@ MoveControl = class
     c.y3 = c.y1 - w
     
     local color = theme.move_control
-    if hovered() and touch.press then color = gray end
-    screen.fillPolygon(c.x1, c.y1, c.x2, c.y2, c.x3, c.y3, color)
+    local pressed = hovered() and touch.touching
+    if pressed then color = gray end
+    if pressed then
+      screen.fillPolygon(c.x1, c.y1-2, c.x2, c.y2-2, c.x3, c.y3-2, gray)
+    else
+      screen.fillPolygon(c.x1, c.y1-2, c.x2, c.y2-2, c.x3, c.y3-2, black)
+      screen.fillPolygon(c.x1, c.y1, c.x2, c.y2, c.x3, c.y3, gray)      
+    end
   end
   
 end
@@ -60,7 +66,7 @@ SelectControl = class
   end  
   
   draw = function()
-    local pressed = hovered() and touch.press
+    local pressed = hovered() and touch.touching
     
     if pressed then
       screen.fillRound(x, y-2, w, w, color)

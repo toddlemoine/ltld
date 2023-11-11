@@ -58,7 +58,7 @@ Tray = class
 
       // Draw selection
       if selected_piece == piece_pos.length-1 then
-        line_y = -offset+cell_size
+        line_y = -offset+cell_size/2.5
         line_x1 = pos.x1-half_cell
         line_x2 = pos.x2-half_cell
         draw_selection(line_x1, line_y, line_x2, line_y)
