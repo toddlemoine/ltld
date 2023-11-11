@@ -58,15 +58,14 @@ BumpLeftSpecial = class
         return
       end
       
-      local target_col = max(target.col, 1)
-      
-      if target_col == target.col then
+      if target.col == 0 then
         target.wiggle()
         after 0.5 seconds do
           target.off()
         end         
         state = 2
       else
+        local target_col = max(target.col, 1)
         bump_target = board.drop_target_for(target_col)
         
         if bump_target == -1 then
