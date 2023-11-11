@@ -148,6 +148,8 @@ draw = function()
     draw_score()
     
     if_daily(draw_daily_words)
+    
+    draw_played_words()
 
     // Flash words
     flash_words.forEach(function(fw, index) 
@@ -233,16 +235,16 @@ draw_score = function()
 
 end
 
-draw_daily_words = function()
-  local widths = object
-    w1 = screen.textWidth(daily_words[0], 12)
-    w2 = screen.textWidth(daily_words[1], 12)
-    w3 = screen.textWidth(daily_words[2], 12)
-    sp = 6
+draw_played_words = function()
+  local x = screen.width/2-24
+  local i = 1
+  for w in current_player().words()
+    screen.drawText(w, x, y+100-(i*14), 12, black)
+    i+=1
   end
-  
-  local total = widths.w1 + sp + widths.w2 + sp + widths.w3
-  
+end
+
+draw_daily_words = function()
   local results = []
   
   for w in daily_words
