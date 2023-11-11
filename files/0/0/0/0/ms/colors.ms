@@ -33,6 +33,8 @@ themes = object
     cell_text_disabled = gray
     cell_text = black
     move_control = black
+    game_over_color = blue
+    game_over_button_text = white
   end
   dark = object
     score_text = white
@@ -43,5 +45,7 @@ themes = object
     cell_bg_disabled = light_gray
     cell_text_disabled = gray
     move_control = white
+    game_over_color = blue
+    game_over_button_text = white
   end
 end

@@ -48,7 +48,7 @@ init = function()
       daily_words = daily.words
       dict.add_words(daily.words)
       
-      // daily.bag = "MA<>FSDFSFSDFS"
+      // daily.bag = "TRUIDEAFSDFSFSDFS"
       // daily.words = []
       
       letter_bag = new DailyLetterbag(daily, false)
