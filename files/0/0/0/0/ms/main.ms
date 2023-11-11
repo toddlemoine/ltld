@@ -1,17 +1,19 @@
 init = function()
   DEBUGGER = true
   
+  settings = read_settings()
+  
   // Settings
   cols = 5
   rows = 7
   cell_size = 20
-  theme = themes.light
+  theme = themes[settings.theme]
   max_player_pieces = 4
   max_specials = 2
   special_freq_letter = "A"
   special_freq_modifier =  2
   morphemes_modifier = 0.5
-  mode = modes.daily
+  mode = settings.mode
   
   // Set up playing area
   dict = new Dictionary()
@@ -157,6 +159,26 @@ draw = function()
     end
     
   end
+end
+
+read_settings = function()
+  prefs = read_prefs()
+  params = read_params()
+  
+  for p in params
+    prefs[p] = params[p]  
+  end
+  
+  settings = object end
+  
+  for d in defaults
+    exist = prefs[d]
+    if not exist then exist = defaults[d] end
+    settings[d] = exist
+  end
+  
+  settings
+  
 end
 
 controls = object

@@ -18,6 +18,11 @@ modes = object
   free = 1
 end
 
+defaults = object
+  mode = modes.daily  
+  theme = "light"
+end
+
 themes = object
   light = object
     score_text = black
