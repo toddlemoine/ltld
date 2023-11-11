@@ -154,7 +154,7 @@ Board = class
   score_cell = function(cell)
     // Score for row
     local _results = find_words_in_row(grid[cell.row], cell.col)
-    
+    debug("row results", _results)
     // col
     _results = _results.concat(find_words_in_col(column_to_row(cell.col), cell.row))
 
@@ -166,6 +166,7 @@ Board = class
     
     // Set on the instance
     latest_results = add_results(_results)
+    
     
     current_player().add_results(latest_results)
     

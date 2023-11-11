@@ -59,16 +59,14 @@ const percentMorphemes = (1.00-percentLetters).toFixed(2);
 const letterSize = bagSize * percentLetters;
 const morphemeSize = bagSize * percentMorphemes;
 
-const morphemeBag = _.shuffle(makeBag(bigBagSize, morphemeFreq)).slice(0, morphemeSize);
-const letterBag = _.shuffle(makeBag(bigBagSize, freq)).slice(0, letterSize);
-
-const bag = [].concat(letterBag, morphemeBag);
+const morphemeBag = _.shuffle(makeBag(bigBagSize, morphemeFreq)).slice(0, morphemeSize).join('');
+const letterBag = _.shuffle(makeBag(bigBagSize, freq)).slice(0, letterSize).join('');
 
 // Shuffle
-// console.log(`Output (Bag size: ${bagSize})`);
-// console.log(`Morphemes: ${morphemeBag.length}`)
-// console.log(`Letters: ${letterBag.length}`)
-console.log({ results: _.shuffle(bag) });
+console.log(`Output (Bag size: ${bagSize})`);
+console.log(`Morphemes: ${morphemeBag.length}`)
+console.log(`Letters: ${letterBag.length}`)
+console.log({ results: JSON.stringify([letterBag, morphemeBag].join(' ')) });
 
 
 

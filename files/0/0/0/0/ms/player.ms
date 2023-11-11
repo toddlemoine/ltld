@@ -1,6 +1,7 @@
 Player = class
   pieces = []
   results = object end
+  daily = []
 
   constructor = function()
     this.fill()
@@ -23,14 +24,12 @@ Player = class
   end
   
   add_results = function(latest)
-    debug("player.addResults " + pick(latest, "word"))
     for x in latest
       results[x.word] = x
     end
   end
   
   remove_results = function(removals)
-    debug("player.removeResults " + removals)
     for x in removals
       results[x] = undefined
     end
@@ -43,7 +42,6 @@ Player = class
     end
     compute_score_for_words(words)
   end
-  
   
   fill = function() 
     for i = 1 to max_player_pieces-pieces.length

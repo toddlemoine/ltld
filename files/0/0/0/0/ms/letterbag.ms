@@ -80,6 +80,89 @@ fill_bag = function(size)
   shuffle(bag)
 end
 
+
+DailyLetterbag = class
+  
+  constructor = function(raw_daily, _debug=false)
+    this._debug = _debug
+    this.bag = this.parse_raw(raw_daily)
+  end
+  
+  parse_raw = function(raw_daily)
+    debug("parsing" + raw_daily)
+    local groups = raw_daily.bag.split(" ")
+    local singles = groups[0]
+    local morphemes = groups[1]
+    local tmp = [] 
+    
+    dw = raw_daily.words.join("").split("")
+    tmp = tmp.concat(dw)
+    
+    debug("Daily Word letters added", tmp)  
+    
+    tmp = tmp.concat(singles.split(""))
+    
+    for i=0 to morphemes.length-1 by 2
+      pair = morphemes[i] + morphemes[i+1]
+      tmp.push(pair)
+    end
+    
+    // Add Specials  
+    local size = tmp.length
+    local special_freq = max(1, round(size*letter_freq[special_freq_letter]*special_freq_modifier))
+    
+    local scount = 0
+    for i = 1 to special_freq
+      scount += 1
+      tmp.push(specials_list[random.nextInt(specials_list.length)])
+    end
+    
+    debug("Specials added: " + scount +" (out of "+ size +")")
+    
+    if _debug then
+      tmp
+    else
+      debug("shuffling")
+      shuffle(tmp)
+    end
+  end
+  
+  empty = function()
+    bag.length == 0
+  end
+  
+  next = function(current_pieces)
+    debug("Next from daily")
+    local num_specials = 0
+    
+    for p in current_pieces
+      if specials_list.includes(p.join("")) then
+        num_specials += 1
+      end
+    end
+    
+    debug("number of specials: " + num_specials + " max: "+ max_specials)
+    
+    local allow_specials = num_specials < max_specials
+    local drawn = ""
+    
+    if _debug then
+      drawn = bag.removeAt(0)
+    else
+      drawn = bag.removeAt(random.nextInt(bag.length))
+    end
+
+    if specials_list.includes(drawn) and not allow_specials then 
+      bag.insertAt(drawn, random.nextInt(bag.length))
+      return this.next(current_pieces) 
+    end
+
+    drawn.split("")
+  end  
+  
+end
+
+
 Letterbag = class
   constructor = function(size)
     this.bag = fill_bag(size*2)
@@ -92,6 +175,7 @@ Letterbag = class
   end
   
   next = function(current_pieces)
+    debug("next from letterbag")
     local num_specials = 0
     
     for p in current_pieces
@@ -100,7 +184,7 @@ Letterbag = class
       end
     end
     
-    local allow_specials = num_specials <= max_specials
+    local allow_specials = num_specials < max_specials
     local drawn = bag.removeAt(random.nextInt(bag.length))
 
     if specials_list.includes(drawn) and not allow_specials then 

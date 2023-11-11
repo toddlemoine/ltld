@@ -12,11 +12,15 @@ find_words_in_row = function(row, col_index)
 
       result = word_at(row, i, word_len)
       
+      
       if dict.is_word(result.word) then
         words_found.push(result)
       end
 
-      result = word_at(reverse(row), i, word_len)
+      debug("word at. start, word leng", i +","+ word_len)
+      debug(pick(reverse(row), "char"))
+      result = word_at(reverse(row), i-1, word_len)
+      
       
       if dict.is_word(result.word) then 
         words_found.push(result)
@@ -73,6 +77,7 @@ word_at = function(coll, start_index, word_len, invert_order=false)
   end
   
   letters = slice(coll, start_index, start_index+word_len-1)  
+  debug("letters", pick(letters, "char"))
   
   if letters and has_empty_space(letters) == false then
     chars = []
@@ -106,7 +111,9 @@ add_if_new = function(coll, result)
   end
 end
 
+
 compute_score_for_words = function(words)
+  local num_daily = -1
   total = 0
 
   for word in words
@@ -115,6 +122,19 @@ compute_score_for_words = function(words)
     if word.length == 5 then multiplier = 3 end
     if word.length == 4 then multiplier = 2 end
     total += ws*multiplier
+    
+    for dw in daily_words
+      if word == dw then num_daily += 1 end
+    end
+    
+  end
+
+  if mode == modes.daily then  
+    local daily_points = [25, 75, 175]
+        
+    if num_daily > -1 then
+      total += daily_points[num_daily]
+    end
   end
   
   total  
