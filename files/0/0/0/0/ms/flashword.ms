@@ -1,7 +1,7 @@
 FlashWord = class
   constructor = function(word, y)
     this.word = word
-    this.y = screen.height/2-12
+    this.y = screen.height/2-30
     this.x = 0
     this.done = false
     this.tick = 1.5

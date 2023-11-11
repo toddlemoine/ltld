@@ -6,13 +6,17 @@ red ="rgb(255,0,0)"
 blue ="rgb(0,131,197)"
 dark_gray ="rgb(25,25,25)"
 light_gray ="rgb(223,223,223)"
-gray ="rgb(118,118,118)"
+med_gray ="rgb(141,141,141)"
+gray = "rgb(118,118,118)"
 game_bg = "rgb(255,255,255)"
 
 font_score = "bitcell"
 font_board = "bitcell"
 
-
+modes = object
+  daily = 0
+  free = 1
+end
 
 themes = object
   light = object

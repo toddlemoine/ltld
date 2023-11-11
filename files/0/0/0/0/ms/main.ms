@@ -1,24 +1,25 @@
 init = function()
   DEBUGGER = true
   
+  // Settings
   cols = 5
   rows = 7
   cell_size = 20
-  game_over = false
-  theme = themes.dark
-
-  flash_words = []
-  selected_piece = 0 // selected piece  
-  specials_used = 0
+  theme = themes.light
   max_player_pieces = 4
   max_specials = 2
+  special_freq_letter = "A"
+  special_freq_modifier =  2
+  morphemes_modifier = 0.5
+  mode = modes.daily
   
   // Set up playing area
   dict = new Dictionary()
   board = new Board(rows, cols, cell_size) 
-  letter_bag = new Letterbag(cols*rows)
-  tray = new Tray(0, 92)
+  tray = new Tray(0, 90)
   curr = new Current(0, 140)
+  letter_bag = new Letterbag(cols*rows)
+  daily_words = []
   
   // Mobile and mouse controls
   control_move_left = new MoveControl(-screen.width/2+50, -(screen.height/2)+55, true)
@@ -28,15 +29,44 @@ init = function()
   
   // Set up players
   curr_player = 0
-  players = [new Player()]
+  players = []
+
+  // Game state
+  ready = false
+  flash_words = []
+  selected_piece = 0 // selected piece  
+  specials_used = 0
+  game_over = false
+  assets_loaded = false
+  
+  // For daily mode, we need to load the daily data
+  // and use it to generate the letterbag.
+  if mode == modes.daily then
+    loader = asset_manager.loadJSON(daily_path(), function(daily)
+      daily_words = daily.words
+      dict.add_words(daily.words)
+      
+      // daily.bag = "DELFSTINT"
+      // daily.words = []
+      
+      letter_bag = new DailyLetterbag(daily, false)
+      init_players()
+      ready = true
+    end)  
+  else
+    init_players()
+    ready = true
+  end
 
 end
 
+init_players = function()
+  players.push(new Player())
+end
+
 update = function()
-  if game_over then 
-    showGameOver(current_player().words(), board.toJSON()) 
-    return 
-  end
+  if not ready then return end
+  if game_over then return end
   
   update_flash_words()
 
@@ -99,7 +129,7 @@ draw = function()
   screen.clear(theme.game_bg)
   screen.setFont(font_board)
   
-  if screen.isFontReady(font_board) then  
+  if ready and screen.isFontReady(font_board) then  
     board.draw(80)
     
     control_move_right.draw()
@@ -116,6 +146,8 @@ draw = function()
     // Score
     draw_score()
     
+    if_daily(draw_daily_words)
+
     // Flash words
     flash_words.forEach(function(fw, index) 
       fw.draw(index) 
@@ -135,6 +167,11 @@ controls = object
   down = function() keyboard.press.S or keyboard.press.DOWN end
   select = function() keyboard.press.SPACE or keyboard.press.ENTER or control_select.pressed() end
 end
+
+if_daily = function(fn)
+  if mode == modes.daily then fn() end
+end
+
 
 current_player = function()
   players[curr_player]  
@@ -172,7 +209,44 @@ draw_score = function()
   
   screen.drawText("SCORE", screen.width/2-20, screen.height/2-6, 12, theme.score_text)
   screen.drawText(current_player().score(), screen.width/2-20, screen.height/2-20, 20, theme.score_text)
+
 end
+
+draw_daily_words = function()
+  local widths = object
+    w1 = screen.textWidth(daily_words[0], 12)
+    w2 = screen.textWidth(daily_words[1], 12)
+    w3 = screen.textWidth(daily_words[2], 12)
+    sp = 6
+  end
+  
+  local total = widths.w1 + sp + widths.w2 + sp + widths.w3
+  
+  local results = []
+  
+  for w in daily_words
+    local color = med_gray
+    if current_player().results[w] then
+      color = red
+    end
+    results.push(color)
+  end
+    
+  // screen.drawText(daily_words[0], -(widths.w1+widths.w2+widths.sp+widths.sp)/2, screen.height/2-6, 12, results[0])
+  // screen.drawText(daily_words[1], 0, screen.height/2-6, 12, results[1])
+  // screen.drawText(daily_words[2], (total+widths.sp-widths.w3)/2, screen.height/2-6, 12, results[2])  
+
+  local x = -screen.width/2+20
+  screen.drawText("BONUS", x, screen.height/2-40, 12, theme.score_text)
+  
+  screen.drawText(daily_words[0], x, screen.height/2-54, 12, results[0])
+  screen.drawText(daily_words[1], x, screen.height/2-68, 12, results[1])
+  screen.drawText(daily_words[2], x, screen.height/2-82, 12, results[2])  
+
+
+
+end
+
 
 draw_game_over = function()
   screen.drawText("Game Over", 2, -2, 35, black)
