@@ -22,10 +22,10 @@ init = function()
   daily_words = []
   
   // Mobile and mouse controls
-  control_move_left = new MoveControl(-screen.width/2+50, -(screen.height/2)+55, true)
-  control_move_right = new MoveControl(-screen.width/2+60, -(screen.height/2)+55, false)
-  control_rotate = new SelectControl(screen.width/2-75, -(screen.height/2)+40, gray)
-  control_select = new SelectControl(screen.width/2-35, -(screen.height/2)+40, red)
+  control_move_left = new MoveControl(-screen.width/2+50, -(screen.height/2)+45, true)
+  control_move_right = new MoveControl(-screen.width/2+60, -(screen.height/2)+45, false)
+  control_rotate = new SelectControl(screen.width/2-75, -(screen.height/2)+30, gray)
+  control_select = new SelectControl(screen.width/2-35, -(screen.height/2)+30, red)
   
   // Set up players
   curr_player = 0
@@ -46,7 +46,7 @@ init = function()
       daily_words = daily.words
       dict.add_words(daily.words)
       
-      // daily.bag = "DELFSTINT"
+      // daily.bag = "DUTY"
       // daily.words = []
       
       letter_bag = new DailyLetterbag(daily, false)
@@ -115,7 +115,6 @@ update = function()
       
       if board.filled() then
         game_over = true
-        
       else
         next_round()  
       end
