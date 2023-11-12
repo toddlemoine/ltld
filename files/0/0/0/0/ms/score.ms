@@ -113,14 +113,14 @@ end
 
 
 compute_score_for_words = function(words)
-  local num_daily = -1
+  local num_daily = 0
   total = 0
 
   for word in words
     ws = word.length // 1 point for each letter
     multiplier = 1
-    if word.length == 5 then multiplier = 3 end
-    if word.length == 4 then multiplier = 2 end
+    if word.length == 5 then multiplier = 10 end
+    if word.length == 4 then multiplier = 5 end
     total += ws*multiplier
     
     for dw in daily_words
@@ -130,7 +130,7 @@ compute_score_for_words = function(words)
   end
 
   if mode == modes.daily then  
-    if num_daily > -1 then
+    if num_daily > 0 then
       total += num_daily * 100
     end
   end

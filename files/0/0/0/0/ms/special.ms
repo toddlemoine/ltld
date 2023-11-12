@@ -8,6 +8,7 @@ specials_list = "@<>".split("")
 
 BumpLeftSpecial = class
   special = true
+  enabled = true
   
   constructor = function(x, y)
     this.w = cell_size
@@ -121,6 +122,7 @@ end
 
 BumpRightSpecial = class
   special = true
+  enabled = true  
   constructor = function(x, y)
     this.w = cell_size
     this.h = cell_size
@@ -235,7 +237,7 @@ end
 
 BombSpecial = class
   special = true
-  
+  enabled = true  
   constructor = function(x, y)  
     this.w = cell_size
     this.h = cell_size

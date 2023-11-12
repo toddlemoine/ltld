@@ -80,11 +80,15 @@ Current = class
   end
   
   drop = function()
-    dropping = true
-    if pos == 1 then drop_horiz(cells)
-    elsif pos == 2 then drop_vert(reverse(cells))
-    elsif pos == 3 then drop_horiz(cells, true)
-    elsif pos == 4 then drop_vert(cells)
+    if any(cells, function(cell) cell.enabled end) then
+      dropping = true
+      if pos == 1 then drop_horiz(cells)
+      elsif pos == 2 then drop_vert(reverse(cells))
+      elsif pos == 3 then drop_horiz(cells, true)
+      elsif pos == 4 then drop_vert(cells)
+      end
+    else
+      debug("cannot drop")
     end
   end
   
