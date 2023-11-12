@@ -1,9 +1,9 @@
 Player = class
-  pieces = []
-  results = object end
-  daily = []
 
   constructor = function()
+    this.pieces = []
+    this.results = object end
+    this.daily = []
     this.fill()
   end
   

@@ -89,7 +89,6 @@ DailyLetterbag = class
   end
   
   parse_raw = function(raw_daily)
-    debug("parsing" + raw_daily)
     local groups = raw_daily.bag.split(" ")
     local singles = groups[0]
     local morphemes = groups[1]
@@ -97,9 +96,6 @@ DailyLetterbag = class
     
     dw = raw_daily.words.join("").split("")
     tmp = tmp.concat(dw)
-    
-    debug("Daily Word letters added", tmp)  
-    
     tmp = tmp.concat(singles.split(""))
     
     for i=0 to morphemes.length-1 by 2
@@ -132,7 +128,6 @@ DailyLetterbag = class
   end
   
   next = function(current_pieces)
-    debug("Next from daily")
     local num_specials = 0
     
     for p in current_pieces
@@ -175,7 +170,6 @@ Letterbag = class
   end
   
   next = function(current_pieces)
-    debug("next from letterbag")
     local num_specials = 0
     
     for p in current_pieces

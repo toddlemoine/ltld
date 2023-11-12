@@ -15,7 +15,7 @@ Tray = class
     end
   end
   
-  draw_pieces = function(pieces)
+  draw = function(pieces)
     local total_chars = 0
     local piece_pos = []
     
@@ -69,9 +69,6 @@ Tray = class
     end
   end  
   
-  draw = function(pieces)
-    draw_pieces(pieces)
-  end  
 end
 
 

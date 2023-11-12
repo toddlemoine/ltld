@@ -11,17 +11,18 @@ init = function()
   max_player_pieces = 4
   max_specials = 2
   special_freq_letter = "A"
-  special_freq_modifier =  2
+  special_freq_modifier = 2
   morphemes_modifier = 0.5
   mode = settings.mode
   
   // Set up playing area
-  dict = new Dictionary()
-  board = new Board(rows, cols, cell_size) 
-  tray = new Tray(0, 85)
-  curr = new Current(0, 140)
-  letter_bag = new Letterbag(cols*rows)
-  daily_words = []
+  dict = null
+  board = null
+  tray = null
+  curr = null
+  letter_bag = null
+  daily_words = null
+  players = null
   
   // Mobile and mouse controls
   control_move_left = new MoveControl(-screen.width/2+50, -(screen.height/2)+45, true)
@@ -34,39 +35,19 @@ init = function()
   
   // Set up players
   curr_player = 0
-  players = []
 
   // Game state
   ready = false
   flash_words = []
-  selected_piece = 0 // selected piece  
+  selected_piece = 0 
   specials_used = 0
   game_over = false
-  assets_loaded = false
   
-  // For daily mode, we need to load the daily data
-  // and use it to generate the letterbag.
-  if mode == modes.daily then
-    loader = asset_manager.loadJSON(daily_path(), function(daily)
-      daily_words = daily.words
-      dict.add_words(daily.words)
-      
-      // daily.bag = "@UUABTR@UIDEAFSDFSFSDFS"
-      // daily.words = []
-      
-      letter_bag = new DailyLetterbag(daily, false)
-      init_players()
-      ready = true
-    end)  
-  else
-    init_players()
-    ready = true
-  end
-
+  reset_game()
 end
 
 init_players = function()
-  players.push(new Player())
+  players = [new Player()]
 end
 
 update = function()
@@ -74,7 +55,7 @@ update = function()
 
   if game_over then 
     if share.pressed() then debug("share pressed") end
-    if play_again.pressed() then debug("play again pressed") end
+    if play_again.pressed() then reset_game() end
     return 
   end
   
@@ -165,8 +146,9 @@ draw = function()
     end)
 
     if game_over then
+      share.draw()
+      play_again.draw()
       draw_game_over()
-      draw_share()
     end
     
   end
@@ -215,9 +197,34 @@ next_round = function()
 end
 
 reset_game = function()
+  dict = new Dictionary()
   board = new Board(rows, cols, cell_size) 
-  letter_bag = new Letterbag()
+  letter_bag = new Letterbag(cols*rows)
+  tray = new Tray(0, 85)
+  curr = new Current(0, 130)
   game_over = false
+  ready = false
+  daily_words = []
+  players = []
+  
+  if mode == modes.daily then
+    loader = asset_manager.loadJSON(daily_path(), function(daily)
+      debug("daily words loaded")
+      daily_words = daily.words
+      dict.add_words(daily.words)
+      
+      // daily.bag = "AOPTCASTEHY>RY<OREZZZZZ"
+      // daily.words = []
+      
+      letter_bag = new DailyLetterbag(daily, false)
+      init_players()
+      ready = true
+    end)  
+  else
+    init_players()
+    ready = true
+  end  
+  
   next_round()
 end
 
@@ -241,7 +248,6 @@ draw_score = function()
   
   screen.drawText("SCORE", screen.width/2-20, screen.height/2-6, 12, theme.score_text)
   screen.drawText(current_player().score(), screen.width/2-20, screen.height/2-20, 20, theme.score_text)
-
 end
 
 draw_played_words = function()
@@ -272,30 +278,12 @@ draw_daily_words = function()
   screen.drawText(daily_words[0], x, y-14, 12, results[0])
   screen.drawText(daily_words[1], x, y-28, 12, results[1])
   screen.drawText(daily_words[2], x, y-42, 12, results[2])  
-
 end
-
 
 draw_game_over = function()
   local y = screen.height/2-42
   local size = 36
   screen.drawText("GAME OVER", 2, y-2, size, black)
   screen.drawText("GAME OVER", 0, y, size, blue)
-end
-
-draw_share = function()
-  // local x = -screen.width/2 + 44
-  // local y = screen.height/2-70
-  // screen.fillRoundRect(x, y-2, 70, 20, 25, black)
-  // screen.fillRoundRect(x, y, 70, 20, 25, blue)
-  // screen.drawText("Share", x, y+2, 18, white)
-  share.draw()
-  play_again.draw()
-
-  // local x = screen.width/2 - 60
-  // local y = screen.height/2-70
-  // screen.fillRoundRect(x, y-2, 103, 20, 25, black)
-  // screen.fillRoundRect(x, y, 103, 20, 25, blue)
-  // screen.drawText("Play again?", x, y+2, 18, white)
 end
 
