@@ -108,7 +108,6 @@ Current = class
       if invert then
         letter.target = board.drop_target_for(col-count, letter.char)
       else
-        debug("letter.special " + letter.special)
         if letter.special then
           letter.target = board.drop_target_for_special(col+count)
         else
@@ -179,7 +178,6 @@ Current = class
   end
   
   update = function()
-
     if pos == 1 then update_horiz(cells)
       elsif pos == 2 then update_vert(cells)
       elsif pos == 3 then update_horiz(cells, true)

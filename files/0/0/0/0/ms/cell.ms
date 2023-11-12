@@ -69,7 +69,7 @@ Cell = class
       tick += .75
     end
     
-    screen.drawText(char, text_x, y, cell_size-2, colors.text)
+    screen.drawText(char, text_x, y-font_cell_offset, font_board_size, colors.text)
     
     if state == 2 then
       screen.drawSprite("explosion", x, y, size, size)

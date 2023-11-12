@@ -10,8 +10,15 @@ med_gray ="rgb(141,141,141)"
 gray = "rgb(118,118,118)"
 game_bg = "rgb(255,255,255)"
 
-font_score = "bitcell"
-font_board = "bitcell"
+// font_score = "bitcell"
+font_score_text_size = 8
+font_score_size = 14
+font_board = "wilcoloftsanstreble" // "interbold"
+font_board_size = 11
+font_cell_offset = 1
+font_game_over_size = 29
+font_game_over_button_size = 10
+font_flash_word_size = 24
 
 modes = object
   daily = "0"

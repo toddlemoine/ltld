@@ -1,5 +1,6 @@
 init = function()
   DEBUGGER = true
+  asset_manager.loadFont(font_board)
   
   settings = read_settings()
   
@@ -30,8 +31,8 @@ init = function()
   control_rotate = new SelectControl(screen.width/2-75, -(screen.height/2)+30, gray)
   control_select = new SelectControl(screen.width/2-35, -(screen.height/2)+30, red)
 
-  share = new Button("Share", 70, -screen.width/2 + 44, screen.height/2-73)
-  play_again = new Button("Play again?", 103, screen.width/2 - 60, screen.height/2-73)
+  share = new Button("Share", 70, -screen.width/2 + 44, screen.height/2-77)
+  play_again = new Button("Play again?", 103, screen.width/2 - 60, screen.height/2-77)
   
   // Set up players
   curr_player = 0
@@ -202,7 +203,7 @@ reset_game = function()
   letter_bag = new Letterbag(cols*rows)
   tray = new Tray(0, 85)
   curr = new Current(0, 130)
-  game_over = false
+  game_over = true
   ready = false
   daily_words = []
   players = []
@@ -243,18 +244,20 @@ update_flash_words = function()
 end
 
 draw_score = function()
-  screen.drawText("WORDS", -screen.width/2+20, screen.height/2-6, 12, theme.score_text)
-  screen.drawText(current_player().word_count(), -screen.width/2+20, screen.height/2-20, 20, theme.score_text)
+  local y_offset = 8
+  local x_offset = 24
+  screen.drawText("WORDS", -screen.width/2+x_offset, screen.height/2-y_offset, font_score_text_size, theme.score_text)
+  screen.drawText(current_player().word_count(), -screen.width/2+x_offset, screen.height/2-x_offset, font_score_size, theme.score_text)
   
-  screen.drawText("SCORE", screen.width/2-20, screen.height/2-6, 12, theme.score_text)
-  screen.drawText(current_player().score(), screen.width/2-20, screen.height/2-20, 20, theme.score_text)
+  screen.drawText("SCORE", screen.width/2-x_offset, screen.height/2-y_offset, font_score_text_size, theme.score_text)
+  screen.drawText(current_player().score(), screen.width/2-x_offset, screen.height/2-x_offset, font_score_size, theme.score_text)
 end
 
 draw_played_words = function()
   local x = screen.width/2-24
   local i = 1
   for w in current_player().words()
-    screen.drawText(w, x, y+95-(i*14), 12, black)
+    screen.drawText(w, x, y+95-(i*14), font_score_text_size, black)
     i+=1
   end
 end
@@ -272,18 +275,18 @@ draw_daily_words = function()
     
   local x = -screen.width/2+24
   local y = 40
-  screen.drawText("DAILY", x, y+12, 12, theme.score_text)
-  screen.drawText("BONUS", x, y, 12, theme.score_text)
+  screen.drawText("DAILY", x, y+12, font_score_text_size, theme.score_text)
+  screen.drawText("BONUS", x, y, font_score_text_size, theme.score_text)
   
-  screen.drawText(daily_words[0], x, y-14, 12, results[0])
-  screen.drawText(daily_words[1], x, y-28, 12, results[1])
-  screen.drawText(daily_words[2], x, y-42, 12, results[2])  
+  screen.drawText(daily_words[0], x, y-14, font_score_text_size, results[0])
+  screen.drawText(daily_words[1], x, y-28, font_score_text_size, results[1])
+  screen.drawText(daily_words[2], x, y-42, font_score_text_size, results[2])  
 end
 
 draw_game_over = function()
-  local y = screen.height/2-42
+  local y = screen.height/2-50
   local size = 36
-  screen.drawText("GAME OVER", 2, y-2, size, black)
-  screen.drawText("GAME OVER", 0, y, size, blue)
+  screen.drawText("GAME OVER", 0, y-2, font_game_over_size, black)
+  screen.drawText("GAME OVER", 0, y, font_game_over_size, blue)
 end
 

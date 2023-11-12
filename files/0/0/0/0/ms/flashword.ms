@@ -1,7 +1,7 @@
 FlashWord = class
   constructor = function(word, y)
     this.word = word
-    this.y = screen.height/2-30
+    this.y = screen.height/2-40
     this.x = 0
     this.done = false
     this.tick = 1.5
@@ -17,7 +17,7 @@ FlashWord = class
   draw = function(delay)
     if not done then
       screen.setAlpha(alpha)
-      shadow_text(word, x, y, 24, red)
+      shadow_text(word, x, y, font_flash_word_size, red)
       screen.setAlpha(1)
     end
   end

@@ -9,7 +9,6 @@ Button = class
   end
   
   hovered = function()
-    // debug(touch)
     local in_y = touch.y < y+6 and touch.y > y-6
     return in_y and touch.x > x-width/2 and touch.x < x+width/2
   end
@@ -33,7 +32,7 @@ Button = class
       screen.fillRoundRect(attrs.x, attrs.y-2, width, 20, 25, black)      
     end
     screen.fillRoundRect(attrs.x, attrs.y, width, 20, 25, color)
-    screen.drawText(text, attrs.x, attrs.y+1.5, 18, white)    
+    screen.drawText(text, attrs.x, attrs.y-1, font_game_over_button_size, white)    
   end
   
 end
