@@ -1,7 +1,10 @@
 init = function()
   DEBUGGER = true
-  asset_manager.loadFont(font_board)
+  create_popups()
+  listen_for_popup_events()
   
+  asset_manager.loadFont(font_board)
+  dlog("reading settings in main")
   settings = read_settings()
   
   // Settings
@@ -45,6 +48,15 @@ init = function()
   game_over = false
   
   reset_game()
+  
+  if settings.onboarded then
+    show_mode()
+  else
+    settings.onboarded = true
+    storage.set('settings', settings)
+    show_howto()
+  end
+  
 end
 
 init_players = function()
@@ -156,22 +168,23 @@ draw = function()
 end
 
 read_settings = function()
-  prefs = read_prefs()
-  params = read_params()
+  dlog("Reading settings")
+  prefs = storage.get('settings')
+  if not prefs then prefs = object end end
   
+  params = read_params()
+   
   for p in params
     prefs[p] = params[p]  
   end
   
-  settings = object end
-  
   for d in defaults
     exist = prefs[d]
     if not exist then exist = defaults[d] end
-    settings[d] = exist
   end
   
-  settings
+  dlog(prefs)
+  prefs
   
 end
 
@@ -197,7 +210,8 @@ next_round = function()
   curr = new Current(0, 130)
 end
 
-reset_game = function()
+reset_game = function(selected_mode)
+  if selected_mode then mode = selected_mode end
   dict = new Dictionary()
   board = new Board(rows, cols, cell_size) 
   letter_bag = new Letterbag(cols*rows)
