@@ -32,7 +32,7 @@ Button = class
       screen.fillRoundRect(attrs.x, attrs.y-2, width, 20, 25, black)      
     end
     screen.fillRoundRect(attrs.x, attrs.y, width, 20, 25, color)
-    screen.drawText(text, attrs.x, attrs.y-1, font_game_over_button_size, white)    
+    screen.drawText(text, attrs.x, attrs.y+font_game_over_button_text_offset, font_game_over_button_size, white)    
   end
   
 end

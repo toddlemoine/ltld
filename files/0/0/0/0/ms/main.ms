@@ -3,7 +3,7 @@ init = function()
   create_popups()
   listen_for_popup_events()
   
-  asset_manager.loadFont(font_board)
+  loader = asset_manager.loadFont(font_board)
   settings = read_settings()
   
   // Settings
@@ -71,7 +71,7 @@ reset_game = function(selected_mode)
   ready = false
   daily_words = []
   players = []
-  game_over = false
+  game_over = true
   
   if mode == modes.daily then
     loader = asset_manager.loadJSON(daily_path(), function(daily)
@@ -100,6 +100,10 @@ end
 
 update = function()
   if not ready then return end
+  
+  if loader.ready then
+    set_font_offsets()
+  end
 
   if game_over then 
     if share.pressed() then debug("share pressed") end
@@ -201,6 +205,15 @@ draw = function()
     
   end
 end
+
+set_font_offsets = function()
+  if is_safari() then
+    font_cell_offset = 0
+    font_game_over_offset = 3
+    font_game_over_button_text_offset = 0
+  end
+end
+
 
 read_settings = function()
   prefs = storage.get('settings')

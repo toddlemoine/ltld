@@ -15,10 +15,14 @@ font_score_text_size = 8
 font_score_size = 14
 font_board = "wilcoloftsanstreble" // "interbold"
 font_board_size = 11
-font_cell_offset = 1
 font_game_over_size = 29
 font_game_over_button_size = 10
 font_flash_word_size = 24
+
+// Offsets for font treatment in diff browsers
+font_cell_offset = 1
+font_game_over_offset = 0
+font_game_over_button_text_offset = -1
 
 modes = object
   daily = "0"

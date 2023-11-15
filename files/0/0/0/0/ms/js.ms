@@ -4,6 +4,10 @@ global.dlog = function(...args) {
   console.log(...args)
 }
 
+global.is_safari = function() {
+  return /Apple/.test(navigator.vendor) && /Safari/.test(navigator.userAgent)
+}
+
 global.daily_path = function() {
   const [d] = new Date().toISOString().split("T");
   const [year, month, day] = d.split("-");
