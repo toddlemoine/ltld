@@ -4,7 +4,6 @@ init = function()
   listen_for_popup_events()
   
   asset_manager.loadFont(font_board)
-  dlog("reading settings in main")
   settings = read_settings()
   
   // Settings
@@ -12,8 +11,10 @@ init = function()
   rows = 7
   cell_size = 20
   theme = themes[settings.theme]
-  max_player_pieces = 4
-  max_specials = 2
+  max_player_pieces = 5
+  num_player_specials = 1
+  num_player_morphemes = 1
+  // max_specials = 2
   special_freq_letter = "A"
   special_freq_modifier = 2
   morphemes_modifier = 0.5
@@ -56,8 +57,43 @@ init = function()
     storage.set('settings', settings)
     show_howto()
   end
-  
 end
+
+reset_game = function(selected_mode)
+  if selected_mode then mode = selected_mode end
+  dict = new Dictionary()
+  board = new Board(rows, cols, cell_size) 
+  letter_bag = new Letterbag(cols*rows)
+  morpheme_bag = new Morphemebag(cols*rows)
+  special_bag = new Specialbag(cols*rows)
+  tray = new Tray(0, 85)
+  curr = new Current(0, 130)
+  ready = false
+  daily_words = []
+  players = []
+  game_over = false
+  
+  if mode == modes.daily then
+    loader = asset_manager.loadJSON(daily_path(), function(daily)
+      daily_words = daily.words
+      dict.add_words(daily.words)
+      
+      // daily.bag = "AOPTCASTEHY>RY<OREZZZZZ"
+      // daily.words = []
+      local groups = daily.bag.split(" ")
+      letter_bag = new DailyLetterbag(daily, false)
+      morpheme_bag = new DailyMorphemebag(daily, false)
+      init_players()
+      ready = true
+    end)  
+  else
+    init_players()
+    ready = true
+  end  
+  
+  next_round()
+end
+
 
 init_players = function()
   players = [new Player()]
@@ -168,7 +204,6 @@ draw = function()
 end
 
 read_settings = function()
-  dlog("Reading settings")
   prefs = storage.get('settings')
   if not prefs then prefs = object end end
   
@@ -180,10 +215,9 @@ read_settings = function()
   
   for d in defaults
     exist = prefs[d]
-    if not exist then exist = defaults[d] end
+    if not exist then prefs[d] = defaults[d] end
   end
   
-  dlog(prefs)
   prefs
   
 end
@@ -210,38 +244,6 @@ next_round = function()
   curr = new Current(0, 130)
 end
 
-reset_game = function(selected_mode)
-  if selected_mode then mode = selected_mode end
-  dict = new Dictionary()
-  board = new Board(rows, cols, cell_size) 
-  letter_bag = new Letterbag(cols*rows)
-  tray = new Tray(0, 85)
-  curr = new Current(0, 130)
-  game_over = false
-  ready = false
-  daily_words = []
-  players = []
-  
-  if mode == modes.daily then
-    loader = asset_manager.loadJSON(daily_path(), function(daily)
-      debug("daily words loaded")
-      daily_words = daily.words
-      dict.add_words(daily.words)
-      
-      // daily.bag = "AOPTCASTEHY>RY<OREZZZZZ"
-      // daily.words = []
-      
-      letter_bag = new DailyLetterbag(daily, false)
-      init_players()
-      ready = true
-    end)  
-  else
-    init_players()
-    ready = true
-  end  
-  
-  next_round()
-end
 
 update_flash_words = function()
   local x = 0
@@ -290,7 +292,7 @@ draw_daily_words = function()
   local x = -screen.width/2+24
   local y = 40
   screen.drawText("DAILY", x, y+12, font_score_text_size, theme.score_text)
-  screen.drawText("BONUS", x, y, font_score_text_size, theme.score_text)
+  screen.drawText("WORDS", x, y, font_score_text_size, theme.score_text)
   
   screen.drawText(daily_words[0], x, y-14, font_score_text_size, results[0])
   screen.drawText(daily_words[1], x, y-28, font_score_text_size, results[1])
@@ -298,7 +300,7 @@ draw_daily_words = function()
 end
 
 draw_game_over = function()
-  local y = screen.height/2-50
+  local y = screen.height/2-50+font_game_over_offset
   local size = 36
   screen.drawText("GAME OVER", 0, y-2, font_game_over_size, black)
   screen.drawText("GAME OVER", 0, y, font_game_over_size, blue)

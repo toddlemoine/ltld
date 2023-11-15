@@ -6,6 +6,20 @@ concat = function()
   tmp
 end
 
+count = function(coll, fn) 
+  local x=0
+  for c in coll
+    if fn(c) then x+=1 end
+  end
+  x
+end
+
+reduce = function(coll, fn, acc)
+  for c in coll
+    acc = fn(acc, c)
+  end
+  acc
+end
 
 reverse = function(coll)
   new_coll = []

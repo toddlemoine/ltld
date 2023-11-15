@@ -108,6 +108,11 @@ global.create_popups = function() {
 global.add_styles = function() {
   const html = `
     <style>
+@font-face { 
+  font-family: "wilcoloftsanstreble"; 
+  src: url("assets/wilcoloftsanstreble.ttf") format("truetype"); 
+}    
+
 body {
   background: #313030;
 }
@@ -121,16 +126,22 @@ body[data-popup=mode] .popup[data-popup=mode] {
   position: absolute;
   top: 0;
   left: 0;
-  background: rgba(255,255,255,.96);
+  background: rgba(45, 45, 45, 0.96);
   margin: 0;
   padding: 0;
   display: none;
   height: 100vh;
   width: 100%;
-  align-self: center;
-  justify-self: center;
+  justify-content: center;
   font-family: Helvetica Neue, Arial, sans-serif;
 }
+
+.popup form {
+  background: rgb(255,255,255);
+  max-width: 500px;
+}
+
+
 .popup h2, .popup h3 {
   font-family: WilcoLoftSansTreble;
   display: flex;
@@ -146,7 +157,6 @@ body[data-popup=mode] .popup[data-popup=mode] {
 .popup h3 { font-size: 2rem; }
 .popup form {
   padding: 2rem;
-/*   box-shadow: inset 0px 0px 20px rgba(0,0,0,.3);  */
 border: 1px solid #ddd;
 }
 

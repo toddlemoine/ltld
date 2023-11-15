@@ -44,9 +44,32 @@ Player = class
   end
   
   fill = function() 
+    local current = reduce(pieces, function(acc, p)
+      if specials_list.includes(p.join("")) then
+        acc.specials.push(p)
+      elsif p.length > 1 then
+        acc.morphemes.push(p)
+      else
+        acc.pieces.push(p)
+      end
+      acc  
+    end, object 
+      specials = []
+      morphemes = []
+      pieces = []
+    end)
+    
     for i = 1 to max_player_pieces-pieces.length
-      pieces.push(letter_bag.next(pieces))
+      if current.specials.length < num_player_specials then
+        current.specials.push(special_bag.next())
+      elsif current.morphemes.length < num_player_morphemes then
+        current.morphemes.push(morpheme_bag.next())
+      else
+        current.pieces.push(letter_bag.next())
+      end
     end
+    
+    pieces = concat(current.specials, current.morphemes, current.pieces)
   end
   
   select = function(at)
