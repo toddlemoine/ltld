@@ -78,10 +78,9 @@ reset_game = function(selected_mode)
       daily_words = daily.words
       dict.add_words(daily.words)
       
-      // daily.bag = "AOPTCASTEHY>RY<OREZZZZZ"
-      // daily.words = []
-      local groups = daily.bag.split(" ")
-      letter_bag = new DailyLetterbag(daily, false)
+      daily.bag = "CAKETAKERAKE LYRERE"
+      daily.words = []
+      letter_bag = new DailyLetterbag(daily, true)
       morpheme_bag = new DailyMorphemebag(daily, false)
       init_players()
       ready = true

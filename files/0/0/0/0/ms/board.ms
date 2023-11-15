@@ -241,7 +241,7 @@ Board = class
         return curr_cell
       end
     end
-    
+    debug("no drop target found; -1")
     // No available target
     -1
   end

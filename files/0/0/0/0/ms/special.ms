@@ -62,7 +62,7 @@ BumpLeftSpecial = class
       if target.col == 0 then
         target.wiggle()
         after 0.5 seconds do
-          target.off()
+          target.calm()
         end         
         state = 2
       else
@@ -72,7 +72,7 @@ BumpLeftSpecial = class
         if bump_target == -1 then
           target.wiggle()
           after 0.5 seconds do
-            target.off()
+            target.calm()
           end                   
           state = 2
         else
@@ -167,22 +167,21 @@ BumpRightSpecial = class
         end      
         return
       end
-      
       local letter_target_col = min(target.col+1, cols-1)
     
       if letter_target_col == target.col then
         target.wiggle()
         after 0.5 seconds do
-          target.off()
+          target.calm()
         end         
         state = 2
       else
         bump_target = board.drop_target_for(letter_target_col+1)
-      
+        
         if bump_target == -1 then
           target.wiggle()
           after 0.5 seconds do
-            target.off()
+            target.calm()
           end         
           state = 2
         else
@@ -196,7 +195,9 @@ BumpRightSpecial = class
     
     if state == 1 then
       if bump_target == -1 then
-        target.targeted = false
+        if not target.is_selected() then
+          target.targeted = false
+        end
         target.explode()
         after 0.75 seconds do
           target.clear()

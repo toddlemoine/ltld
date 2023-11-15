@@ -69,7 +69,7 @@ Player = class
       end
     end
     
-    pieces = concat(current.specials, current.morphemes, current.pieces)
+    pieces = concat(current.pieces, current.morphemes, current.specials)
   end
   
   select = function(at)

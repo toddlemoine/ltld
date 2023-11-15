@@ -10,6 +10,7 @@ Cell = class
     this.tick = 0
     // 0=normal, 1=selected, 2=exploding, 3=wiggling
     this.state = 0 
+    this.selected = false
   end
   
   toJSON = function()
@@ -26,10 +27,14 @@ Cell = class
   end
   
   on = function()
-    state = 1
+    selected = true
   end
   
   off = function()
+    selected = false
+  end
+  
+  calm = function()
     state = 0
   end
   
@@ -55,7 +60,7 @@ Cell = class
       border = theme.cell_border
     end
 
-    if state == 1 then
+    if selected then
       colors.bg = red
       colors.text = white
     end
