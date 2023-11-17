@@ -70,8 +70,9 @@ reset_game = function(selected_mode)
   curr = new Current(0, 130)
   ready = false
   daily_words = []
+  flash_words = []
   players = []
-  game_over = true
+  game_over = false
   
   if mode == modes.daily then
     loader = asset_manager.loadJSON(daily_path(), function(daily)
@@ -273,12 +274,12 @@ end
 
 draw_score = function()
   local y_offset = 8
-  local x_offset = 24
+  local x_offset = 18
   screen.drawText("WORDS", -screen.width/2+x_offset, screen.height/2-y_offset, font_score_text_size, theme.score_text)
-  screen.drawText(current_player().word_count(), -screen.width/2+x_offset, screen.height/2-x_offset, font_score_size, theme.score_text)
+  screen.drawText(current_player().word_count(), -screen.width/2+x_offset, screen.height/2-y_offset-14, font_score_size, theme.score_text)
   
   screen.drawText("SCORE", screen.width/2-x_offset, screen.height/2-y_offset, font_score_text_size, theme.score_text)
-  screen.drawText(current_player().score(), screen.width/2-x_offset, screen.height/2-x_offset, font_score_size, theme.score_text)
+  screen.drawText(current_player().score(), screen.width/2-x_offset, screen.height/2-y_offset-14, font_score_size, theme.score_text)
 end
 
 draw_played_words = function()

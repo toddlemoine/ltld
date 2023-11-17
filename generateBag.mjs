@@ -53,14 +53,15 @@ function makeBag(bagSize, freq) {
 }
 
 const bigBagSize = 1000;                          // Start with a giant bag of letters and morphemes, to ensure all get generated
-const bagSize = process.argv[2] ?? 100;           // The final bag we produce.
-const percentLetters = process.argv[3] ?? 0.70;
-const percentMorphemes = (1.00-percentLetters).toFixed(2);
-const letterSize = bagSize * percentLetters;
-const morphemeSize = bagSize * percentMorphemes;
+const bagSize = process.argv[2] ?? 35;           // The final bag we produce.
+// const percentLetters = process.argv[3] ?? 0.70;
+// const percentMorphemes = (1.00-percentLetters).toFixed(2);
+const letterSize = 35;
+const morphemeSize = 35;
+const wordLetters = words.join("").split("");
 
 const morphemeBag = _.shuffle(makeBag(bigBagSize, morphemeFreq)).slice(0, morphemeSize).join('');
-const letterBag = _.shuffle(makeBag(bigBagSize, freq)).slice(0, letterSize).join('');
+const letterBag = _.shuffle(wordLetters.concat(makeBag(bigBagSize, freq))).slice(0, letterSize).join('');
 
 // Shuffle
 console.log(`Output (Bag size: ${bagSize})`);
