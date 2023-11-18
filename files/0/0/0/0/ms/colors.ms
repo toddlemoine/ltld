@@ -10,6 +10,12 @@ med_gray ="rgb(141,141,141)"
 gray = "rgb(118,118,118)"
 game_bg = "rgb(255,255,255)"
 
+// Modes
+modes = object
+  daily = "0"
+  free = "1"
+end
+
 // font_score = "bitcell"
 font_score_text_size = 8
 font_score_size = 14
@@ -24,10 +30,6 @@ font_cell_offset = 1
 font_game_over_offset = 0
 font_game_over_button_text_offset = -1
 
-modes = object
-  daily = "0"
-  free = "1"
-end
 
 defaults = object
   mode = modes.daily  

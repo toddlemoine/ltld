@@ -173,7 +173,8 @@ draw = function()
   screen.setFont(font_board)
   
   if ready and screen.isFontReady(font_board) then  
-    board.draw(72)
+    board.draw(66)
+    draw_mode()
     
     control_move_right.draw()
     control_rotate.draw()
@@ -273,12 +274,12 @@ update_flash_words = function()
 end
 
 draw_score = function()
-  local y_offset = 8
-  local x_offset = 18
-  screen.drawText("WORDS", -screen.width/2+x_offset, screen.height/2-y_offset, font_score_text_size, theme.score_text)
+  local y_offset = 14
+  local x_offset = 19
+  screen.drawText(messages.score_words, -screen.width/2+x_offset, screen.height/2-y_offset, font_score_text_size, theme.score_text)
   screen.drawText(current_player().word_count(), -screen.width/2+x_offset, screen.height/2-y_offset-14, font_score_size, theme.score_text)
   
-  screen.drawText("SCORE", screen.width/2-x_offset, screen.height/2-y_offset, font_score_text_size, theme.score_text)
+  screen.drawText(messages.score_score, screen.width/2-x_offset, screen.height/2-y_offset, font_score_text_size, theme.score_text)
   screen.drawText(current_player().score(), screen.width/2-x_offset, screen.height/2-y_offset-14, font_score_size, theme.score_text)
 end
 
@@ -304,8 +305,8 @@ draw_daily_words = function()
     
   local x = -screen.width/2+24
   local y = 40
-  screen.drawText("DAILY", x, y+12, font_score_text_size, theme.score_text)
-  screen.drawText("WORDS", x, y, font_score_text_size, theme.score_text)
+  screen.drawText(messages.todays, x, y+12, font_score_text_size, theme.score_text)
+  screen.drawText(messages.words, x, y, font_score_text_size, theme.score_text)
   
   screen.drawText(daily_words[0], x, y-14, font_score_text_size, results[0])
   screen.drawText(daily_words[1], x, y-28, font_score_text_size, results[1])
@@ -315,7 +316,15 @@ end
 draw_game_over = function()
   local y = screen.height/2-50+font_game_over_offset
   local size = 36
-  screen.drawText("GAME OVER", 0, y-2, font_game_over_size, black)
-  screen.drawText("GAME OVER", 0, y, font_game_over_size, blue)
+  screen.drawText(messages.game_over, 0, y-2, font_game_over_size, black)
+  screen.drawText(messages.game_over, 0, y, font_game_over_size, blue)
 end
+
+draw_mode = function()
+  local text = if mode == modes.daily then messages.daily else messages.freeplay end
+  screen.fillRect(0, screen.height/2, screen.width, 10, red)
+  screen.fillRoundRect(0, screen.height/2, screen.width/2.3, 38, 10, red)
+  screen.drawText(text, 0, screen.height/2-10, 8, white)
+end
+
 

@@ -1,3 +1,4 @@
+
 Button = class
   constructor = function(text, width, x, y)
     this.text = text
