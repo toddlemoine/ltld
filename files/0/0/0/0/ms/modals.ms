@@ -1,8 +1,108 @@
+MiniControls = class
+  constructor = function(y)
+    this.y = y
+    local controls = object
+      move_left = control_move_left.clone()
+      move_right = control_move_right.clone()
+      rotate = control_rotate.clone()
+      select = control_select.clone()
+    end
+    
+     for c in controls 
+        controls[c].y = controls[c].y+y
+     end
+    
+    this.controls = controls
+  end
+
+  draw_callout = function(text, x, y)
+    screen.drawLine(x, y, x, y-10, black)
+    screen.drawText(text, x, y-20, 7, black)
+  end
+  
+  draw = function()   
+    screen.setScale(.65, .65)
+    for c in controls controls[c].draw() end
+    screen.setScale(1, 1)
+    
+    draw_callout("Move", -29, controls.move_left.y-16)
+    draw_callout("Rotate", 19, controls.rotate.y)
+    draw_callout("Use/Drop", 43, controls.select.y-7)
+  end
+  
+end
+
+    
+
+OnboardingModal = class
+ constructor = function()
+    this.x = 0
+    this.y = 0
+    this.mini_controls = new MiniControls(100)
+
+    this.buttons = object
+      ok = new Button("Ok", 100, 0, 0)
+    end
+  end
+
+  update = function()
+    if buttons.ok.pressed() then 
+      clear_modal()
+    end
+  end
+  
+  draw = function()
+    local height = screen.height*.85
+    screen.fillRect(x, y, screen.width, screen.height, "rgba(0,0,0,.6)")
+    screen.fillRoundRect(x, y-2, screen.width*.8, height, 8, black)
+    screen.fillRoundRect(x, y, screen.width*.8, height, 8, white)
+
+    screen.drawText("How to Play", 0, (height/2)-24, 20, blue)
+    local lines = [
+      "Select letters from your tray"
+      "to drop on the board. Make words",
+      "in any direction. Score points",
+      " for 4, 5, & 6 letter words."
+    ].forEach(function(line, index)
+      screen.drawText(line, 0, (height/2)-48-(index*12), 7.5, black)
+    end)
+    
+    lines = ["Every day, everyone gets 3 words "
+    "for the day and the same letters",
+    "to use. Try to make all three!"].forEach(function(line, index)
+      screen.drawText(line, 0, 46-(index*12), 7.5, red)
+    end)
+
+    // Controls
+    screen.drawText("Controls", 0, 0, 10, blue)
+    mini_controls.draw()
+    
+    local lines = [
+      "Desktop folks: Use arrow keys",
+      "to move and rotate, Enter"
+      "or Space to select & drop.",
+    ].forEach(function(line, index)
+      screen.drawText(line, 0, -85-(index*12), 7.5, black)
+    end)
+    
+    
+    local count = 0
+    for b in buttons
+      btn = buttons[b]
+      btn.y = -height/2+20+count*10
+      btn.draw()
+      count+=1
+    end
+  end
+end  
+
+
 
 SelectModal = class
   constructor = function()
     this.x = 0
     this.y = 0
+    this.controls = new MiniControls()
     this.controls = object
       move_left = control_move_left.clone()
       move_right = control_move_right.clone()
@@ -15,7 +115,7 @@ SelectModal = class
       mode = new Button("Daily Mode", 100, 0, 0)
       back = new Button("Back to Game", 100, 0, 0)
     end
-    
+
     if mode == modes.daily then
       buttons.mode.text = "Freeplay Mode"
     end
@@ -34,6 +134,24 @@ SelectModal = class
     screen.drawLine(x, y, x, y-10, black)
     screen.drawText(text, x, y-20, 7, black)
   end
+  
+  update = function() 
+    if buttons.back.pressed() then 
+      clear_modal()
+    end
+    
+    if buttons.restart.pressed() then 
+      reset_game()
+    end
+    
+    if buttons.mode.pressed() then 
+      if mode == modes.daily then
+        reset_game(modes.free)
+      else
+        reset_game(modes.daily)
+      end
+    end
+  end  
   
   draw = function()
     local height = screen.height*.85

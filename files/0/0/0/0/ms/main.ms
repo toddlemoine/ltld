@@ -41,6 +41,7 @@ init = function()
   
   // Modals
   select_modal = new SelectModal()
+  modal = null
   
   // Set up players
   curr_player = 0
@@ -51,15 +52,13 @@ init = function()
   selected_piece = 0 
   specials_used = 0
   game_over = false
-  
+
   reset_game()
   
-  if settings.onboarded then
-    show_mode()
-  else
+  if not settings.onboarded then
     settings.onboarded = true
     storage.set('settings', settings)
-    show_howto()
+    modal = new OnboardingModal()
   end
 end
 
@@ -70,6 +69,7 @@ reset_game = function(selected_mode)
   letter_bag = new Letterbag(cols*rows)
   morpheme_bag = new Morphemebag(cols*rows)
   special_bag = new Specialbag(cols*rows)
+  select_modal = new SelectModal()
   tray = new Tray(0, 95)
   curr = new Current(0, 130)
   ready = false
@@ -77,7 +77,7 @@ reset_game = function(selected_mode)
   flash_words = []
   players = []
   game_over = false
-  show_select_modal = false
+  modal = null
   
   if mode == modes.daily then
     loader = asset_manager.loadJSON(daily_path(), function(daily)
@@ -117,27 +117,13 @@ update = function()
     return 
   end
   
-  if show_select_modal then
-    if select_modal.buttons.back.pressed() then 
-      show_select_modal = false
-    end
-    if select_modal.buttons.restart.pressed() then 
-      reset_game()
-    end
-    if select_modal.buttons.mode.pressed() then 
-      if mode == modes.daily then
-        reset_game(modes.free)
-      else
-        reset_game(modes.daily)
-      end
-    end
+  if modal then
+    modal.update()
     return
-  else
-    
+  else 
     if control_pause.pressed() then
-      show_select_modal = true
+      modal = new SelectModal()
     end
-    
   end
   
   update_flash_words()
@@ -196,6 +182,10 @@ update = function()
   
 end
 
+clear_modal = function()
+  modal = null
+end
+
 draw = function()
   screen.clear(theme.game_bg)
   screen.setFont(font_board)
@@ -234,8 +224,8 @@ draw = function()
       draw_game_over()
     end
     
-    if show_select_modal then
-      select_modal.draw()
+    if modal then
+      modal.draw()
     end
     
   end
@@ -307,8 +297,8 @@ update_flash_words = function()
 end
 
 draw_score = function()
-  local y_offset = 14
-  local x_offset = 19
+  local y_offset = 12
+  local x_offset = 18
   screen.drawText(messages.score_words, -screen.width/2+x_offset, screen.height/2-y_offset, font_score_text_size, theme.score_text)
   screen.drawText(current_player().word_count(), -screen.width/2+x_offset, screen.height/2-y_offset-14, font_score_size, theme.score_text)
   
@@ -319,8 +309,12 @@ end
 draw_played_words = function()
   local x = screen.width/2-24
   local i = 1
-  for w in current_player().words()
-    screen.drawText(w, x, y+95-(i*14), font_score_text_size, black)
+  local words = current_player().words()
+  local sp = 14
+  if words.length > 10 then sp = 11 end
+  local y_offset = 14+words.length*8
+  for w in words
+    screen.drawText(w, x, y+y_offset-(i*sp), font_score_text_size, black)
     i+=1
   end
 end
@@ -356,8 +350,8 @@ end
 draw_mode = function()
   local text = if mode == modes.daily then messages.daily else messages.freeplay end
   screen.fillRect(0, screen.height/2, screen.width, 10, red)
-  screen.fillRoundRect(0, screen.height/2, screen.width/2.3, 38, 10, red)
-  screen.drawText(text, 0, screen.height/2-10, 8, white)
+  screen.fillRoundRect(0, screen.height/2, screen.width/4, 25, 10, red)
+  screen.drawText(text, 0, screen.height/2-6, 7, white)
 end
 
 

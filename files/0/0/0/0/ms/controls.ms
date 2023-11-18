@@ -92,8 +92,6 @@ RotateControl = class extends SelectControl
   end
   draw = function()
     super()
-    screen.drawArc(0, 0, 10, 100, 10, false, black)
-    // x, y, radius, angle1, angle2, ccw, color
   end
 end
 
