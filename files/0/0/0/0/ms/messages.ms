@@ -8,4 +8,5 @@ messages = object
   share = "SHARE"
   todays = "TODAY'S"
   words = "WORDS"
+  controls_help = "HELP"
 end

@@ -6,6 +6,10 @@ MoveControl = class
     this.invert = invert
   end
   
+  clone = function()
+    new MoveControl(x, y, invert)
+  end
+  
   hovered = function()
     local in_y = touch.y > y-w and touch.y < y+w
     
@@ -57,6 +61,10 @@ SelectControl = class
     this.color = color
   end
   
+  clone = function()
+    new SelectControl(x, y, color)
+  end
+  
   hovered = function()
     touch.y > y-w/2 and touch.y < y+w/2 and touch.x > x-w/2 and touch.x < x+w/2
   end
@@ -77,3 +85,49 @@ SelectControl = class
     
   end
 end
+
+RotateControl = class extends SelectControl
+  constructor = function(x, y, color)
+    super(x, y, color)
+  end
+  draw = function()
+    super()
+    screen.drawArc(0, 0, 10, 100, 10, false, black)
+    // x, y, radius, angle1, angle2, ccw, color
+  end
+end
+
+
+PauseControl = class
+  constructor = function(x, y, color = gray)
+    this.x = x
+    this.y = y
+    this.w = 15
+    this.h = 8
+    this.r = 25
+    this.color = color
+  end
+  
+  hovered = function()
+    touch.y > y-w/2 and touch.y < y+w/2 and touch.x > x-w/2 and touch.x < x+w/2
+  end
+  
+  pressed = function()
+    hovered() and touch.release
+  end  
+  
+  draw = function()
+    local pressed = hovered() and touch.touching
+    
+    if pressed then
+      screen.fillRoundRect(x, y-2, w, h, r, color)
+    else
+      screen.fillRoundRect(x, y-2, w, h, r, black)
+      screen.fillRoundRect(x, y, w, h, r, color)
+    end
+    
+    screen.drawText(messages.controls_help, x, y+h+2, 6)
+    
+  end
+end
+

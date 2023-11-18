@@ -30,13 +30,17 @@ init = function()
   players = null
   
   // Mobile and mouse controls
+  control_pause = new PauseControl(0, -(screen.height/2)+55)
   control_move_left = new MoveControl(-screen.width/2+50, -(screen.height/2)+45, true)
   control_move_right = new MoveControl(-screen.width/2+60, -(screen.height/2)+45, false)
-  control_rotate = new SelectControl(screen.width/2-75, -(screen.height/2)+30, gray)
-  control_select = new SelectControl(screen.width/2-35, -(screen.height/2)+30, red)
+  control_rotate = new RotateControl(screen.width/2-70, -(screen.height/2)+30, gray)
+  control_select = new SelectControl(screen.width/2-35, -(screen.height/2)+50, red)
 
   share = new Button("Share", 70, -screen.width/2 + 44, screen.height/2-77)
   play_again = new Button("Play again?", 103, screen.width/2 - 60, screen.height/2-77)
+  
+  // Modals
+  select_modal = new SelectModal()
   
   // Set up players
   curr_player = 0
@@ -66,13 +70,14 @@ reset_game = function(selected_mode)
   letter_bag = new Letterbag(cols*rows)
   morpheme_bag = new Morphemebag(cols*rows)
   special_bag = new Specialbag(cols*rows)
-  tray = new Tray(0, 85)
+  tray = new Tray(0, 95)
   curr = new Current(0, 130)
   ready = false
   daily_words = []
   flash_words = []
   players = []
   game_over = false
+  show_select_modal = false
   
   if mode == modes.daily then
     loader = asset_manager.loadJSON(daily_path(), function(daily)
@@ -110,6 +115,29 @@ update = function()
     if share.pressed() then debug("share pressed") end
     if play_again.pressed() then reset_game() end
     return 
+  end
+  
+  if show_select_modal then
+    if select_modal.buttons.back.pressed() then 
+      show_select_modal = false
+    end
+    if select_modal.buttons.restart.pressed() then 
+      reset_game()
+    end
+    if select_modal.buttons.mode.pressed() then 
+      if mode == modes.daily then
+        reset_game(modes.free)
+      else
+        reset_game(modes.daily)
+      end
+    end
+    return
+  else
+    
+    if control_pause.pressed() then
+      show_select_modal = true
+    end
+    
   end
   
   update_flash_words()
@@ -173,9 +201,10 @@ draw = function()
   screen.setFont(font_board)
   
   if ready and screen.isFontReady(font_board) then  
-    board.draw(66)
+    board.draw(73)
     draw_mode()
     
+    control_pause.draw()
     control_move_right.draw()
     control_rotate.draw()
     control_select.draw()
@@ -205,6 +234,10 @@ draw = function()
       draw_game_over()
     end
     
+    if show_select_modal then
+      select_modal.draw()
+    end
+    
   end
 end
 
@@ -227,13 +260,13 @@ read_settings = function()
     prefs[p] = params[p]  
   end
   
+  
   for d in defaults
     exist = prefs[d]
     if not exist then prefs[d] = defaults[d] end
   end
   
   prefs
-  
 end
 
 controls = object
