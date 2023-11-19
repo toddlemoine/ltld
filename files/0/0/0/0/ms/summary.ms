@@ -39,7 +39,7 @@ SummaryScreen = class
     
     
     if stage >= 1 then
-      local text = [summary.words + " words", summary.points + " points", summary.percent + "% filled"].join(", ")
+      local text = [summary.words + " words", summary.points + " points", summary.filled + "% filled"].join(", ")
       screen.drawText(text, 0, 138, 10, white)
     end
 
