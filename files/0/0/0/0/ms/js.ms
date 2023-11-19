@@ -34,37 +34,42 @@ global.listen_for_popup_events = function() {
   document.addEventListener('submit', function(event) {
     event.preventDefault();
     const name = event.target.name;
-    if (name === 'settings') {
-      document.body.setAttribute("data-popup", "settings");
-    }
+    document.body.removeAttribute("data-popup");
   }, true)
 }
 
-global.show_settings = function() {
-  document.body.setAttribute("data-popup", "settings");
+global.show_share = function(board) {
+  
+  
+  
+ document.body.setAttribute("data-popup", "share"); 
 }
+
 
 global.go_to_url = function(url) {
   window.open(url, "_blank")
 }
 
 
+
 global.create_popups = function() {
   global.add_styles();
   
-  const settings = `
-    <div class="popup" data-popup="settings">
-    <form name="settings">
+  const share = `
+    <div class="popup" data-popup="share">
+    <form name="share">
     <div class="content">
-      <h2><span style="font-size: 5rem;">LTLD</span><span style="font-size: 2rem;">Settings</span></h2>      
+      <h2>LTLD</h2>      
+      <p>Let people know how you did.</p>
     </div>
+    <textarea></textarea>
     <footer>
-      <button type="submit">Got it</button>
+      <button type="submit">OK</button>
     </footer>
     </form>
     </div>`;
 
-  global.add_html(settings);
+  global.add_html(share);
 }
 
 
@@ -80,7 +85,7 @@ body {
   background: #313030;
 }
 
-body[data-popup=settings] .popup[data-popup=settings] {
+body[data-popup=share] .popup[data-popup=share] {
   display: flex;
 }
 

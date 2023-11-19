@@ -16,6 +16,12 @@ modes = object
   free = "1"
 end
 
+summary = object
+  low = "meh;well, you tried;whew;it is done;try again;mediocre!;putrid".split(";")
+  med = "not too shabby,pretty good,alright,decent,fair,fine. it's fine.".split(",")
+  high = "boom!,wicked!,big brain!,awesome!,fantastic!,woah!,incredible!,wunderbar!,stellar!,impressive!".split(",")
+end
+
 // font_score = "bitcell"
 font_score_text_size = 8
 font_score_size = 14

@@ -17,10 +17,7 @@ find_words_in_row = function(row, col_index)
         words_found.push(result)
       end
 
-      // debug("word at. start, word leng", i +","+ word_len)
-      debug(pick(reverse(row), "char"))
       result = word_at(reverse(row), i-1, word_len)
-      
       
       if dict.is_word(result.word) then 
         words_found.push(result)

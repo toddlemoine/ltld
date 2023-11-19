@@ -7,6 +7,63 @@ Player = class
     this.fill()
   end
   
+  summary_heading = function()
+    _words = words()
+    
+    //1 points for each word
+    //3 points for each daily
+    // <5 points = low
+    // 5-12 = med
+    // 12+ = high    
+    local points = _words.length
+
+    if mode == modes.daily then
+      for dw in daily_words
+        if _words.contains(dw) then 
+          points += 3
+        end
+      end
+    end
+    
+    local coll = global.summary.low
+    
+    if points > 12 then
+      coll = global.summary.high
+    elsif points > 5 and points < 13 then
+      coll = global.summary.med
+    end
+    coll[random.nextInt(coll.length)]
+  end
+  
+  summary_desc = function()
+    if letter_bag.empty() and morpheme_bag.empty() then
+      return "You ran out of letters!"
+    end
+    ""
+  end
+  
+  summary_daily = function()
+    _words = words()
+    local num_daily = 0
+      for dw in daily_words
+        if _words.contains(dw) then 
+          num_daily += 1
+        end
+      end
+    num_daily +" out of "+daily_words.length + " daily words"
+  end
+  
+  summary = function()
+    object
+      heading = summary_heading()
+      filled = round(board.percent_filled()*100)
+      words = words().length
+      points = score()
+      daily = summary_daily()
+      desc = summary_desc()
+    end
+  end
+  
   words = function()
     w = []
     for r in results

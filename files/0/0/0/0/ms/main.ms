@@ -30,15 +30,12 @@ init = function()
   
   // Mobile and mouse controls
   control_pause = new PauseControl(-11, -(screen.height/2)+60, messages.controls_help)
-  control_settings = new PauseControl(11, -(screen.height/2)+60, "Prefs")
+  control_settings = new PauseControl(11, -(screen.height/2)+60, "Set")
   control_move_left = new MoveControl(-screen.width/2+50, -(screen.height/2)+45, true)
   control_move_right = new MoveControl(-screen.width/2+60, -(screen.height/2)+45, false)
   control_rotate = new RotateControl(screen.width/2-70, -(screen.height/2)+30, gray)
   control_select = new SelectControl(screen.width/2-35, -(screen.height/2)+50, red)
 
-  share = new Button("Share", 70, -screen.width/2 + 44, screen.height/2-70)
-  play_again = new Button("Play again?", 103, screen.width/2 - 60, screen.height/2-70)
-  
   // Modals
   select_modal = new SelectModal()
   modal = null
@@ -77,6 +74,7 @@ reset_game = function(selected_mode)
   flash_words = []
   players = []
   game_over = false
+  
   modal = null
   
   if mode == modes.daily then
@@ -114,9 +112,12 @@ update = function()
   end
 
   if game_over then 
-    if share.pressed() then debug("share pressed") end
-    if play_again.pressed() then reset_game() end
-    return 
+    if not modal then 
+      debug('doing summary')
+      modal = new SummaryScreen()
+      // modal.update()
+    end
+
   end
   
   if modal then
@@ -220,23 +221,15 @@ draw = function()
       fw.draw(index) 
     end)
 
-    if game_over then
-      share.draw()
-      play_again.draw()
-      draw_game_over()
-    end
-    
+    // Score
+    draw_score()
+
     if modal then
       modal.draw()
     end
     
     draw_header()
 
-    // Score
-    draw_score()
-    
-    
-    
   end
 end
 
@@ -315,7 +308,7 @@ draw_score = function()
   screen.drawText(current_player().score(), screen.width/2-x_offset, screen.height/2-y_offset-14, font_score_size, theme.score_text)
 end
 
-draw_played_words = function()
+draw_played_words = function(color = black)
   local x = screen.width/2-24
   local i = 1
   local words = current_player().words()
@@ -323,7 +316,7 @@ draw_played_words = function()
   if words.length > 10 then sp = 11 end
   local y_offset = 8*(words.length+sp)/2
   for w in words
-    screen.drawText(w, x, y+y_offset-(i*sp), font_score_text_size, black)
+    screen.drawText(w, x, y+y_offset-(i*sp), font_score_text_size, color)
     i+=1
   end
 end
@@ -362,10 +355,8 @@ draw_mode = function()
 end
 
 draw_header = function()
-  // screen.fillRect(0, screen.height/2, screen.width, 10, red)
   screen.fillRect(0, screen.height/2, screen.width, 10, red)
   screen.fillRoundRect(0, screen.height/2-6, 98, 20, 10, red)
-  // draw_mode()
   screen.drawText("Let The Letter Drop", 0, screen.height/2-8, 8, white)
 end
 

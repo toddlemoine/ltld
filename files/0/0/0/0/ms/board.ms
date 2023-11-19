@@ -30,6 +30,16 @@ Board = class
     result
   end
   
+  percent_filled = function()
+    num_selected = 0
+    for r in grid
+      for c in r
+        if c.selected then num_selected += 1 end
+      end
+    end
+    num_selected/(this.c*this.r)
+  end
+  
   update = function()
     for r in results
       for cell in results[r].cells
