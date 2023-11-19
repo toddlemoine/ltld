@@ -1,3 +1,18 @@
+Modal = class
+  constructor = function()
+    this.x = 0
+    this.y = 0
+  end
+  draw = function()
+    local height = screen.height*.85
+    screen.fillRect(x, y, screen.width, screen.height, "rgba(0,0,0,.7)")
+    screen.fillRoundRect(x, y-2, screen.width*.8, height, 8, black)
+    screen.fillRoundRect(x, y, screen.width*.8, height, 8, white)
+  end
+  
+end
+
+
 MiniControls = class
   constructor = function(y)
     this.y = y
@@ -34,10 +49,9 @@ end
 
     
 
-OnboardingModal = class
+OnboardingModal = class extends Modal
  constructor = function()
-    this.x = 0
-    this.y = 0
+    super()
     this.mini_controls = new MiniControls(100)
 
     this.buttons = object
@@ -52,12 +66,10 @@ OnboardingModal = class
   end
   
   draw = function()
-    local height = screen.height*.85
-    screen.fillRect(x, y, screen.width, screen.height, "rgba(0,0,0,.6)")
-    screen.fillRoundRect(x, y-2, screen.width*.8, height, 8, black)
-    screen.fillRoundRect(x, y, screen.width*.8, height, 8, white)
+    super()
+    local height = screen.height*0.85
 
-    screen.drawText("How to Play", 0, (height/2)-24, 20, blue)
+    screen.drawText("How to Play", 0, (height/2)-24, 18, blue)
     local lines = [
       "Select letters from your tray"
       "to drop on the board. Make words",
@@ -93,15 +105,15 @@ OnboardingModal = class
       btn.draw()
       count+=1
     end
+
   end
 end  
 
 
 
-SelectModal = class
+SelectModal = class extends Modal
   constructor = function()
-    this.x = 0
-    this.y = 0
+    super()
     this.controls = new MiniControls()
     this.controls = object
       move_left = control_move_left.clone()
@@ -154,12 +166,9 @@ SelectModal = class
   end  
   
   draw = function()
-    local height = screen.height*.85
-    screen.fillRect(x, y, screen.width, screen.height, "rgba(0,0,0,.6)")
-    screen.fillRoundRect(x, y-2, screen.width*.8, height, 8, black)
-    screen.fillRoundRect(x, y, screen.width*.8, height, 8, white)
-
-    screen.drawText("Help", 0, (height/2)-24, 24, blue)
+    super()
+    local height = screen.height*0.85
+    screen.drawText("Help", 0, (height/2)-24, 18, blue)
     local lines = [
       "Drop letters to make words",
       "in any direction. Score points "

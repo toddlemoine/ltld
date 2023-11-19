@@ -11,8 +11,7 @@ MoveControl = class
   end
   
   hovered = function()
-    local in_y = touch.y > y-w and touch.y < y+w
-    
+    local in_y = touch.y > y-w and touch.y < y
     if invert then 
       return in_y and touch.x > x-w and touch.x < x 
     else
@@ -49,6 +48,7 @@ MoveControl = class
       screen.fillPolygon(c.x1, c.y1-2, c.x2, c.y2-2, c.x3, c.y3-2, black)
       screen.fillPolygon(c.x1, c.y1, c.x2, c.y2, c.x3, c.y3, gray)      
     end
+  
   end
   
 end
@@ -97,12 +97,13 @@ end
 
 
 PauseControl = class
-  constructor = function(x, y, color = gray)
+  constructor = function(x, y, text, color = gray)
     this.x = x
     this.y = y
     this.w = 15
     this.h = 8
     this.r = 25
+    this.text = text
     this.color = color
   end
   
@@ -124,7 +125,7 @@ PauseControl = class
       screen.fillRoundRect(x, y, w, h, r, color)
     end
     
-    screen.drawText(messages.controls_help, x, y+h+2, 6)
+    screen.drawText(text, x, y+h+2, 6)
     
   end
 end

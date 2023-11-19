@@ -30,14 +30,15 @@ init = function()
   players = null
   
   // Mobile and mouse controls
-  control_pause = new PauseControl(0, -(screen.height/2)+55)
+  control_pause = new PauseControl(-11, -(screen.height/2)+60, messages.controls_help)
+  control_settings = new PauseControl(11, -(screen.height/2)+60, "Prefs")
   control_move_left = new MoveControl(-screen.width/2+50, -(screen.height/2)+45, true)
   control_move_right = new MoveControl(-screen.width/2+60, -(screen.height/2)+45, false)
   control_rotate = new RotateControl(screen.width/2-70, -(screen.height/2)+30, gray)
   control_select = new SelectControl(screen.width/2-35, -(screen.height/2)+50, red)
 
-  share = new Button("Share", 70, -screen.width/2 + 44, screen.height/2-77)
-  play_again = new Button("Play again?", 103, screen.width/2 - 60, screen.height/2-77)
+  share = new Button("Share", 70, -screen.width/2 + 44, screen.height/2-70)
+  play_again = new Button("Play again?", 103, screen.width/2 - 60, screen.height/2-70)
   
   // Modals
   select_modal = new SelectModal()
@@ -71,7 +72,7 @@ reset_game = function(selected_mode)
   special_bag = new Specialbag(cols*rows)
   select_modal = new SelectModal()
   tray = new Tray(0, 95)
-  curr = new Current(0, 130)
+  curr = new Current(0, 125)
   ready = false
   daily_words = []
   flash_words = []
@@ -191,10 +192,11 @@ draw = function()
   screen.setFont(font_board)
   
   if ready and screen.isFontReady(font_board) then  
-    board.draw(73)
-    draw_mode()
+    board.draw(78)
+    // draw_mode()
     
     control_pause.draw()
+    control_settings.draw()
     control_move_right.draw()
     control_rotate.draw()
     control_select.draw()
@@ -205,9 +207,6 @@ draw = function()
     
     // Tray with pieces
     tray.draw(current_player().pieces)
-    
-    // Score
-    draw_score()
     
     if_daily(draw_daily_words)
     
@@ -227,6 +226,13 @@ draw = function()
     if modal then
       modal.draw()
     end
+    
+    draw_header()
+
+    // Score
+    draw_score()
+    
+    
     
   end
 end
@@ -299,10 +305,10 @@ end
 draw_score = function()
   local y_offset = 12
   local x_offset = 18
-  screen.drawText(messages.score_words, -screen.width/2+x_offset, screen.height/2-y_offset, font_score_text_size, theme.score_text)
-  screen.drawText(current_player().word_count(), -screen.width/2+x_offset, screen.height/2-y_offset-14, font_score_size, theme.score_text)
+  // screen.drawText(messages.score_words, -screen.width/2+x_offset, screen.height/2-y_offset, font_score_text_size, theme.score_text)
+  // screen.drawText(current_player().word_count(), -screen.width/2+x_offset, screen.height/2-y_offset-14, font_score_size, theme.score_text)
   
-  screen.drawText(messages.score_score, screen.width/2-x_offset, screen.height/2-y_offset, font_score_text_size, theme.score_text)
+  screen.drawText(messages.score_score, screen.width/2-x_offset, screen.height/2-y_offset, font_score_text_size, theme.score_text, white)
   screen.drawText(current_player().score(), screen.width/2-x_offset, screen.height/2-y_offset-14, font_score_size, theme.score_text)
 end
 
@@ -341,7 +347,7 @@ draw_daily_words = function()
 end
 
 draw_game_over = function()
-  local y = screen.height/2-50+font_game_over_offset
+  local y = screen.height/2-42+font_game_over_offset
   local size = 36
   screen.drawText(messages.game_over, 0, y-2, font_game_over_size, black)
   screen.drawText(messages.game_over, 0, y, font_game_over_size, blue)
@@ -349,9 +355,16 @@ end
 
 draw_mode = function()
   local text = if mode == modes.daily then messages.daily else messages.freeplay end
-  screen.fillRect(0, screen.height/2, screen.width, 10, red)
-  screen.fillRoundRect(0, screen.height/2, screen.width/4, 25, 10, red)
-  screen.drawText(text, 0, screen.height/2-6, 7, white)
+  screen.drawText(text, 0, screen.height/2-26, 7, white)
 end
+
+draw_header = function()
+  // screen.fillRect(0, screen.height/2, screen.width, 10, red)
+  screen.fillRect(0, screen.height/2, screen.width, 10, red)
+  screen.fillRoundRect(0, screen.height/2-6, 98, 20, 10, red)
+  // draw_mode()
+  screen.drawText("Let The Letter Drop", 0, screen.height/2-8, 8, white)
+end
+
 
 
