@@ -312,7 +312,7 @@ draw_played_words = function()
   local words = current_player().words()
   local sp = 14
   if words.length > 10 then sp = 11 end
-  local y_offset = 14+words.length*8
+  local y_offset = 8*(words.length+sp)/2
   for w in words
     screen.drawText(w, x, y+y_offset-(i*sp), font_score_text_size, black)
     i+=1

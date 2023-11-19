@@ -24,14 +24,6 @@ global.read_params = function() {
   return result;
 }
 
-global.show_howto = function() {
-  document.body.setAttribute('data-popup', 'howto');
-}
-
-global.show_mode = function() {
-  document.body.setAttribute('data-popup', 'mode');
-}
-
 global.add_html = function(html) {
   const template = document.createElement('template');
   template.innerHTML = html.trim();
@@ -42,70 +34,33 @@ global.listen_for_popup_events = function() {
   document.addEventListener('submit', function(event) {
     event.preventDefault();
     const name = event.target.name;
-    if (name === 'howto') {
-      document.body.setAttribute("data-popup", "mode");
+    if (name === 'settings') {
+      document.body.setAttribute("data-popup", "settings");
     }
-    
-    if (name === 'mode') {
-      const mode = event.submitter.getAttribute('data-type');
-      document.body.removeAttribute("data-popup");
-      if (mode === '1') {
-        window.player.call("reset_game",["1"]);
-      } else {
-        window.player.call("reset_game",["0"]);
-      }
-      
-    }  
   }, true)
+}
+
+global.show_settings = function() {
+  document.body.setAttribute("data-popup", "settings");
 }
 
 
 global.create_popups = function() {
   global.add_styles();
   
-  const howto = `
-    <div class="popup" data-popup="howto">
-    <form name="howto">
+  const settings = `
+    <div class="popup" data-popup="settings">
+    <form name="settings">
     <div class="content">
-      <h2><span style="font-size: 5rem;">LTLD</span><span style="font-size: 2rem;">Let The Letter Drop</span></h2>      
-      <p class="summary">
-      Drop letters on the board to make 4- and 5-letter words. Use 💣 and ⬅️➡️ blocks to remove or move dropped letters. Play for points or just fill up the board.
-      </p>
-      <h3>Controls</h3>
-      <ul>
-      <li><em>Desktop</em> Use arrow keys or WASD to move and rotate pieces, Space or Enter to select and drop them. 
-      <li><em>Mobile</em> Use the on-screen controls. 🔘 Gray button rotates, 🔴 red selects. </li>
-      </ul>
+      <h2><span style="font-size: 5rem;">LTLD</span><span style="font-size: 2rem;">Settings</span></h2>      
     </div>
     <footer>
       <button type="submit">Got it</button>
     </footer>
     </form>
     </div>`;
-    
-  const mode = `
-    <div class="popup" data-popup="mode">
-    <form name="mode">
-    <div class="content">
-      <h2>What's your style?</h2>      
-      <ul>
-      <li><em>Daily Challenge</em>  
-        Each day, everyone gets the same letters (but randomized) and a set of bonus words. You still want to make as many words as you can, but the bonus words are worth 100 points each.
-      </li>
-      <li><em>Freeplay</em> 
-        Get a random set of letters each time you play. Play for points or completeness or maybe just pass the time?
-      </li>
-      </ul>
-    </div>
-    <footer>
-      <button type="submit" data-type="0">Daily</button>
-      <button type="submit" data-type="1">Freeplay</button>
-    </footer>
-    </form>
-    </div>`    
-  
-  global.add_html(howto);
-  global.add_html(mode);
+
+  global.add_html(settings);
 }
 
 
@@ -121,8 +76,7 @@ body {
   background: #313030;
 }
 
-body[data-popup=howto] .popup[data-popup=howto],
-body[data-popup=mode] .popup[data-popup=mode] {
+body[data-popup=settings] .popup[data-popup=settings] {
   display: flex;
 }
 

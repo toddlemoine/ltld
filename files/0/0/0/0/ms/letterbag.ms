@@ -56,6 +56,7 @@ Bag = class
   constructor = function(size)
     this.size = size
     this.fill()
+    this.history = []
   end
   
   fill = function()
@@ -66,8 +67,11 @@ Bag = class
     bag.length == 0
   end
   
+  add_to_history = function(drawn)
+    history = [history.pop(), history.pop(), drawn]
+  end
+  
   next = function()
-    debug(id +".next")
     local drawn = ""
     
     if _debug then
@@ -75,7 +79,14 @@ Bag = class
     else
       drawn = bag.removeAt(random.nextInt(bag.length))
     end
-    if drawn then drawn.split("") end
+    
+    if drawn then 
+      if history.contains(drawn) then
+        return this.next()
+      end
+      add_to_history(drawn)
+      drawn.split("") 
+    end
   end
 end
 

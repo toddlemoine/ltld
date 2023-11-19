@@ -42,7 +42,7 @@ end
 find_words_in_col = function(coll, index)
   local words_found = []
   
-  for word_len = 5 to 3
+  for word_len = 6 to 4
     if words_found.length > 0 then
       break
     end
@@ -119,6 +119,7 @@ compute_score_for_words = function(words)
   for word in words
     ws = word.length // 1 point for each letter
     multiplier = 1
+    if word.length == 6 then multiplier = 15 end
     if word.length == 5 then multiplier = 10 end
     if word.length == 4 then multiplier = 5 end
     total += ws*multiplier

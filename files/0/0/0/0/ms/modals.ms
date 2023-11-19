@@ -62,7 +62,7 @@ OnboardingModal = class
       "Select letters from your tray"
       "to drop on the board. Make words",
       "in any direction. Score points",
-      " for 4, 5, & 6 letter words."
+      " for 4, 5, & 6-letter words."
     ].forEach(function(line, index)
       screen.drawText(line, 0, (height/2)-48-(index*12), 7.5, black)
     end)
@@ -163,7 +163,7 @@ SelectModal = class
     local lines = [
       "Drop letters to make words",
       "in any direction. Score points "
-      "for 4 & 5 letter words.",
+      "for 4,5, & 6-letter words.",
     ].forEach(function(line, index)
       screen.drawText(line, 0, (height/2)-48-(index*12), 7.5, black)
     end)
