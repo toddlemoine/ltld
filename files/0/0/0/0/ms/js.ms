@@ -38,8 +38,18 @@ global.listen_for_popup_events = function() {
   }, true)
 }
 
-global.show_share = function(board) {
+global.show_share = function(board, summary) {
+  const emojiboard = board.map(row => {
+    return row.map(cell => cell.selected ? "🟥" : "⬜️").join("")
+  }).join("\n");
   
+  const text = [
+    `${summary.words} words, ${summary.points} points`,
+    `LTLD Verdict: ${summary.heading}`,
+    emojiboard
+    ].join("\n");
+  
+  document.querySelector("#share_content").innerHTML = text;
   
   
  document.body.setAttribute("data-popup", "share"); 
@@ -59,10 +69,9 @@ global.create_popups = function() {
     <div class="popup" data-popup="share">
     <form name="share">
     <div class="content">
-      <h2>LTLD</h2>      
-      <p>Let people know how you did.</p>
+      <p>Copy and paste the below to share on the socials.</p>
+    <textarea id="share_content"></textarea>
     </div>
-    <textarea></textarea>
     <footer>
       <button type="submit">OK</button>
     </footer>
@@ -93,98 +102,53 @@ body[data-popup=share] .popup[data-popup=share] {
   position: absolute;
   top: 0;
   left: 0;
-  background: rgba(45, 45, 45, 0.96);
   margin: 0;
   padding: 0;
   display: none;
   height: 100vh;
   width: 100%;
   justify-content: center;
+  align-items: center;
   font-family: Helvetica Neue, Arial, sans-serif;
 }
 
 .popup form {
   background: rgb(255,255,255);
-  max-width: 500px;
-}
-
-
-.popup h2, .popup h3 {
-  font-family: WilcoLoftSansTreble;
+  max-width: 300px;
+  height: auto;
   display: flex;
-  justify-content: center;
-  font-size: 3.25rem;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  flex-direction: column;
+  flex-direction: column;  
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 2.5%;
+  box-shadow: 0px 0px 10px rgba(0,0,0,.4);
 }
 
-.popup h2 {  padding: 1rem; color: red;text-shadow: 0px 3px black;}
-.popup h3 { font-size: 2rem; }
-.popup form {
-  padding: 2rem;
-border: 1px solid #ddd;
-}
 
-.popup .summary {
-  font-weight: bold;
-  font-size: 1.1rem;
-}
 .popup footer {
   display: flex;
   justify-content: center;
-  gap: 2rem;
-}
-
-.popup em {
-  display: block;
-  font-weight: bold;
-  font-family: WilcoLoftSansTreble;
-  font-size: 1.5rem;
-  font-style: normal;
-  text-align: center;
-}
-
-.popup ul {
-  display: flex;
-  flex-direction: row;
-  align-items: start;
-  gap: 1rem;
-  margin: 1rem 0;
-  padding: 0;
-}
-
-.popup li {
-  list-style: none;
-  margin-bottom: 1rem;
-  width: 80%;
 }
 
 .popup [type=submit] {
   display: flex;
-  background: red;
+  background: #0083c5;
   font-family: WilcoLoftSansTreble;
   font-size: 1.5rem;
   color: white;
-  border-radius: 5px;
+  border-radius: 5%;
   border: none;
-  padding: 10px 20px;
+  padding: .5rem 1rem;
   box-shadow: 0px 3px black;
+  min-width: 100px;
+  justify-content: center;
+  height: 2.5rem;
   
 }
 
-.popup .gray, .popup .red {
-  display: inline-flex;
-  background: #999;
-  color: white;  
-  border-radius: 5px;
-  padding: 3px 5px;
-  box-shadow: 0px 2px black;
-}
-
-.popup .red {
-  background: red;  
+#share_content {
+  width: 100%;
+  height: 200px;
 }
     </style>`;
   global.add_html(html);
