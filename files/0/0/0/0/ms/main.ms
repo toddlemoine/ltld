@@ -110,7 +110,7 @@ update = function()
   if loader.ready then
     set_font_offsets()
   end
-
+  
   if game_over then 
     if not modal then 
       debug('doing summary')
@@ -177,7 +177,7 @@ update = function()
       debug("TOTAL WORDS: " + board.words_used())
       debug("PLAYER WORDS: " + current_player().words())
       
-      if board.filled() then
+      if board.filled() or current_player().pieces.length == 0 then
         game_over = true
       else
         next_round()  

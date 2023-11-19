@@ -118,11 +118,14 @@ Player = class
     
     for i = 1 to max_player_pieces-pieces.length
       if current.specials.length < num_player_specials then
-        current.specials.push(special_bag.next())
+        local next = special_bag.next()
+        if next then current.specials.push(next) end
       elsif current.morphemes.length < num_player_morphemes then
-        current.morphemes.push(morpheme_bag.next())
+        local next = morpheme_bag.next()
+        if next then current.morphemes.push(next) end
       else
-        current.pieces.push(letter_bag.next())
+        local next = letter_bag.next()
+        if next then current.pieces.push(next) end
       end
     end
     
