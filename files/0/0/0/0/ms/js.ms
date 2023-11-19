@@ -44,6 +44,10 @@ global.show_settings = function() {
   document.body.setAttribute("data-popup", "settings");
 }
 
+global.go_to_url = function(url) {
+  window.open(url, "_blank")
+}
+
 
 global.create_popups = function() {
   global.add_styles();

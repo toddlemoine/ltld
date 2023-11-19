@@ -30,6 +30,9 @@ font_cell_offset = 1
 font_game_over_offset = 0
 font_game_over_button_text_offset = -1
 
+urls = object
+  feedback = "https://forms.gle/HqqL22N5oHKn76xj8"
+end
 
 defaults = object
   mode = modes.daily  

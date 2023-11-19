@@ -10,7 +10,6 @@ init = function()
   cols = 5
   rows = 7
   cell_size = 20
-  theme = themes[settings.theme]
   max_player_pieces = 5
   num_player_specials = 1
   num_player_morphemes = 1
@@ -106,6 +105,8 @@ init_players = function()
 end
 
 update = function()
+  theme = themes[settings.theme]
+  
   if not ready then return end
   
   if loader.ready then
@@ -125,6 +126,9 @@ update = function()
     if control_pause.pressed() then
       modal = new SelectModal()
     end
+    if control_settings.pressed() then
+      modal = new SettingsModal()
+    end    
   end
   
   update_flash_words()
@@ -190,10 +194,9 @@ end
 draw = function()
   screen.clear(theme.game_bg)
   screen.setFont(font_board)
-  
+
   if ready and screen.isFontReady(font_board) then  
     board.draw(78)
-    // draw_mode()
     
     control_pause.draw()
     control_settings.draw()
@@ -303,10 +306,10 @@ update_flash_words = function()
 end
 
 draw_score = function()
-  local y_offset = 12
+  local y_offset = 14
   local x_offset = 18
-  // screen.drawText(messages.score_words, -screen.width/2+x_offset, screen.height/2-y_offset, font_score_text_size, theme.score_text)
-  // screen.drawText(current_player().word_count(), -screen.width/2+x_offset, screen.height/2-y_offset-14, font_score_size, theme.score_text)
+  screen.drawText(messages.score_words, -screen.width/2+x_offset, screen.height/2-y_offset, font_score_text_size, theme.score_text)
+  screen.drawText(current_player().word_count(), -screen.width/2+x_offset, screen.height/2-y_offset-14, font_score_size, theme.score_text)
   
   screen.drawText(messages.score_score, screen.width/2-x_offset, screen.height/2-y_offset, font_score_text_size, theme.score_text, white)
   screen.drawText(current_player().score(), screen.width/2-x_offset, screen.height/2-y_offset-14, font_score_size, theme.score_text)
