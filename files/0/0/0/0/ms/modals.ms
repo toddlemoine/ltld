@@ -7,7 +7,7 @@ Modal = class
     local height = screen.height*.85
     screen.fillRect(x, y, screen.width, screen.height, "rgba(0,0,0,.7)")
     screen.fillRoundRect(x, y-2, screen.width*.8, height, 8, black)
-    screen.fillRoundRect(x, y, screen.width*.8, height, 8, white)
+    screen.fillRoundRect(x, y, screen.width*.8, height, 8, theme.modal_bg)
   end
   
 end
@@ -31,8 +31,8 @@ MiniControls = class
   end
 
   draw_callout = function(text, x, y)
-    screen.drawLine(x, y, x, y-10, black)
-    screen.drawText(text, x, y-20, 7, black)
+    screen.drawLine(x, y, x, y-10, theme.modal_text)
+    screen.drawText(text, x, y-20, 7, theme.modal_text)
   end
   
   draw = function()   
@@ -76,7 +76,7 @@ OnboardingModal = class extends Modal
       "in any direction. Score points",
       " for 4, 5, & 6-letter words."
     ].forEach(function(line, index)
-      screen.drawText(line, 0, (height/2)-48-(index*12), 7.5, black)
+      screen.drawText(line, 0, (height/2)-48-(index*12), 7.5, theme.modal_text)
     end)
     
     lines = ["Every day, everyone gets 3 words "
@@ -94,7 +94,7 @@ OnboardingModal = class extends Modal
       "to move and rotate, Enter"
       "or Space to select & drop.",
     ].forEach(function(line, index)
-      screen.drawText(line, 0, -85-(index*12), 7.5, black)
+      screen.drawText(line, 0, -85-(index*12), 7.5, theme.modal_text)
     end)
     
     
@@ -172,7 +172,7 @@ SelectModal = class extends Modal
     local lines = [
       "Drop letters to make words",
       "in any direction. Score points "
-      "for 4,5, & 6-letter words.",
+      "for 4, 5, & 6-letter words.",
     ].forEach(function(line, index)
       screen.drawText(line, 0, (height/2)-48-(index*12), 7.5, black)
     end)
@@ -248,26 +248,23 @@ SettingsModal = class extends Modal
   draw = function()
     super()
     local height = screen.height*0.85
-    screen.drawText("Settings", 0, (height/2)-24, 18, blue)
-    screen.drawText("Theme", 0, (height/2)-48-(index*12), 7.5, black)    
-    buttons.theme.draw()
+    local half_h = height/2
+    screen.drawText("Settings", 0, half_h-24, 18, blue)
+    screen.drawText("Theme", 0, half_h-48, 7.5, theme.modal_text)    
+    buttons.theme.draw(half_h-70)
 
-    screen.drawText("Theme", 0, (height/2)-48-(index*12), 7.5, black)    
-    buttons.theme.draw()
-
-    screen.drawText("Default Mode", 0, (height/2)-108, 7.5, black)    
-    buttons.mode.draw()
+    screen.drawText("Default Mode", 0, half_h-108, 7.5, theme.modal_text)    
+    buttons.mode.draw(half_h-130)
     
-    screen.drawText("Feedback", 0, (height/2)-168, 7.5, black)    
+    screen.drawText("Feedback", 0, half_h-168, 7.5, theme.modal_text)    
     local lines = [
       "Suggest a word, report a ",
       "bug, or contact us."
     ].forEach(function(line, index)
-      screen.drawText(line, 0, (height/2)-182-(index*12), 7.5, black)
+      screen.drawText(line, 0, half_h-182-(index*12), 7.5, theme.modal_text)
     end)
     
     buttons.feedback.draw()
-    
     buttons.back.draw()
   end
 end

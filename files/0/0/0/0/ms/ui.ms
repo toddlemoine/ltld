@@ -22,7 +22,7 @@ Toggle = class
   update = function()
   end
   
-  draw = function()
+  draw = function(y)
     screen.drawRoundRect(x, y, w, h, r, blue)
     
     // Toggle
@@ -36,10 +36,10 @@ Toggle = class
     
     // Labels
     local text_w = screen.textWidth(labels[0], 8)
-    screen.drawText(labels[0], x-w/2-text_w/2-5, y, 8, black)
+    screen.drawText(labels[0], x-w/2-text_w/2-5, y, 8, theme.modal_text)
     
     local text_w = screen.textWidth(labels[1], 8)
-    screen.drawText(labels[1], x+w/2+text_w/2+5, y, 8, black)
+    screen.drawText(labels[1], x+w/2+text_w/2+5, y, 8, theme.modal_text)
   end
 end
 

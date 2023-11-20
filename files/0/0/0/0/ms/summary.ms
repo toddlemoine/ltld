@@ -32,22 +32,22 @@ SummaryScreen = class
   
   draw = function()
     screen.setAlpha(tick)
-    screen.fillRect(x, y, w, h, dark_gray)
+    screen.fillRect(x, y, w, h, theme.summary_bg)
     screen.setAlpha(1)
-    board.draw(78)
-    draw_played_words(white)
+    board.draw(board_y)
+    draw_played_words(theme.summary_text)
     
     
     if stage >= 1 then
       local text = [summary.words + " words", summary.points + " points", summary.filled + "% filled"].join(", ")
-      screen.drawText(text, 0, 138, 10, white)
+      screen.drawText(text, 0, 138, 10, theme.summary_text)
     end
 
     if stage >= 2 then
       if mode == modes.daily then
-        screen.drawText(summary.daily, 0, 118, 10, white)
+        screen.drawText(summary.daily, 0, 118, 10, theme.summary_text)
       end
-      screen.drawText(summary.desc, 0, 100, 10, white)
+      screen.drawText(summary.desc, 0, 100, 10, theme.summary_text)
     end
 
     if stage >= 3 then
@@ -55,7 +55,7 @@ SummaryScreen = class
       local size = 36
       
       screen.drawText(summary.heading, 0, y-2, 24, black)
-      screen.drawText(summary.heading, 0, y, 24, white)
+      screen.drawText(summary.heading, 0, y, 24, theme.summary_button_text)
 
       buttons.share.draw()
       buttons.play_again.draw()

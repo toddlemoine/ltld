@@ -1,7 +1,5 @@
 white = "rgb(255,255,255)"
 black = "rgb(0,0,0)"
-yellow = "rgb(255,255,0)"
-green = "rgb(80,197,22)"
 red ="rgb(255,0,0)"
 blue ="rgb(0,131,197)"
 dark_gray ="rgb(25,25,25)"
@@ -17,12 +15,11 @@ modes = object
 end
 
 summary = object
-  low = "meh;well, you tried;whew;it is done;try again;mediocre!;putrid".split(";")
-  med = "not too shabby,pretty good,alright,decent,fair,fine. it's fine.".split(",")
-  high = "boom!,wicked!,big brain!,awesome!,fantastic!,woah!,incredible!,wunderbar!,stellar!,impressive!".split(",")
+  low = "Meh;Well, you tried;Whew;It is done;Try again;Mediocre!;Putrid".split(";")
+  med = "Not shabby,Pretty good,Alright,Decent,Fair,Fine. It's fine.".split(",")
+  high = "Boom!,Wicked!,Big Brain!,Awesome!,Fantastic!,Woah!,Incredible!,Wunderbar!,Stellar!,Impressive!".split(",")
 end
 
-// font_score = "bitcell"
 font_score_text_size = 8
 font_score_size = 14
 font_board = "wilcoloftsanstreble" // "interbold"
@@ -54,9 +51,12 @@ themes = object
     cell_bg_disabled = light_gray
     cell_text_disabled = gray
     cell_text = black
+    modal_bg = white
+    modal_text = black
     move_control = black
-    game_over_color = blue
-    game_over_button_text = white
+    summary_button_text = white
+    summary_bg = dark_gray
+    summary_text = white
   end
   dark = object
     score_text = white
@@ -66,8 +66,11 @@ themes = object
     cell_text = white
     cell_bg_disabled = light_gray
     cell_text_disabled = gray
+    modal_bg = white
+    modal_text = black
     move_control = white
-    game_over_color = blue
-    game_over_button_text = white
+    summary_button_text = white
+    summary_bg = dark_gray
+    summary_text = white
   end
 end

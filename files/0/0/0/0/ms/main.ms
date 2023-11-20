@@ -20,6 +20,7 @@ init = function()
   mode = settings.mode
   
   // Set up playing area
+  board_y = 78
   dict = null
   board = null
   tray = null
@@ -37,7 +38,6 @@ init = function()
   control_select = new SelectControl(screen.width/2-35, -(screen.height/2)+50, red)
 
   // Modals
-  select_modal = new SelectModal()
   modal = null
   
   // Set up players
@@ -54,7 +54,7 @@ init = function()
   
   if not settings.onboarded then
     settings.onboarded = true
-    storage.set('settings', settings)
+    save_settings()
     modal = new OnboardingModal()
   end
 end
@@ -113,11 +113,8 @@ update = function()
   
   if game_over then 
     if not modal then 
-      debug('doing summary')
       modal = new SummaryScreen()
-      // modal.update()
     end
-
   end
   
   if modal then
@@ -197,7 +194,7 @@ draw = function()
   screen.setFont(font_board)
 
   if ready and screen.isFontReady(font_board) then  
-    board.draw(78)
+    board.draw(board_y)
     
     control_pause.draw()
     control_settings.draw()

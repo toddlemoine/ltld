@@ -1,12 +1,10 @@
 Tray = class
-  piece_pos = []
-  x = null
-  y = null
   
-  constructor = function(x, offset)
+  constructor = function(x, offset=0)
     this.x = x
     this.y = -(screen.height/2)+offset
     this.offset = offset
+    this.piece_pos = []
   end
   
   draw_selection = function(start_x, start_y, end_x, end_y)
@@ -58,7 +56,7 @@ Tray = class
 
       // Draw selection
       if selected_piece == piece_pos.length-1 then
-        line_y = -offset+cell_size*1.3
+        line_y = -offset+cell_size*1.35
         line_x1 = pos.x1-half_cell
         line_x2 = pos.x2-half_cell
         draw_selection(line_x1, line_y, line_x2, line_y)
