@@ -44,20 +44,19 @@ global.show_share = function(board, summary) {
   }).join("\n");
   
   const text = [
-    `${summary.words} words, ${summary.points} points`,
-    `LTLD Verdict: ${summary.heading}`,
+    `${summary.words} words, ${summary.points} points, ${summary.filled}% filled`,
+    summary.daily,
+    `Verdict: ${summary.heading}`,
     emojiboard
     ].join("\n");
   
   document.querySelector("#share_content").innerHTML = text;
-  
-  
- document.body.setAttribute("data-popup", "share"); 
+  document.body.setAttribute("data-popup", "share"); 
 }
 
 
 global.go_to_url = function(url) {
-  window.open(url, "_blank", "width=" + window.innerWidth + ",height=" + window.innerHeight + ",scrollbars=no")
+  window.open(url, "_blank")
 }
 
 

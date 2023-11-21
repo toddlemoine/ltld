@@ -196,6 +196,8 @@ draw = function()
   screen.setFont(font_board)
 
   if ready and screen.isFontReady(font_board) then  
+    draw_copyright()
+    
     board.draw(board_y)
     
     control_pause.draw()
@@ -228,7 +230,6 @@ draw = function()
     end
     
     draw_header()
-    draw_copyright()
 
   end
 end
@@ -348,11 +349,9 @@ draw_mode = function()
 end
 
 draw_header = function()
+  screen.fillRect(0, screen.height/2-2, screen.width, 29, "rgba(0,0,0,.5)")  
   screen.fillRect(0, screen.height/2, screen.width, 29, red)
-  // screen.fillRoundRect(0, screen.height/2-6, screen.width*.95, 20, 8, red)
-  
   screen.drawText("Let The Letter Drop", 0, screen.height/2-8, 9, white)
-  
   about_link.draw()
 end
 

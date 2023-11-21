@@ -16,7 +16,7 @@ Cell = class
   toJSON = function()
     object
       char = char
-      selected = state == 1
+      selected = selected
     end
   end
   
