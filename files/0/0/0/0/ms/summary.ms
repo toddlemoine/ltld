@@ -45,7 +45,7 @@ SummaryScreen = class
 
     if stage >= 2 then
       if mode == modes.daily then
-        screen.drawText(summary.daily, 0, 118, 10, theme.summary_text)
+        screen.drawText(summary.daily, 0, 119, 10, theme.summary_text)
       end
       screen.drawText(summary.desc, 0, 100, 10, theme.summary_text)
     end

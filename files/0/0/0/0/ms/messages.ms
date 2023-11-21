@@ -9,4 +9,5 @@ messages = object
   todays = "TODAY'S"
   words = "WORDS"
   controls_help = "HELP"
+  copyright = "©2023 Todd Lemoine"
 end

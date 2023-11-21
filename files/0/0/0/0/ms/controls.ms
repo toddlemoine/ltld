@@ -130,3 +130,16 @@ PauseControl = class
   end
 end
 
+
+AboutLink = class extends Link
+  constructor = function(text, x, y, font_size, color)
+    super(text, x, y, font_size, color)
+  end
+  update = function()
+    if pressed() then
+      go_to_url(urls.about)
+    end
+  end
+end
+
+

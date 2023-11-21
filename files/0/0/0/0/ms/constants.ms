@@ -1,6 +1,7 @@
 white = "rgb(255,255,255)"
 black = "rgb(0,0,0)"
 red ="rgb(255,0,0)"
+dark_red ="rgb(147,0,0)"
 blue ="rgb(0,131,197)"
 dark_gray ="rgb(25,25,25)"
 light_gray ="rgb(223,223,223)"
@@ -15,7 +16,7 @@ modes = object
 end
 
 summary = object
-  low = "Meh;Well, you tried;Whew;It is done;Try again;Mediocre!;Putrid".split(";")
+  low = "Meh;Nice try;Whew;Try again;Mediocre!;(Shrug)".split(";")
   med = "Not shabby,Pretty good,Alright,Decent,Fair,Fine. It's fine.".split(",")
   high = "Boom!,Wicked!,Big Brain!,Awesome!,Fantastic!,Woah!,Incredible!,Wunderbar!,Stellar!,Impressive!".split(",")
 end
@@ -35,6 +36,7 @@ font_game_over_button_text_offset = -1
 
 urls = object
   feedback = "https://forms.gle/HqqL22N5oHKn76xj8"
+  about = "/about.html"
 end
 
 defaults = object

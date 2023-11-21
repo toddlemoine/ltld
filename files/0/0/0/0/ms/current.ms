@@ -56,17 +56,32 @@ Current = class
     end
   end
   
-  can_rotate = function(reverse=false)
-    if reverse then
-      // ?
-    else
-      if pos == 4 then
-        return col+cells.length <= cols+1
-      elsif pos == 2 then
-        return col >= cells.length
-      end
+  can_rotate = function()
+    if pos == 4 then
+      return col+cells.length <= cols+1
+    elsif pos == 2 then
+      return col >= cells.length
     end
     true
+  end
+  
+  can_rotate_ccw = function()
+    if pos == 4 then
+      return col >= cells.length
+    elsif pos == 2 then
+      return col+cells.length <= cols+1
+    end
+    true
+  end  
+  
+  rotate_ccw = function()
+    if not can_rotate_ccw() then return end
+    
+    if pos == 1 then 
+      pos = 4
+    else 
+      pos -= 1
+    end    
   end
   
   rotate = function()

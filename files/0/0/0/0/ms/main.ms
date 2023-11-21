@@ -36,6 +36,7 @@ init = function()
   control_move_right = new MoveControl(-screen.width/2+60, -(screen.height/2)+45, false)
   control_rotate = new RotateControl(screen.width/2-70, -(screen.height/2)+30, gray)
   control_select = new SelectControl(screen.width/2-35, -(screen.height/2)+50, red)
+  about_link = new AboutLink("About", screen.width/2-20, screen.height/2-7, 6, white)
 
   // Modals
   modal = null
@@ -67,7 +68,7 @@ reset_game = function(selected_mode)
   morpheme_bag = new Morphemebag(cols*rows)
   special_bag = new Specialbag(cols*rows)
   select_modal = new SelectModal()
-  tray = new Tray(0, 95)
+  tray = new Tray(0, -80, cell_size)
   curr = new Current(0, 125)
   ready = false
   daily_words = []
@@ -82,7 +83,7 @@ reset_game = function(selected_mode)
       daily_words = daily.words
       dict.add_words(daily.words)
       
-      // daily.bag = "CAKETAKERAKE LYRERE"
+      // daily.bag = "PADEPPAAPQ RYLYRERE"
       // daily.words = []
       letter_bag = new DailyLetterbag(daily, false)
       morpheme_bag = new DailyMorphemebag(daily, false)
@@ -129,6 +130,7 @@ update = function()
     end    
   end
   
+  about_link.update()
   update_flash_words()
 
   // Selecting a piece to drop
@@ -155,10 +157,10 @@ update = function()
         curr.move_right()
     
       elsif controls.up() then
-        curr.rotate()
+        curr.rotate_ccw()
 
       elsif controls.down() then
-        curr.rotate(true)
+        curr.rotate()
         
       elsif controls.select() then
         curr.drop()
@@ -174,7 +176,7 @@ update = function()
       debug("TOTAL WORDS: " + board.words_used())
       debug("PLAYER WORDS: " + current_player().words())
       
-      if board.filled() or current_player().pieces.length == 0 then
+      if board.filled() or current_player().cant_play() then
         game_over = true
       else
         next_round()  
@@ -226,6 +228,7 @@ draw = function()
     end
     
     draw_header()
+    draw_copyright()
 
   end
 end
@@ -296,7 +299,7 @@ update_flash_words = function()
 end
 
 draw_score = function()
-  local y_offset = 14
+  local y_offset = 24
   local x_offset = 18
   screen.drawText(messages.score_words, -screen.width/2+x_offset, screen.height/2-y_offset, font_score_text_size, theme.score_text)
   screen.drawText(current_player().word_count(), -screen.width/2+x_offset, screen.height/2-y_offset-14, font_score_size, theme.score_text)
@@ -339,23 +342,26 @@ draw_daily_words = function()
   screen.drawText(daily_words[2], x, y-42, font_score_text_size, results[2])  
 end
 
-draw_game_over = function()
-  local y = screen.height/2-42+font_game_over_offset
-  local size = 36
-  screen.drawText(messages.game_over, 0, y-2, font_game_over_size, black)
-  screen.drawText(messages.game_over, 0, y, font_game_over_size, blue)
-end
-
 draw_mode = function()
   local text = if mode == modes.daily then messages.daily else messages.freeplay end
   screen.drawText(text, 0, screen.height/2-26, 7, white)
 end
 
 draw_header = function()
-  screen.fillRect(0, screen.height/2, screen.width, 10, red)
-  screen.fillRoundRect(0, screen.height/2-6, 98, 20, 10, red)
-  screen.drawText("Let The Letter Drop", 0, screen.height/2-8, 8, white)
+  screen.fillRect(0, screen.height/2, screen.width, 29, red)
+  // screen.fillRoundRect(0, screen.height/2-6, screen.width*.95, 20, 8, red)
+  
+  screen.drawText("Let The Letter Drop", 0, screen.height/2-8, 9, white)
+  
+  about_link.draw()
 end
+
+draw_copyright = function()
+  local w = screen.textWidth(messages.copyright, 5)
+  screen.drawText(messages.copyright, screen.width/2-w/2-2, -screen.height/2+4, 5, light_gray)  
+end
+
+
 
 
 

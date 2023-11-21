@@ -1,8 +1,9 @@
 Tray = class
   
-  constructor = function(x, offset=0)
+  constructor = function(x, y, size=cell_size)
     this.x = x
-    this.y = -(screen.height/2)+offset
+    this.y = y
+    this.size = size
     this.offset = offset
     this.piece_pos = []
   end
@@ -21,8 +22,8 @@ Tray = class
       total_chars += piece.length
     end
 
-    local half_cell = cell_size/2
-    local pieces_width = (total_chars+pieces.length-1)*cell_size
+    local half_cell = size/2
+    local pieces_width = (total_chars+pieces.length-1)*size
     local x = -pieces_width/2 + (half_cell*pieces.length)/2
     
     // Do the layout
@@ -45,10 +46,10 @@ Tray = class
         elsif char == ">" then
           new BumpRightSpecial(x, y).draw()
         else
-          new Letter(char, cell_size, x, y).draw()
+          new Letter(char, size, x, y).draw()
         end
         
-        x += cell_size
+        x += size
       end
       
       pos.x2 = x
@@ -56,14 +57,14 @@ Tray = class
 
       // Draw selection
       if selected_piece == piece_pos.length-1 then
-        line_y = -offset+cell_size*1.35
+        line_y =  y+size/1.35
         line_x1 = pos.x1-half_cell
         line_x2 = pos.x2-half_cell
         draw_selection(line_x1, line_y, line_x2, line_y)
       end
       
       // Add space between pieces
-      x += cell_size/2
+      x += size/2
     end
   end  
   

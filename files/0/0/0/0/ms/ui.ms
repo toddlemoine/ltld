@@ -83,3 +83,33 @@ Button = class
   end
   
 end
+
+Link = class
+  constructor = function(text, x, y, font_size, color)
+    this.text = text
+    this.font_size = font_size
+    this.width = screen.textWidth(text, font_size)
+    this.x = x
+    this.y = y
+    this.color = color
+  end
+  
+  hovered = function()
+    local in_y = touch.y < y+6 and touch.y > y-6
+    return in_y and touch.x > x-width/2 and touch.x < x+width/2
+  end
+  
+  pressed = function()
+    hovered() and touch.release
+  end
+  
+  update = function()
+      
+  end
+  
+  draw = function()
+    screen.fillRoundRect(x, y, 29, 10, 8, dark_red)
+    screen.drawText(text, x, y, font_size, white)    
+  end
+  
+end

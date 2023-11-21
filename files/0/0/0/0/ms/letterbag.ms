@@ -51,40 +51,36 @@ shuffle = function(coll)
 end
 
 Bag = class
-  bag = []
   
   constructor = function(size)
     this.size = size
+    this.bag = []
     this.fill()
-    this.history = []
   end
   
   fill = function()
-    this.bag = []
+    bag = []
   end
 
   empty = function()
     bag.length == 0
   end
   
-  add_to_history = function(drawn)
-    history = [history.pop(), history.pop(), drawn]
-  end
-  
-  next = function()
+  next = function(history = [], offset=0)
     local drawn = ""
+    debug(this.id + " "+ history)
     
     if _debug then
-      drawn = bag.removeAt(0)
+      drawn = bag.removeAt(offset)
     else
       drawn = bag.removeAt(random.nextInt(bag.length))
     end
     
     if drawn then 
-      if history.contains(drawn) then
-        return this.next()
+      if history.contains(drawn) and not empty() then
+        bag.insert(drawn)
+        return this.next(history, offset+1)
       end
-      add_to_history(drawn)
       drawn.split("") 
     end
   end
