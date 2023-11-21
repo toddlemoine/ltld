@@ -27,7 +27,8 @@ global.read_params = function() {
 global.add_html = function(html) {
   const template = document.createElement('template');
   template.innerHTML = html.trim();
-  document.body.appendChild(template.content.firstChild)  
+  document.body.appendChild(template.content.firstChild);
+  return template.content.firstChild;
 }
 
 global.listen_for_popup_events = function() {
@@ -59,6 +60,25 @@ global.go_to_url = function(url) {
   window.open(url, "_blank")
 }
 
+global.copy_summary = function(board, summary) {
+  const emojiboard = board.map(row => {
+    return row.map(cell => cell.selected ? "🟥" : "⬜️").join("")
+  }).join("\n");
+  
+  const text = [
+    `${summary.words} words, ${summary.points} points, ${summary.filled}% filled`,
+    summary.daily,
+    `Verdict: ${summary.heading}`,
+    emojiboard
+    ].join("\n");
+  
+  global.add_html(`<textarea id="copytext">${text}</textarea>`)
+  const el = document.querySelector("#copytext");
+  el.select();
+  document.execCommand("copy");
+  el.remove();
+}
+
 
 
 global.create_popups = function() {
@@ -72,7 +92,8 @@ global.create_popups = function() {
     <textarea id="share_content"></textarea>
     </div>
     <footer>
-      <button type="submit">OK</button>
+      <button name="copy" type="submit">Copy</button>
+      <button type="submit">Close</button>
     </footer>
     </form>
     </div>`;
@@ -95,6 +116,11 @@ body {
 
 body[data-popup=share] .popup[data-popup=share] {
   display: flex;
+}
+
+#copytext {
+  width: 0;
+  opacity: 0.1;
 }
 
 .popup {

@@ -16,7 +16,15 @@ SummaryScreen = class
   
   update = function()
     
-    if buttons.share.pressed() then return show_share(board.toJSON(), this.summary) end
+    if buttons.share.pressed() then 
+      copy_summary(board.toJSON(), this.summary)
+      buttons.share.text = "Copied!"
+      after 1.5 seconds do
+        buttons.share.text = "Share"
+      end
+      return
+      // return show_share(board.toJSON(), this.summary) 
+    end
     if buttons.play_again.pressed() then return reset_game() end
     
     tick = min(1, tick+.0325)
