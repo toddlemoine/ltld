@@ -13,7 +13,6 @@ Player = class
     for i=count to 1 
       _h.push(history[history.length-i])  
     end
-    debug("last played: " + _h)
     _h
   end
   

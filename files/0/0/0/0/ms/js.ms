@@ -57,7 +57,7 @@ global.show_share = function(board, summary) {
 
 
 global.go_to_url = function(url) {
-  window.open(url, "_blank", "width=" + window.innerWidth + ",height=" + window.innerHeight)
+  window.open(url, "_blank", "width=" + window.innerWidth + ",height=" + window.innerHeight + ",scrollbars=no")
 }
 
 

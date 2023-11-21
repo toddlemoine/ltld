@@ -48,7 +48,7 @@ init = function()
   ready = false
   flash_words = []
   selected_piece = 0 
-  specials_used = 0
+  // specials_used = 0
   game_over = false
 
   reset_game()

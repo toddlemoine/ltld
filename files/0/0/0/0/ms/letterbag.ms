@@ -68,7 +68,6 @@ Bag = class
   
   next = function(history = [], offset=0)
     local drawn = ""
-    debug(this.id + " "+ history)
     
     if _debug then
       drawn = bag.removeAt(offset)

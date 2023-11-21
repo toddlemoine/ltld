@@ -1,13 +1,13 @@
 Board = class 
-  latest_results = []
-  latest_removed_results = []
-  results = object end
   
   constructor = function(r, c, cell_size)
     this.c = c
     this.r = r
     this.cell_size = cell_size
     this.grid = []
+    this.latest_results = []
+    this.latest_removed_results = []
+    this.results = object end
     
     for i=0 to r-1
       local row = []
