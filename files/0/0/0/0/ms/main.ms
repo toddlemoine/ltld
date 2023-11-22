@@ -1,8 +1,7 @@
 init = function()
   DEBUGGER = true
-  create_popups()
-  listen_for_popup_events()
-  
+  create_page_elements(urls)
+
   loader = asset_manager.loadFont(font_board)
   settings = read_settings()
   
@@ -36,7 +35,7 @@ init = function()
   control_move_right = new MoveControl(-screen.width/2+60, -(screen.height/2)+45, false)
   control_rotate = new RotateControl(screen.width/2-70, -(screen.height/2)+30, gray)
   control_select = new SelectControl(screen.width/2-35, -(screen.height/2)+50, red)
-  about_link = new AboutLink("About", screen.width/2-20, screen.height/2-7, 6, white)
+  about_link = new AboutLink("About", screen.width/2-20, screen.height/2-8, 6, white)
 
   // Modals
   modal = null
@@ -265,8 +264,8 @@ end
 controls = object
   left = function() keyboard.press.A or keyboard.press.LEFT or control_move_left.pressed() end
   right = function() keyboard.press.D or keyboard.press.RIGHT or control_move_right.pressed() end
-  up = function() keyboard.press.W or keyboard.press.UP or control_rotate.pressed() end
-  down = function() keyboard.press.S or keyboard.press.DOWN end
+  up = function() keyboard.press.W or keyboard.press.UP end
+  down = function() keyboard.press.S or keyboard.press.DOWN or control_rotate.pressed() end
   select = function() keyboard.press.SPACE or keyboard.press.ENTER or control_select.pressed() end
 end
 

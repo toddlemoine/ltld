@@ -137,7 +137,7 @@ AboutLink = class extends Link
   end
   update = function()
     if pressed() then
-      go_to_url(urls.about)
+      click_link("about")
     end
   end
 end

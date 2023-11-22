@@ -57,7 +57,11 @@ global.show_share = function(board, summary) {
 
 
 global.go_to_url = function(url) {
-  window.open(url, "_blank")
+  window.open(url)
+}
+
+global.click_link = function(link) {
+  document.querySelector("#"+link).click();
 }
 
 global.copy_summary = function(board, summary) {
@@ -71,12 +75,27 @@ global.copy_summary = function(board, summary) {
     `Verdict: ${summary.heading}`,
     emojiboard
     ].join("\n");
-  
-  global.add_html(`<textarea id="copytext">${text}</textarea>`)
-  const el = document.querySelector("#copytext");
-  el.select();
-  document.execCommand("copy");
-  el.remove();
+    
+  if (navigator.share) {
+    navigator.share({
+      title: 'Let The Letter Drop',
+      url: 'https://ltld.fun',
+      text: text
+    })
+    .catch(console.error);
+    return true;
+  } else {
+    global.add_html(`<textarea id="copytext">${text}</textarea>`)
+    const el = document.querySelector("#copytext");
+    el.select();
+    document.execCommand("copy");
+    el.remove();    
+  }  
+}
+
+global.create_page_elements = function(urls) {
+  global.add_html(`<a id="about" href="${urls.about}">About</a>`);
+  global.add_html(`<a id="feedback" href="${urls.feedback}">About</a>`);
 }
 
 
@@ -116,6 +135,11 @@ body {
 
 body[data-popup=share] .popup[data-popup=share] {
   display: flex;
+}
+
+#about, #feedback {
+  opacity: 0.1;
+  width: 0;
 }
 
 #copytext {

@@ -108,8 +108,7 @@ Link = class
   end
   
   draw = function()
-    screen.fillRoundRect(x, y+1, 29, 10, 8, dark_red)
-    screen.drawText(text, x, y, font_size, white)    
+    screen.drawText(text, x, y, font_size, dark_red)    
   end
   
 end
