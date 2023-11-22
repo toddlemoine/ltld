@@ -308,7 +308,7 @@ draw_score = function()
   screen.drawText(current_player().score(), screen.width/2-x_offset, screen.height/2-y_offset-14, font_score_size, theme.score_text)
 end
 
-draw_played_words = function(color = black)
+draw_played_words = function(color = theme.score_text)
   local x = screen.width/2-24
   local i = 1
   local words = current_player().words()
