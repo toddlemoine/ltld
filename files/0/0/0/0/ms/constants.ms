@@ -4,6 +4,7 @@ red ="rgb(255,0,0)"
 dark_red ="rgb(147,0,0)"
 blue ="rgb(0,131,197)"
 dark_gray ="rgb(25,25,25)"
+dark_gray_100="rgb(48,48,48)"
 light_gray ="rgb(223,223,223)"
 med_gray ="rgb(141,141,141)"
 gray = "rgb(118,118,118)"
@@ -59,6 +60,7 @@ themes = object
     summary_button_text = white
     summary_bg = dark_gray
     summary_text = white
+    copyright = light_gray
   end
   dark = object
     score_text = white
@@ -74,5 +76,6 @@ themes = object
     summary_button_text = white
     summary_bg = dark_gray
     summary_text = white
+    copyright = dark_gray_100
   end
 end

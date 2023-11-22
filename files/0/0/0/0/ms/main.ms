@@ -35,7 +35,7 @@ init = function()
   control_move_right = new MoveControl(-screen.width/2+60, -(screen.height/2)+45, false)
   control_rotate = new RotateControl(screen.width/2-70, -(screen.height/2)+30, gray)
   control_select = new SelectControl(screen.width/2-35, -(screen.height/2)+50, red)
-  about_link = new AboutLink("About", screen.width/2-20, screen.height/2-8, 6, white)
+  about_link = new AboutLink("About", screen.width/2-18, screen.height/2-8, 6, white)
 
   // Modals
   modal = null
@@ -356,7 +356,7 @@ end
 
 draw_copyright = function()
   local w = screen.textWidth(messages.copyright, 5)
-  screen.drawText(messages.copyright, screen.width/2-w/2-2, -screen.height/2+4, 5, light_gray)  
+  screen.drawText(messages.copyright, screen.width/2-w/2-2, -screen.height/2+4, 5, theme.copyright)  
 end
 
 
