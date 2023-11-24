@@ -1,14 +1,15 @@
 {
-  "name": "downwords",
+  "name": "ltld",
   "version": "1.0.0",
   "description": "",
-  "main": "generateBag.js",
+  "main": "index.js",
   "scripts": {
+    "build": "echo \"Nothing to do\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Todd Lemoine",
   "license": "ISC",
-  "dependencies": {
-    "lodash": "^4.17.21"
+  "devDependencies": {
+    "esbuild": "^0.19.7"
   }
 }
