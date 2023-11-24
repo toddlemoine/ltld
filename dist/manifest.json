@@ -1,0 +1,28 @@
+{
+  "name": "Let The Letter Drop",
+  "short_name": "LTLD",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "scope": "https://ltld.fun",
+  "start_url": ".",
+  "icons": [
+    {
+      "src": "icon_192.png?v=0",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon_196.png?v=0",
+      "type": "image/png",
+      "sizes": "196x196",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icon_512.png?v=0",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
