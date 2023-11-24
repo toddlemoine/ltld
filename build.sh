@@ -22,11 +22,12 @@ sed -n '/<script id="code" type="text\/x-microscript">/,/<\/script>/p' stage/ind
 # rm -rf ./stage
 
 ls -la dist
+cat stage/app.ms | pbcopy
 
 echo "------------------------------------------------------"
 echo "dist folder created."
 echo ""
-echo "Copy and paste dist/app.ms into index.html {{ app }}:"
-echo ""
+echo "App code copied to the clipboard with:"
 echo "  cat stage/app.ms | pbcopy"
+echo "Copy and paste dist/app.ms into index.html {{ app }}:"
 

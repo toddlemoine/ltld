@@ -9,25 +9,59 @@
   <meta charset="UTF-8">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="description" content="">
+  <meta name="description"
+    content="Let The Letter Drop is a web and mobile game where you drop letters on a board to make words and score points. Rotate pieces and use bombs and other special pieces to arrange letters how you want. Every day, get a new set of letters you can use to make the daily words.">
   <link rel="icon" type="image/png" href="icon_64.png">
   <link rel="apple-touch-icon" sizes="180x180" href="icon_180.png">
   <link rel="icon" type="image/png" sizes="32x32" href="icon_32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="icon_16.png">
   <script defer data-domain="ltld.fun" src="https://plausible.io/js/script.js"></script>
   <style>
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #000;
-      overflow: hidden;
-    }
-  </style>
-  <style>
     @font-face {
       font-family: "WilcoLoftSansTreble";
       src: url("fonts/WilcoLoftSansTreble.ttf") format("truetype");
+    }
+
+    html,
+    body {
+      margin: 0;
+      background-color: #fff;
+      font-family: sans-serif;
+      line-height: 1.4rem;
+      padding: 1rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 600px;
+    }
+
+    h1,
+    h2,
+    h3,
+    a[data-back] {
+      font-family: WilcoLoftSansTreble;
+    }
+
+    h1 {
+      font-size: 3rem;
+      line-height: 100%;
+      color: red;
+    }
+
+    a[data-back] {
+      color: red;
+    }
+
+    li {
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      margin-top: 3.5rem;
+    }
+
+    h3 {
+      margin-top: 2.5rem;
     }
   </style>
   <script>window.fonts = ["WilcoLoftSansTreble"]</script>
@@ -35,42 +69,71 @@
 
 <body>
   <header>
+    <h1>About Let the Letter Drop</h1>
+    <p><a data-back href="/">Back to the Game</a></p>
   </header>
   <main>
-    <h1>About Let the Letter Drop</h1>
+    <p>
+      Let the Letter Drop (LTLD) is a game about dropping letters to make words. It's a bit like Tetris, but with
+      letters
+      instead of blocks. It's a bit like a crossword, but if you were trying to make it while the letters were being
+      thrown at you. It can
+      be about how much of the board you complete, or how many words you make, or how many big words you make. It's up
+      to you.
+    </p>
+    <p>LTLD is made by Todd Lemoine in Portland, Oregon.</p>
     <ol>
-      <li>About</li>
-      <li>Contact Me</li>
-      <li>How to Play - Daily Game</li>
-      <li>Tips</li>
-      <li>Terms of Use and Legal Stuff</li>
+      <li><a href="#contact">Contact Me</a></li>
+      <li><a href="#how-to-play">How to Play</a></li>
+      <li><a href="#tips">Tips</a></li>
+      <li><a href="#terms-of-use">Terms of Use</a></li>
+      <li><a href="#privacy-policy">Privacy Policy</a></li>
     </ol>
 
-    <h2>About</h2>
-    <p>
-      Let the Letter Drop is a game about dropping letters to make words. It's a bit like Tetris, but with letters
-      instead of blocks.
-      It's a bit like a crossword, but if you were trying to make it while the letters were being thrown at you. It can
-      be about how
-      much of the board you complete, or how many words you make, or how many big words you make. It's up to you.
-    </p>
-    <h2>Contact Me</h2>
+    <a id="contact">
+      <h2>Contact Me</h2>
+    </a>
     <p>If you have questions or comments or want to suggest a word, please <a
         href="https://forms.gle/HqqL22N5oHKn76xj8">use the feedback form.</a></p>
 
-    <h2>How to Play - Daily Game</h2>
+    <a id="how-to-play">
+      <h2>How to Play</h2>
+    </a>
+    <p>Drop letters on the board to make words and get points. Play for points or try to fill the board. </p>
+    <ol>
+      <li>Select a letter piece from your tray.</li>
+      <li>If you select a piece with more than one letter, you can rotate it before dropping.</li>
+      <li>Move it left and right to select a column, then drop it on the board.</li>
+      <li>Use the bomb or left- and right- bumper "specials" to remove or move letters on the board.</li>
+    </ol>
+    <h3>Controls</h3>
+    <ol>
+      <li>Desktop: Use Up, Down, Left, and Right arrow keys to move and rotate. Space or Enter to select and drop.</li>
+      <li>Mobile: Use the on-screen controls to move, select, and drop letters and specials.</li>
+    </ol>
+    <h3>Daily Mode</h3>
+    <p>The Daily mode of LTLD is the default version of the game. You can change to the Freeplay mode at any time from
+      the Help screen.
+    </p>
     <p>
       Every day, everyone gets the same 3 words and the same bag of letters (but randomized for each person).
       The goal is to make all three daily words and then fill up the board with as many words as you can.
       New day, new words and letters. You can play as many times as you want.
     </p>
-    <h2>Tips</h2>
+    <h3>Freeplay Mode</h3>
+    <p>Play for yourself. Get a new bag of letters every time you play.</p>
+    <p>You can make Freeplay the default mode in the Settings screen. When you visit ltld.fun, it will start in Freeplay
+      instead of Daily mode.</p>
+
+    <a id="tips">
+      <h2>Tips</h2>
+    </a>
     <ol>
       <li>Longer words get more points-per-letter.
         <ul>
-          <li>4-letter words: 12 points (3 per letter)</li>
-          <li>5-letter words: 20 points (4 per letter)</li>
-          <li>6-letter words: 30 points (5 per letter)</li>
+          <li>4-letter words: 20 points (5 per letter)</li>
+          <li>5-letter words: 50 points (10 per letter)</li>
+          <li>6-letter words: 90 points (15 per letter)</li>
           <li>Daily words: Points above + 100 points</li>
         </ul>
       </li>
@@ -92,7 +155,9 @@
         to get to one you need.</li>
     </ol>
 
-    <h2>Terms of Use</h2>
+    <a id="terms-of-use">
+      <h2>Terms of Use</h2>
+    </a>
     <p>This site, ltld.fun, and its games are provided without any guarantees. By using this site, you agree to not hold
       its owner liable for any damages, including but not limited to, loss of data, loss of time, and loss of money.
       Use at your own risk.
@@ -106,13 +171,16 @@
     <p>You can't iframe or otherwise embed this site within another website or application.</p>
     <p>You can't play the game autonomously with scripts or bots.</p>
 
-    <h2>Privacy Policy</h2>
+    <a id="privacy-policy">
+      <h2>Privacy Policy</h2>
+    </a>
     <p>We respect your right to privacy and do not collect any email addresses or personal information.
       We do not use cookies or any other tracking technology. We do not share any information with third parties.
       We may collect anonymous usage data, such as how many people play the game, how many times they play, and how many
-      words they make,
-      as well as more general website analytics. We use <a href="https://plausible.io">plausible.io</a> for collecting
-      analytics.
+      words they make, as well as more general website analytics.
+    </p>
+    <p>
+      We use <a href="https://plausible.io">plausible.io</a> for collecting analytics.
     </p>
   </main>
 </body>
