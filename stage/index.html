@@ -16,7 +16,7 @@
 #canvaswrapper {
   text-align: center ;
 }
-</style><style>@font-face { font-family: "BitCell" ; src: url("fonts/BitCell.ttf") format("truetype"); }</style><script>window.fonts = ["BitCell"]</script></head><body class="noselect custom-cursor" oncontextmenu="return false;"><div id="canvaswrapper"></div><script type="text/javascript">var resources = {"images":[{"file":"explosion.png","version":5,"size":295,"properties":{"frames":3,"fps":5}},{"file":"explosion_unused.png","version":1,"size":295,"properties":{"frames":1,"fps":5}},{"file":"icon.png","version":0,"size":0,"properties":{}},{"file":"special_bomb.png","version":0,"size":0,"properties":{}},{"file":"special_bump_left.png","version":0,"size":0,"properties":{}},{"file":"special_bump_left_disabled.png","version":0,"size":0,"properties":{}},{"file":"special_bump_right.png","version":0,"size":0,"properties":{}},{"file":"special_bump_right_disabled.png","version":0,"size":0,"properties":{}}],"assets":[{"file":"2023-11-7.json","version":0,"size":0,"properties":{}},{"file":"WilcoLoftSansTreble.otf","version":0,"size":0,"properties":{}},{"file":"WilcoLoftSansTreble.woff","version":0,"size":0,"properties":{}},{"file":"WilcoLoftSansTreble.woff2","version":0,"size":0,"properties":{}},{"file":"wilcoloftsanstreble.ttf","version":0,"size":0,"properties":{}}],"maps":{},"sounds":[],"music":[]};
+</style><style>@font-face { font-family: "BitCell" ; src: url("fonts/BitCell.ttf") format("truetype"); }</style><script>window.fonts = ["BitCell"]</script></head><body class="noselect custom-cursor" oncontextmenu="return false;"><div id="canvaswrapper"></div><script type="text/javascript">var resources = {"images":[{"file":"explosion.png","version":5,"size":295,"properties":{"frames":3,"fps":5}},{"file":"explosion_unused.png","version":1,"size":295,"properties":{"frames":1,"fps":5}},{"file":"icon.png","version":0,"size":0,"properties":{}},{"file":"special_bomb.png","version":0,"size":0,"properties":{}},{"file":"special_bump_left.png","version":0,"size":0,"properties":{}},{"file":"special_bump_left_disabled.png","version":0,"size":0,"properties":{}},{"file":"special_bump_right.png","version":0,"size":0,"properties":{}},{"file":"special_bump_right_disabled.png","version":0,"size":0,"properties":{}}],"assets":[{"file":"2023-11-25.json","version":0,"size":0,"properties":{}},{"file":"2023-11-26.json","version":0,"size":0,"properties":{}},{"file":"2023-11-27.json","version":0,"size":0,"properties":{}},{"file":"2023-11-28.json","version":0,"size":0,"properties":{}},{"file":"2023-11-29.json","version":0,"size":0,"properties":{}},{"file":"2023-11-30.json","version":0,"size":0,"properties":{}},{"file":"2023-11-7.json","version":1,"size":138,"properties":{}},{"file":"WilcoLoftSansTreble.otf","version":0,"size":0,"properties":{}},{"file":"WilcoLoftSansTreble.woff","version":0,"size":0,"properties":{}},{"file":"WilcoLoftSansTreble.woff2","version":0,"size":0,"properties":{}},{"file":"wilcoloftsanstreble.ttf","version":0,"size":0,"properties":{}}],"maps":{},"sounds":[],"music":[]};
 var graphics = "M1";
 
 </script><script type="text/javascript">var orientation = 'portrait' ;
@@ -999,8 +999,7 @@ global.is_safari = function() {
 global.daily_path = function() {
   const [d] = new Date().toISOString().split("T");
   const [year, month, day] = d.split("-");
-  // return `${year}/${month}-${day}.json`;
-  return "2023/11/7"
+  return `${year}/${month}/${day}`;
 } 
 
 global.read_params = function() {
@@ -1125,7 +1124,11 @@ body[data-popup=share] .popup[data-popup=share] {
   display: flex;
 }
 
+
 #about, #feedback {
+  position: absolute;
+  bottom: 0;
+  z-index: 1;jj
   opacity: 0.1;
   width: 0;
 }

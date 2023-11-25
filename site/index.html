@@ -13,9 +13,8 @@
     content="Let The Letter Drop is a web and mobile game where you drop letters on a board to make words and score points. Rotate pieces and use bombs and other special pieces to arrange letters how you want. Every day, get a new set of letters you can use to make the daily words.">
   <link rel="manifest" href="manifest.json">
   <link rel="icon" type="image/png" href="icon_64.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="icon_180.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="icon_192.png">
   <link rel="icon" type="image/png" sizes="32x32" href="icon_32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="icon_16.png">
   <script defer data-domain="ltld.fun" src="https://plausible.io/js/script.js"></script>
   <style>
     html,
@@ -37,6 +36,7 @@
 
     #canvaswrapper {
       text-align: center;
+      z-index: 10;
     }
   </style>
   <style>
@@ -55,7 +55,8 @@
     var resources = { "images": [{ "file": "explosion.png", "version": 5, "size": 295, "properties": { "frames": 3, "fps": 5 } }, { "file": "explosion_unused.png", "version": 1, "size": 295, "properties": { "frames": 1, "fps": 5 } }, { "file": "icon.png", "version": 0, "size": 0, "properties": {} }, { "file": "special_bomb.png", "version": 0, "size": 0, "properties": {} }, { "file": "special_bump_left.png", "version": 0, "size": 0, "properties": {} }, { "file": "special_bump_left_disabled.png", "version": 0, "size": 0, "properties": {} }, { "file": "special_bump_right.png", "version": 0, "size": 0, "properties": {} }, { "file": "special_bump_right_disabled.png", "version": 0, "size": 0, "properties": {} }], "assets": [{ "file": "2023-11-7.json", "version": 0, "size": 0, "properties": {} }, { "file": "WilcoLoftSansTreble.otf", "version": 0, "size": 0, "properties": {} }, { "file": "WilcoLoftSansTreble.woff", "version": 0, "size": 0, "properties": {} }, { "file": "WilcoLoftSansTreble.woff2", "version": 0, "size": 0, "properties": {} }, { "file": "wilcoloftsanstreble.ttf", "version": 0, "size": 0, "properties": {} }], "maps": {}, "sounds": [], "music": [] };
     var graphics = "M1";
   </script>
-  <script type="text/javascript">var orientation = 'portrait';
+  <script type="text/javascript">
+    var orientation = 'portrait';
     var aspect = '16x9';
     var ms_libs = [];
     window.skip_service_worker = true;

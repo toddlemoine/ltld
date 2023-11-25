@@ -2,12 +2,32 @@ const readline = require('readline');
 
 function createBagOfLetters(words) {
     const letterFrequency = {
-        'a': 8.2, 'b': 1.5, 'c': 2.8, 'd': 4.3, 'e': 12.7,
-        'f': 2.2, 'g': 2.0, 'h': 6.1, 'i': 7.0, 'j': 0.2,
-        'k': 0.8, 'l': 4.0, 'm': 2.4, 'n': 6.7, 'o': 7.5,
-        'p': 1.9, 'q': 0.1, 'r': 6.0, 's': 6.3, 't': 9.1,
-        'u': 2.8, 'v': 1.0, 'w': 2.4, 'x': 0.2, 'y': 2.0,
-        'z': 0.1
+        a: 8.2,
+        b: 1.5,
+        c: 2.8,
+        d: 4.3,
+        e: 12.7,
+        f: 2.2,
+        g: 2.0,
+        h: 6.1,
+        i: 7.0,
+        j: 0.2,
+        k: 0.8,
+        l: 4.0,
+        m: 2.4,
+        n: 6.7,
+        o: 7.5,
+        p: 1.9,
+        q: 0.1,
+        r: 6.0,
+        s: 6.3,
+        t: 9.1,
+        u: 2.8,
+        v: 1.0,
+        w: 2.4,
+        x: 0.2,
+        y: 2.0,
+        z: 0.1,
     };
 
     const letterArray = [];
@@ -25,7 +45,9 @@ function createBagOfLetters(words) {
     // Loop through the letters in the frequency distribution
     for (const letter in letterFrequency) {
         // Calculate the number of occurrences based on the frequency
-        const occurrences = Math.round((letterFrequency[letter] / 100) * remainingOccurrences);
+        const occurrences = Math.round(
+            (letterFrequency[letter] / 100) * remainingOccurrences,
+        );
 
         // Add the letter to the array the specified number of times
         letterArray.push(...Array(occurrences).fill(letter));
@@ -37,17 +59,7 @@ function createBagOfLetters(words) {
     return letterArray;
 }
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+const words = ['vader', 'twins', 'papa']; // Hardcoding the three words for this example
 
-const words = ["vader", "twins", "papa"]; // Hardcoding the three words for this example
-
-// Ensure the array contains exactly three words
-if (words.length !== 3) {
-    console.log('Please provide exactly three words.');
-} else {
-    const bagOfLetters = createBagOfLetters(words);
-    console.log('Bag of Letters:', bagOfLetters.join('').toUpperCase());
-}
+const bagOfLetters = createBagOfLetters(words);
+console.log('Bag of Letters:', bagOfLetters.join('').toUpperCase());

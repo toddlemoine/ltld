@@ -11,8 +11,7 @@ global.is_safari = function() {
 global.daily_path = function() {
   const [d] = new Date().toISOString().split("T");
   const [year, month, day] = d.split("-");
-  // return `${year}/${month}-${day}.json`;
-  return "2023/11/7"
+  return `${year}/${month}/${day}`;
 } 
 
 global.read_params = function() {
@@ -137,7 +136,11 @@ body[data-popup=share] .popup[data-popup=share] {
   display: flex;
 }
 
+
 #about, #feedback {
+  position: absolute;
+  bottom: 0;
+  z-index: 1;jj
   opacity: 0.1;
   width: 0;
 }

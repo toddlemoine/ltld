@@ -14,6 +14,7 @@ cd ..
 npx esbuild --minify stage/engine.js --outfile=./dist/engine.min.js
 cp -R stage/sprites dist
 cp -R stage/assets dist
+cp daily/*.json dist/assets
 
 sed -n '/<script id="code" type="text\/x-microscript">/,/<\/script>/p' stage/index.html > stage/app.ms  
 # sed -e '/{{ app }}/{r stage/app.ms}' dist/index.html

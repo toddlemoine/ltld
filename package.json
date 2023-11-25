@@ -5,11 +5,15 @@
   "main": "index.js",
   "scripts": {
     "build": "echo \"Nothing to do\"",
+    "daily": "node daily.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Todd Lemoine",
   "license": "ISC",
   "devDependencies": {
-    "esbuild": "^0.19.7"
+    "csv-parser": "^3.0.0",
+    "date-fns": "^2.30.0",
+    "esbuild": "^0.19.7",
+    "lodash": "^4.17.21"
   }
 }
