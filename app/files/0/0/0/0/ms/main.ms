@@ -114,6 +114,7 @@ update = function()
   if game_over then 
     if not modal then 
       modal = new SummaryScreen()
+      track_event(events.finished)
     end
   end
   

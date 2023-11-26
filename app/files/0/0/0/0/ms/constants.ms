@@ -46,6 +46,7 @@ defaults = object
 end
 
 events = object
+  finished = "Finished"
   play_again = "PlayAgain"
   share = "Share"
   restart = "Restart"
