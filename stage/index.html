@@ -479,6 +479,17 @@ defaults = object
   theme = "light"
 end
 
+events = object
+  play_again = "PlayAgain"
+  share = "Share"
+  restart = "Restart"
+  switch_mode = "SwitchMode"
+  toggle_theme = "ToggleTheme"
+  toggle_default = "ToggleDefault"
+  help_pushed = "HelpPushed"
+  settings_pushed = "SettingsPushed"
+end
+
 themes = object
   light = object
     score_text = black
@@ -992,6 +1003,10 @@ global.dlog = function(...args) {
   console.log(...args)
 }
 
+global.track_event = function(name, props) {
+  window.plausible?.(name, props);
+}
+
 global.is_safari = function() {
   return /Apple/.test(navigator.vendor) && /Safari/.test(navigator.userAgent)
 }
@@ -1017,31 +1032,6 @@ global.add_html = function(html) {
   document.body.appendChild(template.content.firstChild);
   return template.content.firstChild;
 }
-
-global.listen_for_popup_events = function() {
-  document.addEventListener('submit', function(event) {
-    event.preventDefault();
-    const name = event.target.name;
-    document.body.removeAttribute("data-popup");
-  }, true)
-}
-
-global.show_share = function(board, summary) {
-  const emojiboard = board.map(row => {
-    return row.map(cell => cell.selected ? "🟥" : "⬜️").join("")
-  }).join("\\n");
-  
-  const text = [
-    `${summary.words} words, ${summary.points} points, ${summary.filled}% filled`,
-    summary.daily,
-    `Verdict: ${summary.heading}`,
-    emojiboard
-    ].join("\\n");
-  
-  document.querySelector("#share_content").innerHTML = text;
-  document.body.setAttribute("data-popup", "share"); 
-}
-
 
 global.go_to_url = function(url) {
   window.open(url)
@@ -1069,6 +1059,9 @@ global.copy_summary = function(board, summary) {
       url: 'https://ltld.fun',
       text: text
     })
+    .then(() => {
+      track_event("Share", { via: "WebShareApi"})
+    })
     .catch(console.error);
     return true;
   } else {
@@ -1077,122 +1070,16 @@ global.copy_summary = function(board, summary) {
     el.select();
     document.execCommand("copy");
     el.remove();    
+    track_event("Share", { via: "html"})
   }  
 }
 
 global.create_page_elements = function(urls) {
   global.add_html(`<a id="about" href="${urls.about}">About</a>`);
-  global.add_html(`<a id="feedback" href="${urls.feedback}">About</a>`);
+  global.add_html(`<a id="feedback" href="${urls.feedback}">Feedback</a>`);
 }
 
 
-
-global.create_popups = function() {
-  global.add_styles();
-  
-  const share = `
-    <div class="popup" data-popup="share">
-    <form name="share">
-    <div class="content">
-      <p>Copy and paste the below to share on the socials.</p>
-    <textarea id="share_content"></textarea>
-    </div>
-    <footer>
-      <button name="copy" type="submit">Copy</button>
-      <button type="submit">Close</button>
-    </footer>
-    </form>
-    </div>`;
-
-  global.add_html(share);
-}
-
-
-global.add_styles = function() {
-  const html = `
-    <style>
-@font-face { 
-  font-family: "wilcoloftsanstreble"; 
-  src: url("assets/wilcoloftsanstreble.ttf") format("truetype"); 
-}    
-
-body {
-  background: #313030;
-}
-
-body[data-popup=share] .popup[data-popup=share] {
-  display: flex;
-}
-
-
-#about, #feedback {
-  position: absolute;
-  bottom: 0;
-  z-index: 1;jj
-  opacity: 0.1;
-  width: 0;
-}
-
-#copytext {
-  width: 0;
-  opacity: 0.1;
-}
-
-.popup {
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: 0;
-  padding: 0;
-  display: none;
-  height: 100vh;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  font-family: Helvetica Neue, Arial, sans-serif;
-}
-
-.popup form {
-  background: rgb(255,255,255);
-  max-width: 300px;
-  height: auto;
-  display: flex;
-  flex-direction: column;  
-  gap: 1rem;
-  padding: 1rem;
-  border-radius: 2.5%;
-  box-shadow: 0px 0px 10px rgba(0,0,0,.4);
-}
-
-
-.popup footer {
-  display: flex;
-  justify-content: center;
-}
-
-.popup [type=submit] {
-  display: flex;
-  background: #0083c5;
-  font-family: WilcoLoftSansTreble;
-  font-size: 1.5rem;
-  color: white;
-  border-radius: 5%;
-  border: none;
-  padding: .5rem 1rem;
-  box-shadow: 0px 3px black;
-  min-width: 100px;
-  justify-content: center;
-  height: 2.5rem;
-  
-}
-
-#share_content {
-  width: 100%;
-  height: 200px;
-}
-    </style>`;
-  global.add_html(html);
-}
 
 
 """)
@@ -1537,7 +1424,7 @@ reset_game = function(selected_mode)
   board = new Board(rows, cols, cell_size) 
   letter_bag = new Letterbag(cols*rows)
   morpheme_bag = new Morphemebag(cols*rows)
-  special_bag = new Specialbag(cols*rows)
+  special_bag = new Specialbag(3)
   select_modal = new SelectModal()
   tray = new Tray(0, -80, cell_size)
   curr = new Current(0, 125)
@@ -1595,9 +1482,11 @@ update = function()
   else 
     if control_pause.pressed() then
       modal = new SelectModal()
+      track_event(events.help_pushed)
     end
     if control_settings.pressed() then
       modal = new SettingsModal()
+      track_event(events.settings_pushed)
     end    
   end
   
@@ -2015,13 +1904,16 @@ SelectModal = class extends Modal
     end
     
     if buttons.restart.pressed() then 
+      track_event(events.restart, object mode = mode end)
       reset_game()
     end
     
     if buttons.mode.pressed() then 
       if mode == modes.daily then
+        track_event(events.switch_mode, object to = modes.free end)
         reset_game(modes.free)
       else
+        track_event(events.switch_mode, object to = modes.daily end)
         reset_game(modes.daily)
       end
     end
@@ -2092,10 +1984,12 @@ SettingsModal = class extends Modal
     
     if buttons.theme.pressed() then
       toggle_settings_theme()
+      track_event(events.toggle_theme, object to = settings.theme end)      
     end
 
     if buttons.mode.pressed() then
       toggle_settings_mode()
+      track_event(events.toggle_default, object to = settings.mode end)
     end
     
     if buttons.feedback.pressed() then
@@ -2275,7 +2169,7 @@ Player = class
     local recent = last_played(3)
     
     for i = 1 to max_player_pieces-pieces.length
-      if current.specials.length < num_player_specials then
+      if not special_bag.empty() and current.specials.length < num_player_specials then
         local next = special_bag.next()
         if next then current.specials.push(next) end
       elsif not morpheme_bag.empty() and current.morphemes.length < num_player_morphemes then
@@ -2800,7 +2694,13 @@ SummaryScreen = class
       end
       return
     end
-    if buttons.play_again.pressed() then return reset_game() end
+    if buttons.play_again.pressed() then 
+      local props = object 
+        mode = mode
+      end
+      track_event(events.play_again, props)
+      return reset_game() 
+    end
     
     tick = min(1, tick+.0325)
 
