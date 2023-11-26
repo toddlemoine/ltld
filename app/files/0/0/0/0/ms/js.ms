@@ -61,7 +61,7 @@ global.copy_summary = function(board, summary) {
       text: text
     })
     .then(() => {
-      track_event("Share", { via: "WebShareApi"})
+      global.track_event("Share", { via: "WebShareApi"})
     })
     .catch(console.error);
     return true;
@@ -71,7 +71,7 @@ global.copy_summary = function(board, summary) {
     el.select();
     document.execCommand("copy");
     el.remove();    
-    track_event("Share", { via: "html"})
+    global.track_event("Share", { via: "html"})
   }  
 }
 

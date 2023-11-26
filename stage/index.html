@@ -1060,7 +1060,7 @@ global.copy_summary = function(board, summary) {
       text: text
     })
     .then(() => {
-      track_event("Share", { via: "WebShareApi"})
+      global.track_event("Share", { via: "WebShareApi"})
     })
     .catch(console.error);
     return true;
@@ -1070,7 +1070,7 @@ global.copy_summary = function(board, summary) {
     el.select();
     document.execCommand("copy");
     el.remove();    
-    track_event("Share", { via: "html"})
+    global.track_event("Share", { via: "html"})
   }  
 }
 
@@ -1424,7 +1424,7 @@ reset_game = function(selected_mode)
   board = new Board(rows, cols, cell_size) 
   letter_bag = new Letterbag(cols*rows)
   morpheme_bag = new Morphemebag(cols*rows)
-  special_bag = new Specialbag(3)
+  special_bag = new Specialbag(cols*rows)
   select_modal = new SelectModal()
   tray = new Tray(0, -80, cell_size)
   curr = new Current(0, 125)
