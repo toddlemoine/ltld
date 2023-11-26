@@ -123,9 +123,11 @@ update = function()
   else 
     if control_pause.pressed() then
       modal = new SelectModal()
+      track_event(events.help_pushed)
     end
     if control_settings.pressed() then
       modal = new SettingsModal()
+      track_event(events.settings_pushed)
     end    
   end
   

@@ -153,13 +153,16 @@ SelectModal = class extends Modal
     end
     
     if buttons.restart.pressed() then 
+      track_event(events.restart, object mode = mode end)
       reset_game()
     end
     
     if buttons.mode.pressed() then 
       if mode == modes.daily then
+        track_event(events.switch_mode, object to = modes.free end)
         reset_game(modes.free)
       else
+        track_event(events.switch_mode, object to = modes.daily end)
         reset_game(modes.daily)
       end
     end
@@ -230,10 +233,12 @@ SettingsModal = class extends Modal
     
     if buttons.theme.pressed() then
       toggle_settings_theme()
+      track_event(events.toggle_theme, object to = settings.theme end)      
     end
 
     if buttons.mode.pressed() then
       toggle_settings_mode()
+      track_event(events.toggle_default, object to = settings.mode end)
     end
     
     if buttons.feedback.pressed() then

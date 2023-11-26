@@ -135,7 +135,7 @@ Player = class
     local recent = last_played(3)
     
     for i = 1 to max_player_pieces-pieces.length
-      if current.specials.length < num_player_specials then
+      if not special_bag.empty() and current.specials.length < num_player_specials then
         local next = special_bag.next()
         if next then current.specials.push(next) end
       elsif not morpheme_bag.empty() and current.morphemes.length < num_player_morphemes then

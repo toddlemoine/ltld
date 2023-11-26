@@ -45,6 +45,17 @@ defaults = object
   theme = "light"
 end
 
+events = object
+  play_again = "PlayAgain"
+  share = "Share"
+  restart = "Restart"
+  switch_mode = "SwitchMode"
+  toggle_theme = "ToggleTheme"
+  toggle_default = "ToggleDefault"
+  help_pushed = "HelpPushed"
+  settings_pushed = "SettingsPushed"
+end
+
 themes = object
   light = object
     score_text = black

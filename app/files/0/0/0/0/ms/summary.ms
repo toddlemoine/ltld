@@ -26,7 +26,13 @@ SummaryScreen = class
       end
       return
     end
-    if buttons.play_again.pressed() then return reset_game() end
+    if buttons.play_again.pressed() then 
+      local props = object 
+        mode = mode
+      end
+      track_event(events.play_again, props)
+      return reset_game() 
+    end
     
     tick = min(1, tick+.0325)
 
