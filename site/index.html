@@ -16,12 +16,13 @@
   <link rel="apple-touch-icon" sizes="192x192" href="icon_192.png">
   <link rel="icon" type="image/png" sizes="32x32" href="icon_32.png">
   <script defer data-domain="ltld.fun" src="https://plausible.io/js/script.js"></script>
+  <script>window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
   <style>
     html,
     body {
       margin: 0;
       padding: 0;
-      background-color: #000;
+      background: #242424;
       overflow: hidden;
     }
 
@@ -37,6 +38,15 @@
     #canvaswrapper {
       text-align: center;
       z-index: 10;
+    }
+
+    #about,
+    #feedback {
+      position: absolute;
+      bottom: 0;
+      z-index: 1;
+      opacity: 0.1;
+      width: 0;
     }
   </style>
   <style>
