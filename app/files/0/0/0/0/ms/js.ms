@@ -13,8 +13,10 @@ global.is_safari = function() {
 }
 
 global.daily_path = function() {
-  const [d] = new Date().toISOString().split("T");
-  const [year, month, day] = d.split("-");
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = d.getMonth() + 1;
+  const day = d.getDate();
   return `${year}/${month}/${day}`;
 } 
 

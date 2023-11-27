@@ -10,10 +10,34 @@ Player = class
   
   last_played = function(count)
     local _h = []
-    for i=count to 1 
-      _h.push(history[history.length-i])  
+    local result = object
+      specials = []
+      morphemes = []
+      pieces = []
     end
-    _h
+    
+    local x = history.length-1
+    
+    local all_filled = function(result)
+      result.specials.length == count
+        and result.morphemes.length == count
+        and result.pieces.length == count
+    end
+    
+    while x>-1 and all_filled(result)
+      local curr = history[x]
+      
+      if specials_list.includes(curr) then
+        result.specials.push(p)
+      elsif p.length > 1 then
+        result.morphemes.push(p)
+      else
+        result.pieces.push(p)
+      end
+      x -= 1
+    end
+    
+    result
   end
   
   cant_play = function()
@@ -136,13 +160,13 @@ Player = class
     
     for i = 1 to max_player_pieces-pieces.length
       if not special_bag.empty() and current.specials.length < num_player_specials then
-        local next = special_bag.next()
+        local next = special_bag.next(recent.specials)
         if next then current.specials.push(next) end
       elsif not morpheme_bag.empty() and current.morphemes.length < num_player_morphemes then
-        local next = morpheme_bag.next(recent)
+        local next = morpheme_bag.next(recent.morphemes)
         if next then current.morphemes.push(next) end
       else
-        local next = letter_bag.next(recent)
+        local next = letter_bag.next(recent.pieces)
         if next then current.pieces.push(next) end
       end
     end
