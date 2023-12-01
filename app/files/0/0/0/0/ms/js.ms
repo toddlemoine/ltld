@@ -13,11 +13,16 @@ global.is_safari = function() {
 }
 
 global.daily_path = function() {
+  function pad(num) {
+    const str = num.toString();
+    return str.length === 1 ? `0${str}` : str;
+  }
+  
   const d = new Date();
   const year = d.getFullYear();
   const month = d.getMonth() + 1;
   const day = d.getDate();
-  return `${year}/${month}/${day}`;
+  return `${year}/${pad(month)}/${pad(day)}`;
 } 
 
 global.read_params = function() {

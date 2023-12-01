@@ -16,7 +16,7 @@
 #canvaswrapper {
   text-align: center ;
 }
-</style><style>@font-face { font-family: "BitCell" ; src: url("fonts/BitCell.ttf") format("truetype"); }</style><script>window.fonts = ["BitCell"]</script></head><body class="noselect custom-cursor" oncontextmenu="return false;"><div id="canvaswrapper"></div><script type="text/javascript">var resources = {"images":[{"file":"explosion.png","version":5,"size":295,"properties":{"frames":3,"fps":5}},{"file":"explosion_unused.png","version":1,"size":295,"properties":{"frames":1,"fps":5}},{"file":"icon.png","version":0,"size":0,"properties":{}},{"file":"special_bomb.png","version":0,"size":0,"properties":{}},{"file":"special_bump_left.png","version":0,"size":0,"properties":{}},{"file":"special_bump_left_disabled.png","version":0,"size":0,"properties":{}},{"file":"special_bump_right.png","version":0,"size":0,"properties":{}},{"file":"special_bump_right_disabled.png","version":0,"size":0,"properties":{}}],"assets":[{"file":"2023-11-25.json","version":0,"size":0,"properties":{}},{"file":"2023-11-26.json","version":0,"size":0,"properties":{}},{"file":"2023-11-27.json","version":0,"size":0,"properties":{}},{"file":"2023-11-28.json","version":0,"size":0,"properties":{}},{"file":"2023-11-29.json","version":0,"size":0,"properties":{}},{"file":"2023-11-30.json","version":0,"size":0,"properties":{}},{"file":"2023-11-7.json","version":1,"size":138,"properties":{}},{"file":"WilcoLoftSansTreble.otf","version":0,"size":0,"properties":{}},{"file":"WilcoLoftSansTreble.woff","version":0,"size":0,"properties":{}},{"file":"WilcoLoftSansTreble.woff2","version":0,"size":0,"properties":{}},{"file":"wilcoloftsanstreble.ttf","version":0,"size":0,"properties":{}}],"maps":{},"sounds":[],"music":[]};
+</style><style>@font-face { font-family: "BitCell" ; src: url("fonts/BitCell.ttf") format("truetype"); }</style><script>window.fonts = ["BitCell"]</script></head><body class="noselect custom-cursor" oncontextmenu="return false;"><div id="canvaswrapper"></div><script type="text/javascript">var resources = {"images":[{"file":"explosion.png","version":5,"size":295,"properties":{"frames":3,"fps":5}},{"file":"explosion_unused.png","version":1,"size":295,"properties":{"frames":1,"fps":5}},{"file":"icon.png","version":0,"size":0,"properties":{}},{"file":"special_bomb.png","version":0,"size":0,"properties":{}},{"file":"special_bump_left.png","version":0,"size":0,"properties":{}},{"file":"special_bump_left_disabled.png","version":0,"size":0,"properties":{}},{"file":"special_bump_right.png","version":0,"size":0,"properties":{}},{"file":"special_bump_right_disabled.png","version":0,"size":0,"properties":{}}],"assets":[{"file":"2023-11-25.json","version":0,"size":0,"properties":{}},{"file":"2023-11-26.json","version":0,"size":0,"properties":{}},{"file":"2023-11-27.json","version":0,"size":0,"properties":{}},{"file":"2023-11-28.json","version":0,"size":0,"properties":{}},{"file":"2023-11-29.json","version":0,"size":0,"properties":{}},{"file":"2023-11-30.json","version":0,"size":0,"properties":{}},{"file":"2023-11-7.json","version":1,"size":138,"properties":{}},{"file":"2023-12-01.json","version":0,"size":0,"properties":{}},{"file":"WilcoLoftSansTreble.otf","version":0,"size":0,"properties":{}},{"file":"WilcoLoftSansTreble.woff","version":0,"size":0,"properties":{}},{"file":"WilcoLoftSansTreble.woff2","version":0,"size":0,"properties":{}},{"file":"wilcoloftsanstreble.ttf","version":0,"size":0,"properties":{}}],"maps":{},"sounds":[],"music":[]};
 var graphics = "M1";
 
 </script><script type="text/javascript">var orientation = 'portrait' ;
@@ -1013,11 +1013,16 @@ global.is_safari = function() {
 }
 
 global.daily_path = function() {
+  function pad(num) {
+    const str = num.toString();
+    return str.length === 1 ? `0${str}` : str;
+  }
+  
   const d = new Date();
   const year = d.getFullYear();
   const month = d.getMonth() + 1;
   const day = d.getDate();
-  return `${year}/${month}/${day}`;
+  return `${year}/${pad(month)}/${pad(day)}`;
 } 
 
 global.read_params = function() {
