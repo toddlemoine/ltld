@@ -1050,8 +1050,7 @@ global.daily_path = function() {
   const year = d.getFullYear();
   const month = d.getMonth() + 1;
   const day = d.getDate();
-  // return `${year}/${pad(month)}/${pad(day)}`;
-  return '2023/12/01';
+  return `${year}/${pad(month)}/${pad(day)}`;
 } 
 
 global.read_params = function() {
@@ -3104,6 +3103,8 @@ shadow_text = function(text, x, y, size=12, color=black)
   screen.drawText(text, x+0.5, y-0.5, size, black)  
   screen.drawText(text, x, y, size, color)    
 end
+
+
 end()
 </script>
 </body>
