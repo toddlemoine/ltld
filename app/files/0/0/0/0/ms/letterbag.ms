@@ -52,7 +52,8 @@ end
 
 Bag = class
   
-  constructor = function(size)
+  constructor = function(size, _debug=false)
+    this._debug = _debug
     this.size = size
     this.bag = []
     this.fill()
@@ -141,9 +142,8 @@ end
 
 DailyLetterbag = class extends Bag
   id = "dailylb"
-  constructor = function(raw_daily, _debug=false)
-    super()
-    this._debug = _debug
+  constructor = function(raw_daily, _debug)
+    super(raw_daily, _debug)
     this.bag = this.parse_raw(raw_daily)
   end
   
@@ -166,9 +166,8 @@ end
 
 DailyMorphemebag = class extends Bag
   id = "dailymo"
-  constructor = function(raw_daily, _debug=false)
+  constructor = function(raw_daily)
     super()
-    this._debug = _debug
     this.bag = this.parse_raw(raw_daily)
   end
   

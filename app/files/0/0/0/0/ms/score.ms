@@ -1,67 +1,50 @@
 find_words_in_row = function(row, col_index)
   local words_found = []
   
-  for word_len = 5 to 3
-    // Take the longest word found.
-    if words_found.length > 0 then
-      break
-    end
+  for word_len = 5 to 4
     
     for i = max(0, col_index-word_len-1) to min(col_index+word_len-1, row.length-1)
       if row[i].char == " " then continue end
 
       result = word_at(row, i, word_len)
       
-      
-      if dict.is_word(result.word) then
+      if dict.is_word(result.word) and not board.results[w.word] then
         words_found.push(result)
       end
 
       result = word_at(reverse(row), i-1, word_len)
       
-      if dict.is_word(result.word) then 
+      if dict.is_word(result.word) and not board.results[w.word] then 
         words_found.push(result)
       end
     end
   end
 
-  scoreable_words = []
-  
-  for w in words_found
-    if not board.results[w.word] then
-      scoreable_words.push(w)
-    end  
-  end
-  
-  scoreable_words
+  words_found
 end
 
 find_words_in_col = function(coll, index)
   local words_found = []
   
   for word_len = 6 to 4
-    if words_found.length > 0 then
-      break
-    end
-    
     for i = min(index+word_len-1, coll.length-1) to max(0, index-word_len-1)
       if coll[i].char == " " then continue end
       
       result = word_at(coll, i, word_len)
       
-      if dict.is_word(result.word) then
+      if dict.is_word(result.word) and not board.results[result.word] then
         add_if_new(words_found, result) 
       end
 
       result = word_at(reverse(coll), i-index, word_len)
       
-      if dict.is_word(result.word) then 
+      if dict.is_word(result.word) and not board.results[result.word] then 
         add_if_new(words_found, result) 
       end
     end
   end
   
-  words_found   
+  words_found
 end
 
 
@@ -74,7 +57,6 @@ word_at = function(coll, start_index, word_len, invert_order=false)
   end
   
   letters = slice(coll, start_index, start_index+word_len-1)  
-  // debug("letters", pick(letters, "char"))
   
   if letters and has_empty_space(letters) == false then
     chars = []

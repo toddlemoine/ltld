@@ -1022,7 +1022,8 @@ global.daily_path = function() {
   const year = d.getFullYear();
   const month = d.getMonth() + 1;
   const day = d.getDate();
-  return `${year}/${pad(month)}/${pad(day)}`;
+  // return `${year}/${pad(month)}/${pad(day)}`;
+  return '2023/12/01';
 } 
 
 global.read_params = function() {
@@ -1217,7 +1218,8 @@ end
 
 Bag = class
   
-  constructor = function(size)
+  constructor = function(size, _debug=false)
+    this._debug = _debug
     this.size = size
     this.bag = []
     this.fill()
@@ -1306,9 +1308,8 @@ end
 
 DailyLetterbag = class extends Bag
   id = "dailylb"
-  constructor = function(raw_daily, _debug=false)
-    super()
-    this._debug = _debug
+  constructor = function(raw_daily, _debug)
+    super(raw_daily, _debug)
     this.bag = this.parse_raw(raw_daily)
   end
   
@@ -1331,9 +1332,8 @@ end
 
 DailyMorphemebag = class extends Bag
   id = "dailymo"
-  constructor = function(raw_daily, _debug=false)
+  constructor = function(raw_daily)
     super()
-    this._debug = _debug
     this.bag = this.parse_raw(raw_daily)
   end
   
@@ -1379,7 +1379,6 @@ init = function()
   max_player_pieces = 5
   num_player_specials = 1
   num_player_morphemes = 1
-  // max_specials = 2
   special_freq_letter = "A"
   special_freq_modifier = 2
   morphemes_modifier = 0.5
@@ -1414,7 +1413,6 @@ init = function()
   ready = false
   flash_words = []
   selected_piece = 0 
-  // specials_used = 0
   game_over = false
 
   reset_game()
@@ -1448,10 +1446,10 @@ reset_game = function(selected_mode)
     loader = asset_manager.loadJSON(daily_path(), function(daily)
       daily_words = daily.words
       dict.add_words(daily.words)
-      
-      // daily.bag = "PADEPPAAPQ RYLYRERE"
+
+      // daily.bag = "LANEPOM RYLYRERE"
       // daily.words = []
-      letter_bag = new DailyLetterbag(daily, false)
+      letter_bag = new DailyLetterbag(daily, true)
       morpheme_bag = new DailyMorphemebag(daily, false)
       init_players()
       ready = true
@@ -2235,67 +2233,50 @@ function()
 find_words_in_row = function(row, col_index)
   local words_found = []
   
-  for word_len = 5 to 3
-    // Take the longest word found.
-    if words_found.length > 0 then
-      break
-    end
+  for word_len = 5 to 4
     
     for i = max(0, col_index-word_len-1) to min(col_index+word_len-1, row.length-1)
       if row[i].char == " " then continue end
 
       result = word_at(row, i, word_len)
       
-      
-      if dict.is_word(result.word) then
+      if dict.is_word(result.word) and not board.results[w.word] then
         words_found.push(result)
       end
 
       result = word_at(reverse(row), i-1, word_len)
       
-      if dict.is_word(result.word) then 
+      if dict.is_word(result.word) and not board.results[w.word] then 
         words_found.push(result)
       end
     end
   end
 
-  scoreable_words = []
-  
-  for w in words_found
-    if not board.results[w.word] then
-      scoreable_words.push(w)
-    end  
-  end
-  
-  scoreable_words
+  words_found
 end
 
 find_words_in_col = function(coll, index)
   local words_found = []
   
   for word_len = 6 to 4
-    if words_found.length > 0 then
-      break
-    end
-    
     for i = min(index+word_len-1, coll.length-1) to max(0, index-word_len-1)
       if coll[i].char == " " then continue end
       
       result = word_at(coll, i, word_len)
       
-      if dict.is_word(result.word) then
+      if dict.is_word(result.word) and not board.results[result.word] then
         add_if_new(words_found, result) 
       end
 
       result = word_at(reverse(coll), i-index, word_len)
       
-      if dict.is_word(result.word) then 
+      if dict.is_word(result.word) and not board.results[result.word] then 
         add_if_new(words_found, result) 
       end
     end
   end
   
-  words_found   
+  words_found
 end
 
 
@@ -2308,7 +2289,6 @@ word_at = function(coll, start_index, word_len, invert_order=false)
   end
   
   letters = slice(coll, start_index, start_index+word_len-1)  
-  // debug("letters", pick(letters, "char"))
   
   if letters and has_empty_space(letters) == false then
     chars = []

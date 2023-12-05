@@ -12,7 +12,6 @@ init = function()
   max_player_pieces = 5
   num_player_specials = 1
   num_player_morphemes = 1
-  // max_specials = 2
   special_freq_letter = "A"
   special_freq_modifier = 2
   morphemes_modifier = 0.5
@@ -47,7 +46,6 @@ init = function()
   ready = false
   flash_words = []
   selected_piece = 0 
-  // specials_used = 0
   game_over = false
 
   reset_game()
@@ -81,10 +79,10 @@ reset_game = function(selected_mode)
     loader = asset_manager.loadJSON(daily_path(), function(daily)
       daily_words = daily.words
       dict.add_words(daily.words)
-      
-      // daily.bag = "PADEPPAAPQ RYLYRERE"
+
+      // daily.bag = "LANEPOM RYLYRERE"
       // daily.words = []
-      letter_bag = new DailyLetterbag(daily, false)
+      letter_bag = new DailyLetterbag(daily, true)
       morpheme_bag = new DailyMorphemebag(daily, false)
       init_players()
       ready = true
