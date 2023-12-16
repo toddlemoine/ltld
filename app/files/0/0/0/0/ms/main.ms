@@ -1,6 +1,5 @@
 init = function()
   DEBUGGER = true
-  DEMO = true
   
   create_page_elements(urls)
 
@@ -17,7 +16,7 @@ init = function()
   special_freq_letter = "A"
   special_freq_modifier = 2
   morphemes_modifier = 0.5
-  mode = modes.demo
+  mode = modes.daily
   
   // Set up playing area
   board_y = 78
