@@ -2,9 +2,9 @@ Modal = class
   constructor = function()
     this.x = 0
     this.y = 0
+    this.height = screen.height*.85
   end
   draw = function()
-    local height = screen.height*.85
     screen.fillRect(x, y, screen.width, screen.height, "rgba(0,0,0,.7)")
     screen.fillRoundRect(x, y-2, screen.width*.8, height, 8, black)
     screen.fillRoundRect(x, y, screen.width*.8, height, 8, theme.modal_bg)
@@ -127,6 +127,13 @@ SelectModal = class extends Modal
       mode = new Button("Daily Mode", 100, 0, 0)
       back = new Button("Back to Game", 100, 0, 0)
     end
+    
+    if mode == modes.demo then
+      buttons = object
+        restart = new Button("Restart", 100, 0, 0)
+        back = new Button("Back to Game", 100, 0, 0)
+      end
+    end
 
     if mode == modes.daily then
       buttons.mode.text = "Freeplay Mode"
@@ -157,13 +164,15 @@ SelectModal = class extends Modal
       reset_game()
     end
     
-    if buttons.mode.pressed() then 
-      if mode == modes.daily then
-        track_event(events.switch_mode, object to = modes.free end)
-        reset_game(modes.free)
-      else
-        track_event(events.switch_mode, object to = modes.daily end)
-        reset_game(modes.daily)
+    if buttons.mode then
+      if buttons.mode.pressed() then 
+        if mode == modes.daily then
+          track_event(events.switch_mode, object to = modes.free end)
+          reset_game(modes.free)
+        else
+          track_event(events.switch_mode, object to = modes.daily end)
+          reset_game(modes.daily)
+        end
       end
     end
   end  
@@ -215,8 +224,8 @@ SettingsModal = class extends Modal
   constructor = function()
     super()
     this.buttons = object
-      theme = new Toggle(0,80, ["Light", "Dark"])
-      mode = new Toggle(0,20, ["Daily", "Freeplay"])
+      theme = new Toggle(0, 80, ["Light", "Dark"])
+      mode = new Toggle(0, 20, ["Daily", "Freeplay"])
       feedback = new Button("Give Feedback", 100, 0, -64)
       back = new Button("Back to Game", 100, 0, -130)
     end
@@ -267,6 +276,58 @@ SettingsModal = class extends Modal
       "bug, or contact us."
     ].forEach(function(line, index)
       screen.drawText(line, 0, half_h-182-(index*12), 7.5, theme.modal_text)
+    end)
+    
+    buttons.feedback.draw()
+    buttons.back.draw()
+  end
+end
+
+DemoSettingsModal = class extends Modal
+  constructor = function()
+    super()
+    this.height = screen.height * 0.65
+    this.buttons = object
+      theme = new Toggle(0, 40, ["Light", "Dark"])
+      feedback = new Button("Give Feedback", 100, 0, -44)
+      back = new Button("Back to Game", 100, 0, -90)
+    end
+  end
+  
+  update = function()
+    if settings.theme == "light" then
+      buttons.theme.value = "0"
+    else
+      buttons.theme.value = "1"
+    end
+    
+    if buttons.theme.pressed() then
+      toggle_settings_theme()
+      track_event(events.toggle_theme, object to = settings.theme end)      
+    end
+
+    if buttons.feedback.pressed() then
+      go_to_url(urls.feedback)
+    end
+    
+    if buttons.back.pressed() then
+      clear_modal()
+    end    
+  end
+  
+  draw = function()
+    super()
+    local half_h = height/2
+    screen.drawText("Settings", 0, half_h-24, 18, blue)
+    screen.drawText("Theme", 0, half_h-48, 7.5, theme.modal_text)    
+    buttons.theme.draw(half_h-70)
+
+    screen.drawText("Feedback", 0, half_h-108, 7.5, theme.modal_text)    
+    local lines = [
+      "Suggest a word, report a ",
+      "bug, or contact us."
+    ].forEach(function(line, index)
+      screen.drawText(line, 0, half_h-122-(index*12), 7.5, theme.modal_text)
     end)
     
     buttons.feedback.draw()

@@ -1,5 +1,7 @@
 init = function()
   DEBUGGER = true
+  DEMO = true
+  
   create_page_elements(urls)
 
   loader = asset_manager.loadFont(font_board)
@@ -15,7 +17,7 @@ init = function()
   special_freq_letter = "A"
   special_freq_modifier = 2
   morphemes_modifier = 0.5
-  mode = settings.mode
+  mode = modes.demo
   
   // Set up playing area
   board_y = 78
@@ -74,7 +76,7 @@ reset_game = function(selected_mode)
   game_over = false
   
   modal = null
-  
+
   if mode == modes.daily then
     loader = asset_manager.loadJSON(daily_path(), function(daily)
       daily_words = daily.words
@@ -125,7 +127,11 @@ update = function()
       track_event(events.help_pushed)
     end
     if control_settings.pressed() then
-      modal = new SettingsModal()
+      if mode == modes.demo then
+        modal = new DemoSettingsModal()
+      else 
+        model = new SettingsModal()
+      end
       track_event(events.settings_pushed)
     end    
   end
@@ -352,7 +358,9 @@ draw_header = function()
   screen.fillRect(0, screen.height/2-2, screen.width, 29, "rgba(0,0,0,.5)")  
   screen.fillRect(0, screen.height/2, screen.width, 29, red)
   screen.drawText("Let The Letter Drop", 0, screen.height/2-8, 9, white)
-  about_link.draw()
+  if not mode == modes.demo then
+    about_link.draw()
+  end
 end
 
 draw_copyright = function()

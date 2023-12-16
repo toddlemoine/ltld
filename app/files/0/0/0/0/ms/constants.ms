@@ -14,6 +14,7 @@ game_bg = "rgb(255,255,255)"
 modes = object
   daily = "0"
   free = "1"
+  demo = "2"
 end
 
 summary = object
