@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p archive)",
+      "Bash(cp *.json archive/)",
+      "Bash(python3 *)"
+    ]
+  }
+}
